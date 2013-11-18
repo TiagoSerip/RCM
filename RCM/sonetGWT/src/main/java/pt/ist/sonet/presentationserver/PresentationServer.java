@@ -153,7 +153,7 @@ public class PresentationServer {
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}
@@ -181,7 +181,7 @@ public class PresentationServer {
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}
@@ -283,7 +283,7 @@ public class PresentationServer {
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}
@@ -323,7 +323,7 @@ public class PresentationServer {
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}
@@ -371,7 +371,7 @@ public class PresentationServer {
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}catch (YouArentAFriendException e){
@@ -400,7 +400,7 @@ public class PresentationServer {
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}catch (YouArentAFriendException e){
@@ -432,7 +432,7 @@ public class PresentationServer {
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}catch (YouArentAFriendException e){

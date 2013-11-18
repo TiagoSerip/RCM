@@ -16,7 +16,7 @@ import pt.ist.sonet.exception.LargaCaixaTransferException;
 import pt.ist.sonet.exception.OnVoteLimitException;
 import pt.ist.sonet.exception.OrgsCantSendFriendRequestException;
 import pt.ist.sonet.exception.PagAmigoTransferException;
-import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
+import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.TargetAlreadySentRequestException;
 import pt.ist.sonet.exception.TargetIsAlreadyFriendException;
 import pt.ist.sonet.exception.YouAlreadySentRequestException;
@@ -1334,7 +1334,7 @@ public class SonetGWT implements EntryPoint {
 									// Show the the error to the user
 									
 									serverResponseLabel.addStyleName("serverResponseLabelError");
-									if(caught instanceof PublicationIdDoesNotExistsException){
+									if(caught instanceof ApIdDoesNotExistsException){
 										serverResponseLabel.setHTML(COMMENTS_ID_ERROR+publicationId);
 									}
 									else serverResponseLabel.setHTML(COMMENTS_ERROR);
@@ -1704,7 +1704,7 @@ public class SonetGWT implements EntryPoint {
 										return;
 									}
 
-									if(caught instanceof PublicationIdDoesNotExistsException){
+									if(caught instanceof ApIdDoesNotExistsException){
 										serverResponseLabel.setHTML(COMMENTS_ID_ERROR + "_publicationId");
 										return;
 									}

@@ -13,7 +13,7 @@ import pt.ist.sonet.exception.LargaCaixaTransferException;
 import pt.ist.sonet.exception.OnVoteLimitException;
 import pt.ist.sonet.exception.OrgsCantSendFriendRequestException;
 import pt.ist.sonet.exception.PagAmigoTransferException;
-import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
+import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.TargetAlreadySentRequestException;
 import pt.ist.sonet.exception.TargetIsAlreadyFriendException;
 import pt.ist.sonet.exception.YouAlreadySentRequestException;
@@ -39,7 +39,7 @@ public interface SoNetServletAsync {
 	void getPublicationComments(int pubId, AsyncCallback<StringListDto> asyncCallback);
 	void negativeVote(String user, int pubId, AsyncCallback<Void> callback) throws AlreadyVotedException, OnVoteLimitException, AgentsCantVoteInTheirOwnPublicationsException;
 	void positiveVote(String user, int pubId, AsyncCallback<Void> callback) throws AlreadyVotedException, OnVoteLimitException, AgentsCantVoteInTheirOwnPublicationsException;
-	void viewPublication(String asking, int pubId, AsyncCallback<PublicationViewDto> asyncCallback)throws YouArentAFriendException, PublicationIdDoesNotExistsException;
+	void viewPublication(String asking, int pubId, AsyncCallback<PublicationViewDto> asyncCallback)throws YouArentAFriendException, ApIdDoesNotExistsException;
 	void getContent(String user, int pubId, AsyncCallback<Void> callback) throws PagAmigoTransferException, LargaCaixaTransferException;
 	void getFriendRequestAgents(String user, AsyncCallback<StringListDto> callback) throws OrgsCantSendFriendRequestException, AgentUsernameDoesNotExistsException;
 	void acceptRequest(String from, String to, AsyncCallback<Void> callback) throws AgentUsernameDoesNotExistsException, FriendLimitExceededException;

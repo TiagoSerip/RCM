@@ -12,7 +12,7 @@ import pt.ist.sonet.exception.LargaCaixaTransferException;
 import pt.ist.sonet.exception.OnVoteLimitException;
 import pt.ist.sonet.exception.OrgsCantSendFriendRequestException;
 import pt.ist.sonet.exception.PagAmigoTransferException;
-import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
+import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.TargetAlreadySentRequestException;
 import pt.ist.sonet.exception.TargetIsAlreadyFriendException;
 import pt.ist.sonet.exception.YouAlreadySentRequestException;
@@ -43,7 +43,7 @@ public interface SoNetServlet extends RemoteService {
 	ArrayList<ApDto> getPublicationList(String from, String asking) throws YouArentAFriendException;
 	StringListDto getPublicationComments(int pubId);
 	StringListDto getOrganizationalAgents();
-	PublicationViewDto viewPublication(String asking, int pubId) throws YouArentAFriendException, PublicationIdDoesNotExistsException;
+	PublicationViewDto viewPublication(String asking, int pubId) throws YouArentAFriendException, ApIdDoesNotExistsException;
 	void makeDonation(String first, String second, int amount, String description) throws PagAmigoTransferException, AgentUsernameDoesNotExistsException, IndividualsCantAcceptDonationsException;
 	void positiveVote(String user, int pubId) throws AlreadyVotedException, OnVoteLimitException, AgentsCantVoteInTheirOwnPublicationsException;
 	void negativeVote(String user, int pubId) throws AlreadyVotedException, OnVoteLimitException, AgentsCantVoteInTheirOwnPublicationsException;

@@ -1,12 +1,12 @@
 package pt.ist.sonet.exception;
 
-public class PublicationHasNoCommentsException extends SoNetException {
+public class ApHasNoCommentsException extends SoNetException {
 
 	private static final long serialVersionUID = 1L;
 
 	private int id;
 	
-	public PublicationHasNoCommentsException(int id) {
+	public ApHasNoCommentsException(int id) {
 		this.id = id;
 	}
 	

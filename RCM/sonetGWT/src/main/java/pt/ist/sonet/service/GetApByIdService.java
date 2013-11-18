@@ -7,7 +7,7 @@ import pt.ist.sonet.domain.Agent;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
-import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
+import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.service.SonetService;
 import pt.ist.sonet.service.dto.ApDto;
 
@@ -37,16 +37,16 @@ public class GetApByIdService extends SonetService{
 	 * @throws SoNetException
 	 * @throws AgentUsernameDoesNotExistsException
 	 * @throws YouArentAFriendException
-	 * @throws PublicationIdDoesNotExistsException
+	 * @throws ApIdDoesNotExistsException
 	 *
 	 */
 	@Override
-	protected void dispatch() throws SoNetException, PublicationIdDoesNotExistsException{
+	protected void dispatch() throws SoNetException, ApIdDoesNotExistsException{
 		SoNet sonet = FenixFramework.getRoot();
 		
 		AP ap = sonet.getApById(apId);
 		if(ap == null)
-			throw new PublicationIdDoesNotExistsException(apId);
+			throw new ApIdDoesNotExistsException(apId);
 		
 		dto = new ApDto(ap.getId(), ap.getSubnet(), ap.getPosVotes(), ap.getNegVotes());
 

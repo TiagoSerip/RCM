@@ -14,7 +14,7 @@ import pt.ist.sonet.exception.AgentsCantVoteInTheirOwnPublicationsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.FriendAlreadyExistsException;
 import pt.ist.sonet.exception.NameAlreadyExistsException;
-import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
+import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.TargetIsAlreadyFriendException;
 import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.exception.YouArentAFriendException;
@@ -240,12 +240,12 @@ public class SoNetApp {
 				throw new AgentUsernameDoesNotExistsException("mariazinha");
 			Publication note = rede.getPublicationById(0);
 			if(note==null)
-				throw new PublicationIdDoesNotExistsException(0);
+				throw new ApIdDoesNotExistsException(0);
 			maria.positiveVote(note, rede.getVoteLimit());
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}catch (YouArentAFriendException e){
@@ -276,12 +276,12 @@ public class SoNetApp {
 				throw new AgentUsernameDoesNotExistsException("zeninguem");
 			Publication note = rede.getPublicationById(0);
 			if(note==null)
-				throw new PublicationIdDoesNotExistsException(0);
+				throw new ApIdDoesNotExistsException(0);
 			ze.positiveVote(note, rede.getVoteLimit());
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}catch (YouArentAFriendException e){
@@ -372,12 +372,12 @@ public class SoNetApp {
 				throw new AgentUsernameDoesNotExistsException("zeninguem");
 			Publication note = rede.getPublicationById(0);
 			if(note==null)
-				throw new PublicationIdDoesNotExistsException(0);
+				throw new ApIdDoesNotExistsException(0);
 			ze.positiveVote(note, rede.getVoteLimit());
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}catch (YouArentAFriendException e){
@@ -408,13 +408,13 @@ public class SoNetApp {
 				throw new AgentUsernameDoesNotExistsException("zeninguem");
 			Publication note = rede.getPublicationById(0);
 			if(note==null)
-				throw new PublicationIdDoesNotExistsException(0);
+				throw new ApIdDoesNotExistsException(0);
 			ze.commentPublication(note, "Bem-vinda Maria!");
 			System.out.println("Your comment was posted.");
 			}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
 			return;
-		}catch (PublicationIdDoesNotExistsException e){
+		}catch (ApIdDoesNotExistsException e){
 			System.out.println("There is no Publication with ID: '"+e.getid()+"'.");
 			return;
 		}

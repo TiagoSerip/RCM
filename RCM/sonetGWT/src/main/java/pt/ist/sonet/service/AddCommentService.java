@@ -6,7 +6,7 @@ import pt.ist.sonet.domain.Publication;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.CanNotCommentException;
-import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
+import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
 import pt.ist.sonet.exception.YouArentAFriendException;
 import pt.ist.sonet.service.dto.CommentDto;
@@ -45,7 +45,7 @@ public class AddCommentService extends SonetService {
 			throw new AgentUsernameDoesNotExistsException(dto.getUser());
 		Publication pub = network.getPublicationById(dto.getPubId());
 		if(pub == null)
-			throw new PublicationIdDoesNotExistsException(dto.getPubId());
+			throw new ApIdDoesNotExistsException(dto.getPubId());
 		try {
 			network.commentPublication(commentator,pub, dto.getText());
 		} catch (YouArentAFriendException e) {

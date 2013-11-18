@@ -17,7 +17,7 @@ import pt.ist.sonet.exception.LargaCaixaTransferException;
 import pt.ist.sonet.exception.OnVoteLimitException;
 import pt.ist.sonet.exception.OrgsCantSendFriendRequestException;
 import pt.ist.sonet.exception.PagAmigoTransferException;
-import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
+import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.TargetAlreadySentRequestException;
 import pt.ist.sonet.exception.TargetIsAlreadyFriendException;
 import pt.ist.sonet.exception.YouAlreadySentRequestException;
@@ -268,9 +268,9 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	 * 
 	 * @param int pubId
 	 * @return StringListDto
-	 * @throws PublicationIdDoesNotExistsException
+	 * @throws ApIdDoesNotExistsException
 	 */
-	public StringListDto getPublicationComments(int pubId) throws PublicationIdDoesNotExistsException{
+	public StringListDto getPublicationComments(int pubId) throws ApIdDoesNotExistsException{
 		StringListDto dto = new StringListDto();
 		GetApCommentsService service = new GetApCommentsService(pubId, dto);
 		service.execute();
@@ -311,11 +311,11 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	 * @param String asking
 	 * @param int pubId
 	 * @throws YouArentAFriendException
-	 * @throws PublicationIdDoesNotExistsException
+	 * @throws ApIdDoesNotExistsException
 	 * @return PublicationViewDto 
 	 */
 	public PublicationViewDto viewPublication(String asking, int pubId)
-			throws YouArentAFriendException, PublicationIdDoesNotExistsException {
+			throws YouArentAFriendException, ApIdDoesNotExistsException {
 		GetApByIdService service = new GetApByIdService(asking, pubId);
 		service.execute();
 		return service.getPublication();

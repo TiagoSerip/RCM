@@ -194,16 +194,16 @@ public class SoNet extends SoNet_Base implements Serializable {
 	 * 
 	 * @param id
 	 * @return Publication instacia com o id indicado
-	 * @throws PublicationIdDoesNotExistsException
+	 * @throws ApIdDoesNotExistsException
 	 */
 	public AP getApById(int id)
-			throws PublicationIdDoesNotExistsException {
+			throws ApIdDoesNotExistsException {
 		for (AP ap : getApSet()) {
 			if (ap.getId() == id) {
 				return ap;
 			}
 		}
-		throw new PublicationIdDoesNotExistsException(id);
+		throw new ApIdDoesNotExistsException(id);
 	}
 	
 	/**
