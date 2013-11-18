@@ -305,7 +305,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 			addComment(COMMENT_TEST, INDIVIDUAL_AGENT_2_USER, tempPub);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		} catch (CanNotCommentException e) {
 			fail("You can't comment this pub:" + e.toString());
@@ -352,7 +352,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 			addNegativeVote(INDIVIDUAL_AGENT_USER, tempPub);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		}
 
@@ -395,7 +395,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 			addPositiveVote(INDIVIDUAL_AGENT_USER, tempPub);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		}
 

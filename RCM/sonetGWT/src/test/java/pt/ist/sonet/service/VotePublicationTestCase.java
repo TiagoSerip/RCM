@@ -2,7 +2,7 @@ package pt.ist.sonet.service;
 
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.OnVoteLimitException;
-import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
+import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
 import pt.ist.sonet.exception.TargetIsAlreadyFriendException;
 import pt.ist.sonet.exception.YouArentAFriendException;
@@ -137,7 +137,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			addPositiveVote(IND_AGENT_USER, tempPub);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		} catch (OnVoteLimitException e) {
 		}
@@ -191,7 +191,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			addPositiveVote(IA6U, tempPub);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		}catch (OnVoteLimitException e) {
 		}
@@ -205,7 +205,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			result= PositiveVotesOnPub - NegativeVotesOnPub;
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		}
 		
@@ -240,7 +240,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			addPositiveVote(IND_AGENT_USER, tempPub);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		}catch (OnVoteLimitException e) {
 		}
@@ -252,7 +252,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			PositiveVotesOnPub =  pub.getPositive();
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		}
 		
@@ -288,7 +288,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			addNegativeVote(IND_AGENT_USER, tempPub);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		} catch (OnVoteLimitException e) {
 		}
@@ -300,7 +300,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			NegativeVotesOnPub =  pub.getNegative();
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		}
 		
@@ -337,7 +337,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			fail("AgentUsernameDoesNotExistsException not caught: "	+ INVALID_USER);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			existAgent = checkExistingAgent(e.toString());			
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		}catch (OnVoteLimitException e) {
 		}
@@ -361,7 +361,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			fail("PublicationIdDoesNotExistsException not caught: " + INVALID_USER);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("AgentUsernameDoesNotExistsException does not exist:" + e.toString());			
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			existPub = false;			
 		}catch (OnVoteLimitException e) {
 			fail("OnVoteLimitException cannot vote on this pub:" + e.toString());
@@ -386,7 +386,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			fail("PublicationIdDoesNotExistsException not caught: " + INVALID_USER);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("AgentUsernameDoesNotExistsException does not exist:" + e.toString());			
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			existPub = false;			
 		}catch (OnVoteLimitException e) {
 			fail("OnVoteLimitException cannot vote on this pub:" + e.toString());
@@ -426,7 +426,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			fail("Agent has no permission to vote, permission exception not caught " + INVALID_USER);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		} catch (OnVoteLimitException e) {
 		} catch(YouArentAFriendException e){
@@ -466,7 +466,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			fail("Agent has no permission to vote, permission exception not caught " + INVALID_USER);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		} catch (OnVoteLimitException e) {
 		} catch(YouArentAFriendException e){
@@ -512,7 +512,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			addPositiveVote(IA8U, tempPub);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		} catch (OnVoteLimitException e) {
 		} catch(YouArentAFriendException e){
@@ -526,7 +526,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			PositiveVotesOnPub =  pub.getPositive();
 		}catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		}			
 		
@@ -568,7 +568,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			addNegativeVote(IA5U, tempPub);
 		} catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		} catch (OnVoteLimitException e) {
 		} catch(YouArentAFriendException e){
@@ -582,7 +582,7 @@ public class VotePublicationTestCase extends SonetServiceTestCase {
 			NegativeVotesOnPub =  pub.getNegative();
 		}catch (AgentUsernameDoesNotExistsException e) {
 			fail("Agent does not exist:" + e.toString());
-		} catch (PublicationIdDoesNotExistsException e) {
+		} catch (ApIdDoesNotExistsException e) {
 			fail("Publication does not exist:" + e.toString());
 		}
 			
