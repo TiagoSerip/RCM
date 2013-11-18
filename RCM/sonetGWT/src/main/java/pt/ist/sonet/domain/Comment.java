@@ -13,8 +13,12 @@ public class Comment extends Comment_Base {
 	 * @param int id - identificador do comentario
 	 * @param String text - texto do comentario
 	 */
-	public  Comment(Agent comentador, AP ap, String text) {
+	public Comment(){
 		super();
+	}
+	
+	public void init (Agent comentador, AP ap, String text) {
+		
 		setAgent(comentador);
 		setAp(ap);
 		setText(text);
