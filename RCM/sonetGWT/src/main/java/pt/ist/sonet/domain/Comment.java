@@ -13,11 +13,10 @@ public class Comment extends Comment_Base {
 	 * @param int id - identificador do comentario
 	 * @param String text - texto do comentario
 	 */
-	public  Comment(Agent comentador, Publication pub, int id, String text) {
+	public  Comment(Agent comentador, AP ap, String text) {
 		super();
 		setAgent(comentador);
-		setPublication(pub);
-		setId(id);
+		setAP(ap);
 		setText(text);
 	}
 
@@ -28,7 +27,7 @@ public class Comment extends Comment_Base {
 	 * @return uma string com o id do comentario, o nome do agente que fez o comentario e o texto do comentario
 	 */
 	public String toString() {
-		return this.getId() + " | "+this.getAgent().getName() + ": " + this.getText();
+		return this.getAgent().getName() + ": " + this.getText();
 	}
 
 }
