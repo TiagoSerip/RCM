@@ -1,8 +1,8 @@
 package pt.ist.sonet.service;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.sonet.domain.Individual;
-import pt.ist.sonet.domain.Organizational;
+import pt.ist.sonet.domain.AP;
+import pt.ist.sonet.domain.Agent;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.SoNetException;
 import pt.ist.sonet.service.SonetService;
@@ -30,18 +30,19 @@ public class ListAllService extends SonetService {
 		
 		SoNet rede = FenixFramework.getRoot();
 		
-		if(rede.getOrganizationalSet().isEmpty() && rede.getIndividualSet().isEmpty()){
-			dto.addTolisting("There are no registered Agents.");
+		if(rede.getApSet().isEmpty()){
+			dto.addTolisting("There are no registered AP's.");
 			return;
 		}
-		dto.addTolisting("Agent Listing (Type | username | Name | email | Location):\n");
-		for(Organizational o : rede.getOrganizationalSet()){
-			dto.addTolisting(o.toString()+"\n");
-			dto.addTolisting(o.myPublicationsToString()+"\n");
-		}
-		for(Individual i : rede.getIndividualSet()){
-			dto.addTolisting(i.toString()+"\n");
-			dto.addTolisting(i.myPublicationsToString()+"\n");
+		dto.addTolisting("AP Listing (Id | subnet | positive | negative):\n");
+		for(AP ap : rede.getApSet()){
+			dto.addTolisting(ap.toString()+"\n");
+			if(ap.hasAnyAgent()){
+				dto.addTolisting("\t"+"Username | Name | Password | AP-ID | RSSI | IP Address\n");
+				for(Agent user : ap.getApAgents()){
+					dto.addTolisting("\t"+user.toString()+"\n");
+				}
+			}
 		}
 		dto.addTolisting("----- End of List -----");
 

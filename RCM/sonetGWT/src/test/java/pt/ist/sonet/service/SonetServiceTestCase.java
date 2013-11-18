@@ -59,8 +59,8 @@ public abstract class SonetServiceTestCase extends TestCase {
 	//		cleanSonet();
 	//	}
 
-	protected GetAllPublicationsService getPublications(String requested, String requester, StringListDto pubdto) {
-		return new GetAllPublicationsService(requested, requester, pubdto);
+	protected GetAllApService getPublications(String requested, String requester, StringListDto pubdto) {
+		return new GetAllApService(requested, requester, pubdto);
 	}
 
 	protected void addAgent(String type, String user, String name, String email, String pass, String city, String nation, String permission) {

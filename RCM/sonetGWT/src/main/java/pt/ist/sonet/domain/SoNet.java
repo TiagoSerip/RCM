@@ -79,7 +79,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 	 * @return Individual instacia de agente Individual criada.
 	 * @throws UsernameAlreadyExistsException
 	 */
-	public Agent createAgentString (String user, String pass, String name, int ap, int rssi, String ip)
+	public Agent createAgent (String user, String pass, String name, int ap, int rssi, String ip)
 					throws UsernameAlreadyExistsException {
 		
 		if(this.hasAgentByUsername(user))

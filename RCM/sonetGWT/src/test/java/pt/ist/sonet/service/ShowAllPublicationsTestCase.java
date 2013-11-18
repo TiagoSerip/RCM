@@ -99,7 +99,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 		
 		// Arrange
 		StringListDto dto = new StringListDto();
-		GetAllPublicationsService testAllPubs = getPublications(ORGANIZATIONAL_AGENT_USER, INDIVIDUAL_AGENT_USER, dto);
+		GetAllApService testAllPubs = getPublications(ORGANIZATIONAL_AGENT_USER, INDIVIDUAL_AGENT_USER, dto);
 		
 		// act
 		try {
@@ -124,7 +124,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 		// Arrange
 		boolean existAgent = true;
 		StringListDto pubdto = new StringListDto();
-		GetAllPublicationsService pubservice = new GetAllPublicationsService("tiago", INDIVIDUAL_AGENT_USER, pubdto);
+		GetAllApService pubservice = new GetAllApService("tiago", INDIVIDUAL_AGENT_USER, pubdto);
 		
 		// act
 		try {
@@ -146,7 +146,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 	
 		// Arrange
 		StringListDto dto = new StringListDto();
-		GetAllPublicationsService testAllPubs = getPublications(ORGANIZATIONAL_AGENT_USER, INDIVIDUAL_AGENT_USER, dto);
+		GetAllApService testAllPubs = getPublications(ORGANIZATIONAL_AGENT_USER, INDIVIDUAL_AGENT_USER, dto);
 		int before = getAgentPubNumber(ORGANIZATIONAL_AGENT_USER);
 		
 		// act
@@ -196,7 +196,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 		// Arrange
 		boolean areTheyFriends = true;
 		StringListDto dto = new StringListDto();
-		GetAllPublicationsService testAllPubs = getPublications(INDIVIDUAL_AGENT_USER, ORGANIZATIONAL_AGENT_USER, dto);
+		GetAllApService testAllPubs = getPublications(INDIVIDUAL_AGENT_USER, ORGANIZATIONAL_AGENT_USER, dto);
 		// act
 		try {
 			testAllPubs.execute();
@@ -221,7 +221,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 		// Arrange
 		int pub = 0;
 		StringListDto dto = new StringListDto();
-		GetAllPublicationsService service = new GetAllPublicationsService(INDIVIDUAL_AGENT_2_USER, INDIVIDUAL_AGENT_USER, dto);
+		GetAllApService service = new GetAllApService(INDIVIDUAL_AGENT_2_USER, INDIVIDUAL_AGENT_USER, dto);
 
 		// Act
 		try {
@@ -248,7 +248,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 		String labelOnPub;
 		String textOnPub;
 		StringListDto dto = new StringListDto();
-		GetAllPublicationsService service = new GetAllPublicationsService(INDIVIDUAL_AGENT_2_USER, INDIVIDUAL_AGENT_USER, dto);
+		GetAllApService service = new GetAllApService(INDIVIDUAL_AGENT_2_USER, INDIVIDUAL_AGENT_USER, dto);
 
 		ArrayList<Publication> pub = null;
 
@@ -284,7 +284,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 		int tempPub;
 		String commentOnPub;
 		StringListDto dto = new StringListDto();
-		GetAllPublicationsService service = new GetAllPublicationsService(INDIVIDUAL_AGENT_2_USER, INDIVIDUAL_AGENT_USER, dto);
+		GetAllApService service = new GetAllApService(INDIVIDUAL_AGENT_2_USER, INDIVIDUAL_AGENT_USER, dto);
 
 		ArrayList<Publication> pub = null;
 		// Act
@@ -329,7 +329,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 		int tempPub;
 		int NegativeVotesOnPub;
 		StringListDto dto = new StringListDto();
-		GetAllPublicationsService service = new GetAllPublicationsService(INDIVIDUAL_AGENT_2_USER, INDIVIDUAL_AGENT_USER, dto);
+		GetAllApService service = new GetAllApService(INDIVIDUAL_AGENT_2_USER, INDIVIDUAL_AGENT_USER, dto);
 
 		ArrayList<Publication> pub = null;
 
@@ -374,7 +374,7 @@ public class ShowAllPublicationsTestCase extends SonetServiceTestCase {
 		int tempPub;
 		int PositiveVotesOnPub;
 		StringListDto dto = new StringListDto();
-		GetAllPublicationsService service = new GetAllPublicationsService(ORGANIZATIONAL_AGENT_USER, INDIVIDUAL_AGENT_USER, dto);
+		GetAllApService service = new GetAllApService(ORGANIZATIONAL_AGENT_USER, INDIVIDUAL_AGENT_USER, dto);
 		ArrayList<Publication> pub = null;
 		
 		// Act

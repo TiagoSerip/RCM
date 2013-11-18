@@ -492,7 +492,7 @@ public class PresentationServer {
 	 */
 	public static void verZeIst(SoNet rede){
 		try{StringListDto dto = new StringListDto();
-		new GetAllPublicationsService("zeninguem", "ist", dto).execute();
+		new GetAllApService("zeninguem", "ist", dto).execute();
 		System.out.println(dto.getlisting());
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
@@ -509,7 +509,7 @@ public class PresentationServer {
 	 */
 	public static void verMariaZe(SoNet rede){
 		try{StringListDto dto = new StringListDto();
-		new GetAllPublicationsService("mariazinha", "zeninguem", dto).execute();
+		new GetAllApService("mariazinha", "zeninguem", dto).execute();
 		System.out.println(dto.getlisting());
 		}catch (AgentUsernameDoesNotExistsException e){
 			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");

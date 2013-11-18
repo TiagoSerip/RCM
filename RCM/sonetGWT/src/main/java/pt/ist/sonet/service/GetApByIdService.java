@@ -2,26 +2,23 @@ package pt.ist.sonet.service;
 
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.sonet.domain.AP;
 import pt.ist.sonet.domain.Agent;
-import pt.ist.sonet.domain.Publication;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
-import pt.ist.sonet.exception.YouArentAFriendException;
 import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
 import pt.ist.sonet.service.SonetService;
-import pt.ist.sonet.service.dto.PublicationViewDto;
+import pt.ist.sonet.service.dto.ApDto;
 
 /**
  * Classe GetAllPublicationsService que herda de SonetService. Este servico permite que um agente visualize,
  * caso seja possivel, os detalhes de uma publicacao 
  */
-public class GetPublicationByIdService extends SonetService{
+public class GetApByIdService extends SonetService{
 	
-	private String requester;
-	private String requested;
-	private PublicationViewDto pubdto;
-	private int pubid;
+	private ApDto dto;
+	private int apId;
 	
 	/**
 	 * Construtor
@@ -29,9 +26,8 @@ public class GetPublicationByIdService extends SonetService{
 	 * @param String asking - username do agente que quer ver as publicacoes
 	 * @param int pubid - id da publicacao que se quer ver
 	 */
-	public GetPublicationByIdService(String asking, int pubid) {
-		this.requester = asking;
-		this.pubid = pubid;	
+	public GetApByIdService(int apId) {
+		this.apId = apId;	
 	}
 	
 	/**
@@ -45,22 +41,14 @@ public class GetPublicationByIdService extends SonetService{
 	 *
 	 */
 	@Override
-	protected void dispatch() throws SoNetException, YouArentAFriendException, PublicationIdDoesNotExistsException{
+	protected void dispatch() throws SoNetException, PublicationIdDoesNotExistsException{
 		SoNet sonet = FenixFramework.getRoot();
 		
-		Publication pub = sonet.getPublicationById(pubid);
-		if(pub == null)
-			throw new PublicationIdDoesNotExistsException(pubid);
+		AP ap = sonet.getApById(apId);
+		if(ap == null)
+			throw new PublicationIdDoesNotExistsException(apId);
 		
-		requested=pub.getAgent().getUsername();
-		
-		Agent requesterAgent = sonet.getAgentByUsername(requester);
-		Agent requestedAgent = sonet.getAgentByUsername(requested);
-		
-		if(!requestedAgent.getPermission().canAcess(requesterAgent, requestedAgent))
-			throw new YouArentAFriendException(requested);
-
-		pubdto = pub.createDto();
+		dto = new ApDto(ap.getId(), ap.getSubnet(), ap.getPosVotes(), ap.getNegVotes());
 
 	}
 	
@@ -69,8 +57,8 @@ public class GetPublicationByIdService extends SonetService{
 	 * 
 	 * @return PublicationViewDto
 	 */
-	public PublicationViewDto getPublication(){
-		return pubdto;
+	public ApDto getPublication(){
+		return dto;
 	}
 	
 }

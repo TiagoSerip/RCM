@@ -2,8 +2,8 @@ package pt.ist.sonet.service;
 
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.sonet.domain.AP;
 import pt.ist.sonet.domain.Comment;
-import pt.ist.sonet.domain.Publication;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
@@ -14,9 +14,9 @@ import pt.ist.sonet.service.dto.StringListDto;
  * Classe GetAllPublicationsService que herda de SonetService. Este servico permite que um agente visualize,
  * caso seja possivel, as publicacoes de outro agente 
  */
-public class GetPublicationCommentsService extends SonetService{
+public class GetApCommentsService extends SonetService{
 
-	private int pubId;
+	private int apId;
 	private StringListDto dto;
 	
 	/**
@@ -26,9 +26,9 @@ public class GetPublicationCommentsService extends SonetService{
 	 * @param String agentsend - username do agente detentor das publicacoes
 	 * @param ListingDto
 	 */
-	public GetPublicationCommentsService(int pubId, StringListDto dto){
+	public GetApCommentsService(int apId, StringListDto dto){
 		this.dto = dto;
-		this.pubId = pubId;
+		this.apId = apId;
 	}
 	
 	/**
@@ -41,12 +41,12 @@ public class GetPublicationCommentsService extends SonetService{
 	protected void dispatch() throws SoNetException, PublicationIdDoesNotExistsException {
 		SoNet sonet = FenixFramework.getRoot();
 		
-		Publication pub = sonet.getPublicationById(pubId);
-		if(pub == null)
-			throw new PublicationIdDoesNotExistsException(pubId);
+		AP ap = sonet.getApById(apId);
+		if(ap == null)
+			throw new PublicationIdDoesNotExistsException(apId);
 		
-		for(Comment c : pub.getCommentsSet()){
-			dto.addTolisting(c.getId() + " | " + c.getAgent().getName() + ": " + c.getText());
+		for(Comment c : ap.getCommentsSet()){
+			dto.addTolisting(c.toString());
 		}
 		
 	}

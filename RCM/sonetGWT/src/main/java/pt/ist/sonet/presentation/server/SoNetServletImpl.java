@@ -35,8 +35,8 @@ import pt.ist.sonet.service.GetAgentPublicationsService;
 import pt.ist.sonet.service.GetAllNonFriendsService;
 import pt.ist.sonet.service.GetAllOrganizationalAgentsService;
 import pt.ist.sonet.service.GetFriendsLastPublicationService;
-import pt.ist.sonet.service.GetPublicationByIdService;
-import pt.ist.sonet.service.GetPublicationCommentsService;
+import pt.ist.sonet.service.GetApByIdService;
+import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
 import pt.ist.sonet.service.ObtainLargaCaixaContentService;
@@ -272,7 +272,7 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	 */
 	public StringListDto getPublicationComments(int pubId) throws PublicationIdDoesNotExistsException{
 		StringListDto dto = new StringListDto();
-		GetPublicationCommentsService service = new GetPublicationCommentsService(pubId, dto);
+		GetApCommentsService service = new GetApCommentsService(pubId, dto);
 		service.execute();
 		return dto;
 	}
@@ -316,7 +316,7 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	 */
 	public PublicationViewDto viewPublication(String asking, int pubId)
 			throws YouArentAFriendException, PublicationIdDoesNotExistsException {
-		GetPublicationByIdService service = new GetPublicationByIdService(asking, pubId);
+		GetApByIdService service = new GetApByIdService(asking, pubId);
 		service.execute();
 		return service.getPublication();
 	}

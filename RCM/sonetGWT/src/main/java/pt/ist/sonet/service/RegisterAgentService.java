@@ -2,8 +2,7 @@
 package pt.ist.sonet.service;
 
 
-import pt.ist.sonet.domain.Individual;
-import pt.ist.sonet.domain.Organizational;
+import pt.ist.sonet.domain.Agent;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentNameDoesNotExistsException;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
@@ -39,17 +38,10 @@ public class RegisterAgentService extends SonetService {
 		
 		SoNet network = FenixFramework.getRoot();
 		
-		if(dto.getType().equals(network.INDIVIDUAL)) {
-			Individual agent = network.createIndividualAgent(dto.getUsername(), dto.getName(), dto.getEmail(), dto.getPass(),
-					dto.getCity(), dto.getNation(), dto.getPermission());
-			network.addIndividual(agent);
-		}
+			Agent agent = network.createAgent(dto.getUsername(), dto.getPass(), dto.getName(), dto.getAp(),
+					dto.getRssi(), dto.getIp());
+			network.addAgent(agent);
 		
-		if(dto.getType().equals(network.ORGANIZATIONAL)) {
-			Organizational agent = network.createOrganizationalAgent(dto.getUsername(), dto.getName(), dto.getEmail(), dto.getPass(),
-					dto.getCity(), dto.getNation(), dto.getPermission());
-			network.addOrganizational(agent);
-		}
 		
 	}
 	

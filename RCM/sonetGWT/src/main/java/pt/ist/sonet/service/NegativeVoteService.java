@@ -1,6 +1,7 @@
 package pt.ist.sonet.service;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.sonet.domain.AP;
 import pt.ist.sonet.domain.Agent;
 import pt.ist.sonet.domain.Publication;
 import pt.ist.sonet.domain.SoNet;
@@ -14,7 +15,7 @@ import pt.ist.sonet.exception.SoNetException;
  */
 public class NegativeVoteService extends SonetService {
 
-	private int pubID;
+	private int apId;
 	private String agentUser;
 	
 	/**
@@ -23,8 +24,8 @@ public class NegativeVoteService extends SonetService {
 	 * @param String user - username do agente que quer votar na publicacao
 	 * @param int pubId - identificador da publicacao
 	 */
-	public NegativeVoteService(String user, int pubId) {
-		pubID = pubId;
+	public NegativeVoteService(String user, int ap) {
+		apId = ap;
 		agentUser = user;
 	}	
 	
@@ -43,11 +44,11 @@ public class NegativeVoteService extends SonetService {
 		Agent voter = network.getAgentByUsername(agentUser);
 		if(voter == null)
 			throw new AgentUsernameDoesNotExistsException(agentUser);
-		Publication pub = network.getPublicationById(pubID);
-		if(pub == null)
-			throw new PublicationIdDoesNotExistsException(pubID);
+		AP ap = network.getApById(apId);
+		if(ap == null)
+			throw new PublicationIdDoesNotExistsException(apId);
 		
-		network.negVote(voter, pub);
+		network.negVote(voter, ap);
 		
 	}
 	

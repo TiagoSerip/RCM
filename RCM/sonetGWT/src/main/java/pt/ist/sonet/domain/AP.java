@@ -1,5 +1,7 @@
 package pt.ist.sonet.domain;
 
+import java.util.Set;
+
 import pt.ist.sonet.exception.AlreadyVotedException;
 
 public class AP extends AP_Base {
@@ -69,6 +71,10 @@ public class AP extends AP_Base {
 
 	public boolean hasComments(){
 		return this.hasAnyComments();
+	}
+	
+	public Set<Agent> getApAgents(){
+		return this.getAgentSet();
 	}
     
 }
