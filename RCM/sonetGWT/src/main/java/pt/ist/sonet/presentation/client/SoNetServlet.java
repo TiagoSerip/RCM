@@ -17,7 +17,7 @@ import pt.ist.sonet.exception.TargetAlreadySentRequestException;
 import pt.ist.sonet.exception.TargetIsAlreadyFriendException;
 import pt.ist.sonet.exception.YouAlreadySentRequestException;
 import pt.ist.sonet.exception.YouArentAFriendException;
-import pt.ist.sonet.service.dto.PublicationDto;
+import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.PublicationViewDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
@@ -40,7 +40,7 @@ public interface SoNetServlet extends RemoteService {
 	StringListDto getFriends(String username);
 	StringListDto listPendingRequests(String username);
 	StringListDto getAgents();
-	ArrayList<PublicationDto> getPublicationList(String from, String asking) throws YouArentAFriendException;
+	ArrayList<ApDto> getPublicationList(String from, String asking) throws YouArentAFriendException;
 	StringListDto getPublicationComments(int pubId);
 	StringListDto getOrganizationalAgents();
 	PublicationViewDto viewPublication(String asking, int pubId) throws YouArentAFriendException, PublicationIdDoesNotExistsException;

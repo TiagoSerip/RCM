@@ -22,7 +22,7 @@ import pt.ist.sonet.exception.TargetIsAlreadyFriendException;
 import pt.ist.sonet.exception.YouAlreadySentRequestException;
 import pt.ist.sonet.exception.YouArentAFriendException;
 import pt.ist.sonet.presentation.shared.FieldVerifier;
-import pt.ist.sonet.service.dto.PublicationDto;
+import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.PublicationViewDto;
 import pt.ist.sonet.service.dto.PublicationWithPriceViewDto;
 import pt.ist.sonet.service.dto.StringListDto;
@@ -448,15 +448,15 @@ public class SonetGWT implements EntryPoint {
 		choosePublicationGrid.add(grid_10, 44, 287);
 		grid_10.setSize("109px", "36px");
 		
-		final CellTable<PublicationDto> publicationPublicationsCell = new CellTable<PublicationDto>(){};
+		final CellTable<ApDto> publicationPublicationsCell = new CellTable<ApDto>(){};
 		publicationPublicationsCell.setPageSize(5);
 		choosePublicationGrid.add(publicationPublicationsCell, 23, 10);
 		publicationPublicationsCell.setSize("587px", "215px");
 		// Add a number column to show the id.
-	      Column<PublicationDto, Number> publicationIdColum = 
-	      new Column<PublicationDto, Number>(new NumberCell()) {
+	      Column<ApDto, Number> publicationIdColum = 
+	      new Column<ApDto, Number>(new NumberCell()) {
 	         @Override
-	         public Integer getValue(PublicationDto object) {
+	         public Integer getValue(ApDto object) {
 	            return object.getId();
 	         }
 	      };
@@ -464,28 +464,28 @@ public class SonetGWT implements EntryPoint {
 	      publicationPublicationsCell.addColumn(publicationIdColum, "ID");
 	      publicationPublicationsCell.setColumnWidth(publicationIdColum, "37px");
 	   // Add a text column to show the publication string.
-	      TextColumn<PublicationDto> publicationTextColum = 
-	      new TextColumn<PublicationDto>() {
+	      TextColumn<ApDto> publicationTextColum = 
+	      new TextColumn<ApDto>() {
 	         @Override
-	         public String getValue(PublicationDto object) {
+	         public String getValue(ApDto object) {
 	            return object.getLabel()+" | "+object.getPositive()+" | "+object.getNegative()+" | "+object.getComents();
 	         }
 	      };
 	      publicationPublicationsCell.addColumn(publicationTextColum, "Publication");
 	      // Add a selection model to handle user selection.
-	      final SingleSelectionModel<PublicationDto> selectionModel 
-	      = new SingleSelectionModel<PublicationDto>();
+	      final SingleSelectionModel<ApDto> selectionModel 
+	      = new SingleSelectionModel<ApDto>();
 	      publicationPublicationsCell.setSelectionModel(selectionModel);
 	      selectionModel.addSelectionChangeHandler(
 	      new SelectionChangeEvent.Handler() {
 	         public void onSelectionChange(SelectionChangeEvent event) {
-	        	 PublicationDto selected = selectionModel.getSelectedObject();
+	        	 ApDto selected = selectionModel.getSelectedObject();
 	             publicationId = selected.getId();
 	            }
 	         }
 	      );
 	      
-	    final ListDataProvider<PublicationDto> dataProvider = new ListDataProvider<PublicationDto>();
+	    final ListDataProvider<ApDto> dataProvider = new ListDataProvider<ApDto>();
 	    dataProvider.addDataDisplay(publicationPublicationsCell);
 	      
 		final Button publicationPublicationsUpdateButton = new Button("Update");
@@ -1227,7 +1227,7 @@ public class SonetGWT implements EntryPoint {
 			private void getPublications() {
 				
 				publicationPublicationsErrorLabel.setText("");
-				dataProvider.setList(new ArrayList<PublicationDto>());
+				dataProvider.setList(new ArrayList<ApDto>());
 				//_publicationId=-1;
 				// First, we validate the input.
 				if (active==null) {
@@ -1249,7 +1249,7 @@ public class SonetGWT implements EntryPoint {
 
 				// Then, we send the input to the server.
 				sonetServlet.getPublicationList(selected, 
-						active, new AsyncCallback<ArrayList<PublicationDto>>() {
+						active, new AsyncCallback<ArrayList<ApDto>>() {
 							public void onFailure(Throwable caught) {
 								// Show the the error to the user
 								
@@ -1264,7 +1264,7 @@ public class SonetGWT implements EntryPoint {
 								closeButton.setFocus(true);
 							}
 
-							public void onSuccess(ArrayList<PublicationDto> dto) {
+							public void onSuccess(ArrayList<ApDto> dto) {
 								publicationPublicationsOfLabel.setText(PUBLICATIONS_INFO+selected);
 								if(dto.isEmpty()){
 									publicationPublicationsErrorLabel.setText("Agent doesn't have publications");

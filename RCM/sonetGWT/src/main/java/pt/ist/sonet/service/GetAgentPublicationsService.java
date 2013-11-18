@@ -9,8 +9,8 @@ import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
 import pt.ist.sonet.exception.YouArentAFriendException;
 import pt.ist.sonet.service.SonetService;
-import pt.ist.sonet.service.dto.PublicationDto;
-import pt.ist.sonet.service.dto.PublicationListDto;
+import pt.ist.sonet.service.dto.ApDto;
+import pt.ist.sonet.service.dto.ApListDto;
 
 /**
  * Classe GetAllPublicationsService que herda de SonetService. Este servico permite que um agente visualize,
@@ -20,7 +20,7 @@ public class GetAgentPublicationsService extends SonetService{
 
 	private String requester;
 	private String requested;
-	private PublicationListDto allpubs;
+	private ApListDto allpubs;
 	
 	/**
 	 * Construtor
@@ -29,7 +29,7 @@ public class GetAgentPublicationsService extends SonetService{
 	 * @param String agentsend - username do agente detentor das publicacoes
 	 * @param ListingDto
 	 */
-	public GetAgentPublicationsService(String from, String asking, PublicationListDto pubdto){
+	public GetAgentPublicationsService(String from, String asking, ApListDto pubdto){
 		allpubs=pubdto;
 		requested=from;
 		requester=asking;
@@ -57,7 +57,7 @@ public class GetAgentPublicationsService extends SonetService{
 		if(!requestedAgent.getPermission().canAcess(requesterAgent, requestedAgent))
 			throw new YouArentAFriendException(requested);
 		for(Publication pub : sonet.getUserPublicationsByUsername(requested)){
-			PublicationDto dto = new PublicationDto(pub.getId(), pub.getAgent().getUsername(), pub.getLabel(), 
+			ApDto dto = new ApDto(pub.getId(), pub.getAgent().getUsername(), pub.getLabel(), 
 						pub.getPosVotes(), pub.getNegVotes(), pub.getCommentsCount());
 			allpubs.addTolisting(dto);
 		}

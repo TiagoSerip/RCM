@@ -31,7 +31,7 @@ public interface SoNetServletAsync {
 	void addNote(String username, String label, String text, AsyncCallback<Void> callback);
 	void commentPublication(String username, int pubId, String text, AsyncCallback<Void> callback) throws OnVoteLimitException;
 	void getFriends(String username, AsyncCallback<StringListDto> callback);
-	void getPublicationList(String from, String asking, AsyncCallback<ArrayList<PublicationDto>> asyncCallback) throws YouArentAFriendException;
+	void getPublicationList(String from, String asking, AsyncCallback<ArrayList<ApDto>> asyncCallback) throws YouArentAFriendException;
 	void getAgents(AsyncCallback<StringListDto> asyncCallback);
 	void listPendingRequests(String username, AsyncCallback<StringListDto> asyncCallback);
 	void getOrganizationalAgents(AsyncCallback<StringListDto> asyncCallback);

@@ -8,12 +8,12 @@ public class CommentDto implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	String user;
-	int pubId;
+	int apId;
 	String text;
 	
-	public CommentDto(String user, int pubId, String text){
+	public CommentDto(String user, int ap, String text){
 		this.user = user;
-		this.pubId = pubId;
+		this.apId = ap;
 		this.text = text;
 		
 	}
@@ -28,12 +28,12 @@ public class CommentDto implements Serializable{
 		this.user = user;
 	}
 
-	public int getPubId() {
-		return pubId;
+	public int getApId() {
+		return apId;
 	}
 
-	public void setPubId(int pubId) {
-		this.pubId = pubId;
+	public void setApId(int ApId) {
+		this.apId = ApId;
 	}
 
 	public String getText() {

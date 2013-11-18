@@ -50,8 +50,8 @@ import pt.ist.sonet.service.bridge.PagAmigoServerLocal;
 import pt.ist.sonet.service.dto.CommentDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.PaymentDto;
-import pt.ist.sonet.service.dto.PublicationDto;
-import pt.ist.sonet.service.dto.PublicationListDto;
+import pt.ist.sonet.service.dto.ApDto;
+import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.PublicationViewDto;
 import pt.ist.sonet.service.dto.StringListDto;
 import pt.ist.sonet.service.dto.BooleanDto;
@@ -244,8 +244,8 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	 * @throws YouArentAFriendException
 	 */
 	@Override
-	public ArrayList<PublicationDto> getPublicationList(String from, String asking) throws YouArentAFriendException{
-		PublicationListDto pubdto = new PublicationListDto();
+	public ArrayList<ApDto> getPublicationList(String from, String asking) throws YouArentAFriendException{
+		ApListDto pubdto = new ApListDto();
 		GetAgentPublicationsService service = new GetAgentPublicationsService(from, asking, pubdto);
 		service.execute();
 		return pubdto.getlisting();

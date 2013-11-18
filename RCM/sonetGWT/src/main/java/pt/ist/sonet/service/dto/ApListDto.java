@@ -9,23 +9,23 @@ import java.util.ArrayList;
  * @author ES Grupo 8
  *
  */
-public class PublicationListDto implements Serializable{
+public class ApListDto implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ArrayList<PublicationDto> list;
+	private ArrayList<ApDto> list;
 	
-	public PublicationListDto(){
-		list=new ArrayList<PublicationDto>();
+	public ApListDto(){
+		list=new ArrayList<ApDto>();
 	}
 		
-	public ArrayList<PublicationDto> getlisting(){
+	public ArrayList<ApDto> getlisting(){
 		return list;
 	}
 	
-	public void addTolisting(PublicationDto l){
+	public void addTolisting(ApDto l){
 		list.add(l);
 	}
 
