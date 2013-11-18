@@ -1,0 +1,65 @@
+package pt.ist.sonet.service;
+
+import java.util.Iterator;
+
+import pt.ist.fenixframework.FenixFramework;
+import pt.ist.sonet.domain.Individual;
+import pt.ist.sonet.domain.Organizational;
+import pt.ist.sonet.domain.SoNet;
+import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
+import pt.ist.sonet.exception.OrgHasNotPendingException;
+import pt.ist.sonet.exception.SoNetException;
+import pt.ist.sonet.service.dto.StringListDto;
+
+
+public class SentFriendRequestsService extends SonetService {
+
+	private String username;
+	private StringListDto dto;
+	/**
+	 * Construtor
+	 * 
+	 * @param String user username
+	 * @param String pass agent password
+	 */
+	public SentFriendRequestsService(String user, StringListDto dto) {
+		this.username = user;
+		this.dto = dto;
+	}
+	
+	
+	/**
+	 * Faz o dispach do servico.
+	 *
+	 * @throws SoNetException
+	 * @throws AgentUsernameDoesNotExists
+	 */
+	@Override
+	public void dispatch() throws SoNetException, AgentUsernameDoesNotExistsException {
+		SoNet rede = FenixFramework.getRoot();
+		Organizational org= rede.getOrganizationalByName(this.username);
+		
+		if(org != null){
+			throw new OrgHasNotPendingException();}
+		
+		Individual ind = rede.getIndividualByUsername(this.username);
+		
+		if(ind == null){
+			throw new AgentUsernameDoesNotExistsException(username);
+		}
+		Iterator<Individual> at = rede.getIndividualIterator();
+
+		
+		while(at.hasNext()){
+			Individual agentAux= at.next();
+			if(agentAux.getPendingRequest().contains(this.username)){
+				dto.addTolisting(agentAux.getUsername());
+
+			}
+
+		}	
+		
+		
+	}
+		
+}

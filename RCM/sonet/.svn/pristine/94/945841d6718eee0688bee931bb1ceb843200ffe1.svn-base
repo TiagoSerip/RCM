@@ -1,0 +1,76 @@
+package pt.ist.sonet.domain;
+
+
+/**
+ * 
+ * Classe Organizational que herda de Organizational_Base
+ * @author ES Grupo8
+ * 
+ */
+public class Organizational extends Organizational_Base {
+
+	/**
+	 * Construtor
+	 */
+	public Organizational() {
+		super();
+	}
+
+	/**
+	 * Construtor
+	 * 
+	 * @param String user - username do agente
+	 * @param String name - nome do agente
+	 * @param String email - email do agente
+	 * @param String pass - palavra passe do agente
+	 * @param String city - cidade do agente
+	 * @param String nation - pais do agente
+	 */
+	public  Organizational(String user, String name, String email, String pass, String city, String nation, String permission) {
+		super();
+		init(user, name, email, pass, city, nation, permission);
+	}
+
+	/**
+	 * 
+	 * Metodo que processa um pedido de amizade recebido. Como se trata de um agente organizacional,
+	 * o pedido e aceite de imediato pelo que e invocado o metodo addFriends
+	 * 
+	 * @param Agent wannabe - agente que enviou o pedido de amizade
+	 * 
+	 */
+
+	public void processFriendReq(Individual wannabe) {
+		this.addFriends(wannabe);
+	}
+
+	/**
+	 * Metodo que verifica se o agente ja atingiu o numero limite de amigos
+	 * 
+	 * @return boolean - retorna sempre true dado que se trata de um agente organizacional
+	 */
+	public  boolean checkFriendLimit(int friendLimit, int friendCount){
+		return false;
+	}
+
+	/**
+	 * 
+	 * Metodo que serve para indicar qual o tipo de agente
+	 * 
+	 * @return uma string que indica qual o tipo de agente
+	 */
+	public String getType(){
+		return ORGANIZATIONAL;
+	}
+
+	/** 
+	 * Método que devolve um boolean se o agente aceita ou nao doacoes
+	 * 
+	 * @return boolean
+	 */
+	public boolean doIAcceptDonations() {
+		
+		return true;
+	}
+
+}

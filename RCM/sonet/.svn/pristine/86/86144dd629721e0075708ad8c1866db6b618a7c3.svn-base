@@ -1,0 +1,173 @@
+/**
+ * 
+ */
+package pt.ist.sonet;
+
+import jvstm.Atomic;
+import pt.ist.fenixframework.Config;
+import pt.ist.fenixframework.FenixFramework;
+import pt.ist.sonet.domain.SoNet;
+import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
+import pt.ist.sonet.exception.NameAlreadyExistsException;
+import pt.ist.sonet.exception.UsernameAlreadyExistsException;
+import pt.ist.sonet.service.AddContentService;
+import pt.ist.sonet.service.AddNoteService;
+import pt.ist.sonet.service.RegisterAgentService;
+
+/**
+ * Popula a SoNet
+ * @author ES Grupo 8
+ *
+ */
+public class SoNetSetup {
+
+	private static String ORGANIZATIONAL = "Organizational";
+	private static String INDIVIDUAL = "Individual";
+	private static String FRIEND = "amigo";
+	private static String PUBLIC = "publica";
+	
+	
+
+	/**
+	 * Executa a SoNet e efectua os testes pedidos no enunciado.
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		FenixFramework.initialize(new Config() {{
+			dbAlias = "//localhost:3306/sonetdb"; 
+			dbUsername = "sonet";
+			dbPassword = "s0n3t";
+			domainModelPath="src/main/dml/sonet.dml";
+			rootClass=SoNet.class;
+		}});
+
+		System.out.println("Initializing SoNet...");
+
+		SoNet rede = startSoNet();
+		createTecnico(rede);
+		System.out.println("----------");
+		createZe(rede);
+		System.out.println("----------");
+		createMaria(rede);
+		System.out.println("----------");
+		createMariaNote(rede);
+		System.out.println("----------");
+		createMariaPaidContent(rede);
+		System.out.println("----------");
+		createMariaFreeContent(rede);
+		System.out.println("SoNet Terminated.");
+	}
+
+	/**
+	 * Inicializa a SoNet.
+	 * 
+	 * @return SoNet
+	 */
+	@Atomic
+	public static SoNet startSoNet(){
+		SoNet rede = FenixFramework.getRoot();
+		return rede;
+	}
+
+	/**
+	 * Tenta registar um agente organizacional.
+	 * Resultado expectavel de sucesso no registo.
+	 * 
+	 * @param rede
+	 */
+
+	public static void createTecnico(SoNet rede){
+		try{
+			new RegisterAgentService(ORGANIZATIONAL, "ist", "Técnico Lisboa", "info@ist.utl.pt", "t3cn1co", "Lisboa", "Portugal", PUBLIC).execute();
+		}catch (NameAlreadyExistsException e){
+			System.out.println("Organization '"+e.getConflictingName()+"' already exists.");
+			return;
+		}
+		System.out.println("Created Organization 'Técnico Lisboa'.");
+
+	}
+	/**
+	 * Tenta registar um novo agente idividual.
+	 * 
+	 * Resultado expectavel de sucesso no registo.
+	 * @param rede
+	 */
+	public static void createZe(SoNet rede){
+		try{
+			new RegisterAgentService(INDIVIDUAL, "zeninguem", "Zé Ninguém", "ze.ninguem@ist.utl.pt", "zeze", "Lisbon, NY", "USA", FRIEND).execute();
+		}catch (UsernameAlreadyExistsException e){
+			System.out.println("Individual '"+e.getConflictingName()+"' already exists.");
+			return;
+		}
+		System.out.println("Created Individual 'Zé Ninguém'.");
+
+	}
+	/**
+	 * Tenta registar um novo agente individual.
+	 * 
+	 * Resultado expectavel de sucesso.
+	 * @param rede
+	 */
+	public static void createMaria(SoNet rede){
+		try{
+			new RegisterAgentService(INDIVIDUAL, "mariazinha", "Maria Silva", "maria.silva@ist.utl.pt", "****", "Oeiras", "Portugal", FRIEND).execute();
+		}catch (UsernameAlreadyExistsException e){
+			System.out.println("Individual '"+e.getConflictingName()+"' already exists.");
+			return;
+		}
+		System.out.println("Created Individual 'Maria Silva'.");
+
+	}
+
+	/**
+	 * Cria uma nova nota com a agente 'mariazinha'.
+	 * 
+	 * Resultado expectavel de sucesso.
+	 * @param rede
+	 */
+	public static void createMariaNote(SoNet rede){
+		try{
+			new AddNoteService("mariazinha", "Fim de Cruso", "Acabei!").execute();
+		}catch (AgentUsernameDoesNotExistsException e){
+			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
+			return;
+		}
+
+		System.out.println("Created a new Note!");
+	}
+	
+	/**
+	 * Cria um novo conteudo com a agente 'mariazinha'.
+	 * 
+	 * Resultado expectavel de sucesso.
+	 * @param rede
+	 */
+	public static void createMariaPaidContent(SoNet rede){
+		try{
+			new AddContentService("mariazinha", "Vou ficar rica!", "ABC", 7).execute();
+		}catch (AgentUsernameDoesNotExistsException e){
+			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
+			return;
+		}
+
+		System.out.println("Created a new Content!");
+	}
+	
+	/**
+	 * Cria um novo conteudo com a agente 'mariazinha'.
+	 * 
+	 * Resultado expectavel de sucesso.
+	 * @param rede
+	 */
+	public static void createMariaFreeContent(SoNet rede){
+		try{
+			new AddContentService("mariazinha", "Terceira parte do projecto de ES", "XYZ", 0).execute();
+		}catch (AgentUsernameDoesNotExistsException e){
+			System.out.println("Agent '"+e.getUsername()+"' doesn't exists.");
+			return;
+		}
+
+		System.out.println("Created a new Content!");
+	}
+	
+}

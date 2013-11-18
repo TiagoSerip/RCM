@@ -1,0 +1,11 @@
+package pt.ist.sonet.service.bridge;
+
+import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
+import pt.ist.sonet.exception.PagAmigoTransferException;
+
+public interface ApplicationServerBridge {
+	
+	public void ProcessPayment(String from, String to, int amount, String description) throws 
+		AgentUsernameDoesNotExistsException, PagAmigoTransferException;
+	
+}

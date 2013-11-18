@@ -1,0 +1,167 @@
+package pt.ist.sonet.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import pt.ist.sonet.exception.FriendLimitExceededException;
+import pt.ist.sonet.exception.TargetAlreadySentRequestException;
+import pt.ist.sonet.exception.TargetIsAlreadyFriendException;
+import pt.ist.sonet.exception.YouAlreadySentRequestException;
+import pt.ist.sonet.exception.YouArentAFriendException;
+
+/**
+ * 
+ * Classe Individual que herda de Individual_Base
+ * 
+ */
+public class Individual extends Individual_Base {
+
+	/**
+	 * Construtor
+	 */
+	public Individual() {
+		super();
+	}
+
+	/**
+	 * Construtor
+	 * 
+	 * @param String user - username do agente
+	 * @param String name - nome do agente
+	 * @param String email - email do agente
+	 * @param String pass - palavra passe do agente
+	 * @param String city - cidade do agente
+	 * @param String nation - pais do agente
+	 */
+	public  Individual(String user, String name, String email, String pass, String city, String nation, String permission) {
+		super();
+		init(user, name, email, pass, city, nation, permission);
+	} 
+
+	/**
+	 * Metodo que envia um pedido de amizade. No entanto, faz varias verificacoes primeiro: verifica se
+	 * o agente ao qual se quer enviar o pedido, target, ja e amigo; verifica se target ja enviou um pedido; 
+	 * verifica se ja foi enviado um pedido a target numa outra ocasiao. Se nenhuma excepcao for lancada,
+	 * o pedido de amizade e enviado chamando o metodo ProcessFriendReq.
+	 * 
+	 * @param Agent target - agente ao qual se esta a enviar o pedido de amizade
+	 * @throws TargetIsAlreadyFriendExcpetion - caso target ja seja um amigo
+	 * @throws TargetAlreadySentRequestException - caso target ja tenha enviado um pedido
+	 * @throws YouAlreadySentRequestException - caso o agente ja tenha enviado um pedido a target
+	 */
+	public void sendFriendRequest(Agent target) throws TargetIsAlreadyFriendException, TargetAlreadySentRequestException, YouAlreadySentRequestException {
+		if(this.isMyFriend(target)) {
+			throw new TargetIsAlreadyFriendException(target.getUsername());
+		}
+
+		//para o caso de target ainda nao ser amigo mas ja ter enviado um pedido
+		for(Agent agent : this.getPendingRequestSet()) {
+			if(agent.equals(target))
+				throw new TargetAlreadySentRequestException(target.getUsername());
+		}
+
+		if(target.getType().equals(INDIVIDUAL)) {
+			Individual temp = (Individual) target;
+			//para o caso de ja ter enviado um pedido
+			for(Agent agent : temp.getPendingRequestSet()) {
+				if(agent.equals(this))
+					throw new YouAlreadySentRequestException(target.getUsername());
+			}
+		}
+
+		target.processFriendReq(this); 
+	}    
+
+	/**
+	 * Metodo que processa um pedido de amizade recebido. Como se trata de um agente individual,
+	 * o pedido e adicionado a lista de pedidos pendentes ate que o agente o aceite
+	 * 
+	 * @param Agent wannabe - agente que enviou o pedido de amizade
+	 */
+	public void processFriendReq(Individual wannabe) {
+		addPendingRequest(wannabe);
+	}
+
+	/**
+	 * Metodo que lista os pedidos pendentes
+	 * 
+	 * @return String toString - lista as informacoes dos agentes que enviaram pedidos que ainda nao foram aceites
+	 */
+	public String listPendingRequests() {
+		List<Agent> pending = new ArrayList<Agent>();
+		for(Agent agent : this.getPendingRequestSet()) {
+			pending.add(agent);
+		}
+		return pending.toString();
+	}
+
+	/**
+	 * Metodo que verifica se o agente ja atingiu o numero limite de amigos
+	 * 
+	 * @return boolean - false se nao tiver atingido
+	 * @throws FriendLimitExceededException
+	 */
+	public  boolean checkFriendLimit(int friendLimit, int friendCount) throws FriendLimitExceededException{
+		if(friendCount >= friendLimit){
+			throw new FriendLimitExceededException(this.getUsername());
+		}
+		return false; //significa que o limite ainda nao foi atingido
+	}
+
+	/**
+	 * Metodo que aceita um pedido de amizade. Para isto, chama o metodo addFriend neste agente e no agente
+	 * futureFriend (que enviou o pedido). Remove ainda o agente futureFriend da lista de pedidos pendentes.
+	 * 
+	 * @param Agent futureFriend - agente do qual se vai aceitar o pedido de amizade 
+	 */
+	//faz-se addFriends em quem aceita o pedido
+	public void acceptRequest(Individual futureFriend) {
+		this.addFriends(futureFriend);
+		this.removePendingRequest(futureFriend);
+	}
+
+	/**
+	 * Metodo que rejeita o pedido de amizade. A rejeicao do pedido e feita retirando o agente foreverAlone
+	 * da lista de pedidos pendentes sem o adicionar a amigos.
+	 * 
+	 * @param Agent foreverAlone - agente do qual se vai rejeitar o pedido de amizade 
+	 */
+	public void refuseRequest(Individual foreverAlone) {
+		this.removePendingRequest(foreverAlone);    	
+	}
+
+
+	/** 
+	 * Metodo que remove um agente dos amigos.
+	 * 
+	 * @param Agent friend - agente a remover dos amigos 
+	 */
+	@Override
+	public void removeFriends(Agent friend) throws YouArentAFriendException {
+		if(this.isMyFriend(friend)) {
+			for (Agent a : this.getFriendsSet()) {
+				if(a.equals(friend))
+					super.removeFriends(friend);
+			}
+			for (Agent b : friend.getFriendsSet()) {
+				if(b.equals(this))
+					super.removeFriends(this);
+			}
+		}
+		else {
+			throw new YouArentAFriendException(friend.getName());
+		}
+	}
+
+
+	/**
+	 * Metodo que serve para indicar qual o tipo de agente
+	 * 
+	 * @return uma string que indica qual o tipo de agente
+	 */
+	public String getType(){
+		return INDIVIDUAL;
+	}
+
+
+}

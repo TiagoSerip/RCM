@@ -1,0 +1,26 @@
+package pt.ist.sonet.service.bridge;
+
+import pt.ist.pagamigo.InvalidTransferException;
+import pt.ist.pagamigo.PagAmigoLocal;
+import pt.ist.sonet.exception.LargaCaixaTransferException;
+import pt.ist.sonet.exception.PagAmigoTransferException;
+
+public class PagAmigoServerLocal implements PagAmigoServerBridge {
+
+	PagAmigoLocal paga = new PagAmigoLocal();
+	
+	
+	public void processPayment(String from, String to, int amount, String description) throws 
+	LargaCaixaTransferException {
+		try{
+		paga.transfer(from, to, amount, description);
+		} catch (InvalidTransferException e) {
+			throw new PagAmigoTransferException(from, to, amount, description);
+		}
+//		PaymentDto payment = new PaymentDto(from, to, description, amount);
+//		ProcessPaymentService service = new ProcessPaymentService(payment);
+//		service.execute();
+
+	}
+
+}

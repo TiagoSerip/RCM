@@ -1,0 +1,11 @@
+build
+db
+*.class
+*.jar
+.gwt
+gwt-unitCache
+war/sonetgwt
+war/sonet.log
+war/WEB-INF/classes
+war/WEB-INF/deploy
+war/WEB-INF/lib
