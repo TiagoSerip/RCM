@@ -1,0 +1,17 @@
+package pt.ist.sonet.exception;
+
+public class PublicationIdDoesNotExistsException extends SoNetException {
+
+	private static final long serialVersionUID = 1L;
+
+	private int id;
+	
+	public PublicationIdDoesNotExistsException(int id) {
+		this.id = id;
+	}
+	
+	public String getid() {
+		return ""+this.id;
+	}
+	
+}

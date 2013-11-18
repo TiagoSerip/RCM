@@ -1,0 +1,20 @@
+package pt.ist.sonet.service.bridge;
+
+import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
+import pt.ist.sonet.exception.PagAmigoTransferException;
+import pt.ist.sonet.service.ProcessPaymentService;
+import pt.ist.sonet.service.dto.PaymentDto;
+
+public class LocalApplicationServer implements ApplicationServerBridge {
+
+	@Override
+	public void ProcessPayment(String from, String to, int amount, String description) throws 
+		AgentUsernameDoesNotExistsException, PagAmigoTransferException {
+
+		PaymentDto payment = new PaymentDto(from, to, description, amount);
+		ProcessPaymentService service = new ProcessPaymentService(payment);
+		service.execute();
+
+	}
+
+}

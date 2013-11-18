@@ -1,0 +1,9 @@
+package pt.ist.sonet.service.bridge;
+
+import pt.ist.largacaixa.InvalidURLException;
+
+public interface LargaCaixaServerBridge {
+	
+	public boolean access(String username, String url) throws InvalidURLException;
+	
+}

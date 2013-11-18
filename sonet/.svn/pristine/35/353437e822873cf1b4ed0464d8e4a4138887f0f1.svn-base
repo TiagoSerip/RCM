@@ -1,0 +1,33 @@
+package pt.ist.sonet.presentation.client;
+
+import java.util.ArrayList;
+
+import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
+import pt.ist.sonet.exception.AgentsCantVoteInTheirOwnPublicationsException;
+import pt.ist.sonet.exception.AlreadyVotedException;
+import pt.ist.sonet.exception.OnVoteLimitException;
+import pt.ist.sonet.exception.PagAmigoTransferException;
+import pt.ist.sonet.exception.PublicationIdDoesNotExistsException;
+import pt.ist.sonet.exception.YouArentAFriendException;
+import pt.ist.sonet.service.dto.*;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+/**
+ * The async counterpart of <code>GreetingService</code>.
+ */
+public interface SoNetServletAsync {
+	void displaySonet(AsyncCallback<ListingDto> callback);
+	void agentLogin(String username, String password, AsyncCallback<Boolean> callback) throws AgentUsernameDoesNotExistsException;
+	void addNote(String username, String label, String text, AsyncCallback<Void> callback);
+	void commentPublication(String username, int pubId, String text, AsyncCallback<Void> callback) throws OnVoteLimitException;
+	void getFriends(String username, AsyncCallback<StringListDto> callback);
+	void getPublicationList(String from, String asking, AsyncCallback<ArrayList<PublicationDto>> asyncCallback) throws YouArentAFriendException;
+	void getAgents(AsyncCallback<StringListDto> asyncCallback);
+	void getOrganizationalAgents(AsyncCallback<StringListDto> asyncCallback);
+	void makeDonation(String first, String second, int amount, String description, AsyncCallback<Void> callback) throws PagAmigoTransferException;
+	void getPublicationComments(int pubId, AsyncCallback<StringListDto> asyncCallback);
+	void negativeVote(String user, int pubId, AsyncCallback<Void> callback) throws AlreadyVotedException, OnVoteLimitException, AgentsCantVoteInTheirOwnPublicationsException;
+	void positiveVote(String user, int pubId, AsyncCallback<Void> callback) throws AlreadyVotedException, OnVoteLimitException, AgentsCantVoteInTheirOwnPublicationsException;
+	void viewPublication(String asking, int pubId, AsyncCallback<PublicationViewDto> asyncCallback)throws YouArentAFriendException, PublicationIdDoesNotExistsException;
+}

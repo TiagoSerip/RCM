@@ -1,0 +1,11 @@
+package pt.ist.sonet.service.bridge;
+
+import pt.ist.largacaixa.InvalidURLException;
+
+public class LargaCaixaServerLocal implements LargaCaixaServerBridge{
+
+	@Override
+	public boolean access(String url) throws InvalidURLException{
+		return true;
+	}
+}

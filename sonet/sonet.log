@@ -1,0 +1,13 @@
+23:27:56,356  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Publication' with id 1
+23:27:56,357  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.SoNet' with id 2
+23:27:56,358  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Private' with id 3
+23:27:56,358  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Friend' with id 4
+23:27:56,359  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Individual' with id 5
+23:27:56,359  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Note' with id 6
+23:27:56,359  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Agent' with id 7
+23:27:56,360  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.FriendOfFriend' with id 8
+23:27:56,360  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Comment' with id 9
+23:27:56,360  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Public' with id 10
+23:27:56,361  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Permission' with id 11
+23:27:56,361  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Content' with id 12
+23:27:56,361  INFO DomainClassInfo:77 - Registering new domain class 'pt.ist.sonet.domain.Organizational' with id 13

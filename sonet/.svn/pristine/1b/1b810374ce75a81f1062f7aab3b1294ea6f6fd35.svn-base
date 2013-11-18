@@ -1,0 +1,512 @@
+package pt.ist.sonet.domain;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import pt.ist.sonet.exception.*;
+import pt.ist.sonet.service.bridge.PagAmigoServerBridge;
+import pt.ist.sonet.service.bridge.LargaCaixaServerBridge;
+import pt.ist.sonet.service.bridge.LargaCaixaServerLocal;
+import pt.ist.sonet.service.bridge.PagAmigoServerLocal;
+
+/**
+ * SoNet e' uma rede social com agentes de diferentes tipos e que podem estabelecer
+ * ligacoes entre si, criar pubicacoes e comenta-las. Existem restricoes de acesso
+ * a determinadas informacoes por alguns agentes.
+ * 
+ * @author ES Grupo 8
+ * 
+ */
+
+
+public class SoNet extends SoNet_Base implements Serializable {
+
+	public static String ORGANIZATIONAL = "Organizational";
+	public static String INDIVIDUAL = "Individual";
+	public static String FRIEND = "amigo";
+	public static String PUBLIC = "publica";
+	public static String PRIVATE = "privado";
+	private static final long serialVersionUID = 1L;
+	
+	private static PagAmigoServerBridge paga = new PagAmigoServerLocal();
+	private static LargaCaixaServerBridge larga = new LargaCaixaServerLocal();
+
+	public SoNet() {
+		super();
+		this.setFriendLimit(10);
+		this.setVoteLimit(-5);
+	}
+
+	/**
+	 * Obtem um agente individual pelo username
+	 * 
+	 * @param user
+	 * @return Individual ou null se nao existir
+	 */
+	public Individual getIndividualByUsername(String user) {
+		for(Individual ind : getIndividualSet()) {
+			if(ind.getUsername().equalsIgnoreCase(user)) {
+				return ind;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Obtem um agente organizacional pelo username
+	 * 
+	 * @param user
+	 * @return Organizational ou null se nao existir
+	 */
+	public Organizational getOrganizationalByUsername(String user) {
+		for(Organizational org : getOrganizationalSet()) {
+			if(org.getUsername().equalsIgnoreCase(user)) {
+				return org;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Obtem um agente organizacional pelo nome
+	 * 
+	 * @param name
+	 * @return Organizational ou null se nao existir
+	 */
+	public Organizational getOrganizationalByName(String name) {
+		for(Organizational org : getOrganizationalSet()) {
+			if(org.getName().equalsIgnoreCase(name)) {
+				return org;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Obtem agent por username
+	 * 
+	 * @param user
+	 * @return Agent ou null se nao existir
+	 */
+	public Agent getAgentByUsername(String user) {
+		if(hasIndividualByUsername(user)) {
+			return getIndividualByUsername(user);
+		}
+		
+		if(hasOrgByUsername(user)) {
+			return getOrganizationalByUsername(user);
+		}
+		
+		return null;
+	}
+
+	/**
+	 * Verifica se existe uma organizacao com um dado username
+	 * 
+	 * @param String username
+	 * @return boolean com o resultado
+	 */
+	public boolean hasOrgByUsername(String user) {
+		return getOrganizationalByUsername(user) != null;
+	}
+	
+	/**
+	 * Verifica se existe um agente individual com um dado username
+	 * 
+	 * @param String username
+	 * @return boolean com o resultado
+	 */
+	public boolean hasIndividualByUsername(String user) {
+		return getIndividualByUsername(user) != null;
+	}
+	
+	/**
+	 * Verifica se existe uma organizacao com um dado nome
+	 * 
+	 * @param String name
+	 * @return boolean com o resultado
+	 */
+	public boolean hasOrgByName(String name) {
+		return getOrganizationalByName(name) != null;
+	}
+	
+	/**
+	 * Verifica se existe um agent com um dado username
+	 * 
+	 * @param name
+	 * @return boolean com o resultado
+	 */
+	public boolean hasAgentByUsername(String user) {
+		return (getOrganizationalByUsername(user) != null) || (getIndividualByUsername(user) != null);
+	}
+
+	/**
+	 * Cria um novo agente organizacional na rede.
+	 * Verifica a validade dos dados de utilizador de acordo com
+	 * as regras de negocio estabelecidas. Lanca excepcoes caso
+	 * existam dados invalidos.
+	 * 
+	 * @param username
+	 * @param name
+	 * @param email
+	 * @param password
+	 * @param city
+	 * @param country
+	 * @return Organizational instacia de agente criada
+	 * @throws NameAlreadyExistsException
+	 * @throws UsernameAlreadyExistsException
+	 */
+	public Organizational createOrganizationalAgent(String username,
+			String name, String email, String password, String city,
+			String country, String permission) throws NameAlreadyExistsException,
+			UsernameAlreadyExistsException {
+		
+		if(this.hasOrgByName(name))
+			throw new NameAlreadyExistsException(name);
+
+		if(this.hasAgentByUsername(username))
+			throw new UsernameAlreadyExistsException(username);
+
+		Organizational agent = new Organizational(username, name, email,
+				password, city, country, permission);
+		return agent;
+	}
+
+	/**
+	 * Cria um novo agente individual na rede.
+	 * Verifica a validade dos dados de utilizador de acordo com
+	 * as regras de negocio estabelecidas. Lanca excepcoes caso
+	 * existam dados invalidos.
+	 * 
+	 * @param username
+	 * @param name
+	 * @param email
+	 * @param password
+	 * @param city
+	 * @param country
+	 * @return Individual instacia de agente Individual criada.
+	 * @throws UsernameAlreadyExistsException
+	 */
+	public Individual createIndividualAgent(String username, String name,
+			String email, String password, String city, String country, String permission)
+					throws UsernameAlreadyExistsException {
+		
+		if(this.hasAgentByUsername(username))
+			throw new UsernameAlreadyExistsException(username);
+
+		Individual agent = new Individual(username, name, email, password, city, country, permission);
+		return agent;
+	}
+
+	/** 
+	 * Adiciona um agente organizacional a Base de Dados da rede.
+	 * 
+	 * @param Organizational someone - agente a adicionar
+	 */
+	@Override
+	public void addOrganizational(Organizational someone) {
+		super.addOrganizational(someone);
+	}
+	
+	/** 
+	 * Adiciona um agente individual a Base de Dados da rede.
+	 * 
+	 * @param Individual someone - agente a adicionar
+	 */
+	@Override
+	public void addIndividual(Individual someone) {
+		super.addIndividual(someone);
+	}
+	
+	/**
+	 * Remove um agente da base de dados da SoNet.
+	 * Lanca excepcao em caso de username inexistente.
+	 * 
+	 * @param username
+	 * @throws AgentUsernameDoesNotExistsException
+	 */
+	public void removeAgent(String username)
+			throws AgentUsernameDoesNotExistsException {
+		Agent toRemove = getAgentByUsername(username);
+		if (toRemove == null)
+			throw new AgentUsernameDoesNotExistsException(username);
+		if(hasOrgByUsername(username)) {
+			Organizational org = (Organizational) toRemove;
+			super.removeOrganizational(org);
+		}
+		if(hasIndividualByUsername(username)) {
+			Individual ind = (Individual) toRemove;
+			super.removeIndividual(ind);
+		}
+	}
+
+	/**
+	 * Retorna todos os agentes num unico Set
+	 *
+	 * @return Set<Agent> combined
+	 */
+	public List<Agent> allAgents() {
+		List<Agent> combined = new ArrayList<Agent>();
+		combined.addAll(this.getOrganizationalSet());
+		combined.addAll(this.getIndividualSet());
+		return combined;
+	}
+	
+	/**
+	 * Efectua uma pesquisa por uma palavra chave em todos os registos
+	 * dos agentes existentes.
+	 *
+	 * @param token
+	 * @return
+	 */
+	public List<Agent> searchAgent(String token) {
+		List<Agent> matchingAgents = new ArrayList<Agent>();
+		List<Agent> combined = allAgents();
+		
+		for(Agent a : combined) {
+			if (a.getName().contains(token)
+					|| a.getCity().contains(token)
+					|| a.getCountry().contains(token)
+					|| a.getEmail().contains(token)) {
+				matchingAgents.add(a);
+			}
+		}
+
+		return matchingAgents;
+	}
+
+	/**
+	 * Obtem da BD a publicacao com o id indicado.
+	 * 
+	 * Lanca excepcao em caso de id inexistente.
+	 * 
+	 * @param id
+	 * @return Publication instacia com o id indicado
+	 * @throws PublicationIdDoesNotExistsException
+	 */
+	public Publication getPublicationById(int id)
+			throws PublicationIdDoesNotExistsException {
+		for (Publication pub : getPublicationsSet()) {
+			if (pub.getId() == id) {
+				return pub;
+			}
+		}
+		throw new PublicationIdDoesNotExistsException(id);
+	}
+	
+	/**
+	 * Devolve a publicacao mais recente do agente username
+	 * 
+	 * @param String username
+	 * @return Publication
+	 * @throws AgentUsernameDoesNotExistsException
+	 */
+	public Publication getUserLatestPublication(String username) throws AgentUsernameDoesNotExistsException {
+		Agent agent = this.getAgentByUsername(username);
+		if (agent == null) {
+			throw new AgentUsernameDoesNotExistsException(username);
+		}
+		if(agent.getPublicationsSet().isEmpty()) {
+			return null;
+		}
+		int id=0;
+		for(Publication p : agent.getPublicationsSet()) {
+			if(p.getId() > id) {
+				id = p.getId();
+			}
+		}
+		return this.getPublicationById(id);
+	}
+
+	/**
+	 * Obtem o Set de publicacoes de um determinado agente.
+	 * Retorna null em caso de o agente nao ter publicacoes.
+	 * Lanca excepcao em caso de username inexistente.
+	 * @param username
+	 * @return Set<Publication> Set com as publicacoes do agente.
+	 * @throws AgentUsernameDoesNotExistsException
+	 */
+	public Set<Publication> getUserPublicationsByUsername(String username)
+			throws AgentUsernameDoesNotExistsException {
+		Agent agent = this.getAgentByUsername(username);
+		if (agent == null)
+			throw new AgentUsernameDoesNotExistsException(username);
+		return agent.getPublicationsSet();
+	}
+
+	/**
+	 * Cria uma nova publicacao do tipo nota.
+	 * 
+	 * @param label
+	 * @param creator
+	 * @param text
+	 * @return Note instacia de nota criada.
+	 */
+	public Note createNote(String label, Agent creator, String text) {
+		int id = this.getPublicationIds();
+
+		Note note = new Note(id, label, 0, 0, creator, text);
+		id = id + 1;
+		this.setPublicationIds(id);
+		return note;
+	}
+
+	/**
+	 * Cria uma nova publicacao do tipo conteudo.
+	 * @param label
+	 * @param creator
+	 * @param url
+	 * @return Content instacia de conteudo cirado.
+	 */
+	public Content createContent(String label, Agent creator, String url, int price) {
+		int id = this.getPublicationIds();
+
+		Content content = new Content(id, label, 0, 0, creator, url, price);
+		id = id + 1;
+		this.setPublicationIds(id);
+		
+		return content;
+	}
+
+	/**
+	 * Adiciona uma nota 'a BD.
+	 * @param note
+	 */
+	public void addNote(Note note) {
+		this.addPublications(note);
+	}
+
+	/**
+	 * Adiciona um conteudo 'a BD.
+	 * @param content
+	 */
+	public void addContent(Content content) {
+		this.addPublications(content);
+	}
+
+	/**
+	 * Obtem um Set de comentarios de uma determianda publicaco por id
+	 * de publicacao.
+	 * @param id
+	 * @return
+	 */
+	public Set<Comment> getPublicationCommentsByPublicationId(int id) {
+		Publication pub = this.getPublicationById(id);
+		Set<Comment> comments = pub.getCommentsSet();
+		return comments;
+	}
+
+	/**
+	 * Efectua um pedido de ligacao entre dois agentes.
+	 * @param from
+	 * @param to
+	 */
+	public void friendRequest(Individual from, Agent to) {
+		if(!from.checkFriendLimit(this.getFriendLimit(), this.getAgentFriendNumber(from)) && !to.checkFriendLimit(this.getFriendLimit(), this.getAgentFriendNumber(to))){
+			from.sendFriendRequest(to);
+		}
+	}
+
+	/**
+	 * Confirma um pedido de ligacao entre dois agentes do tipo Individual.
+	 * @param from
+	 * @param to
+	 */
+	public void confirmFriendRequest(Individual from, Individual to) {
+		if(!from.checkFriendLimit(this.getFriendLimit(), this.getAgentFriendNumber(from)) && !to.checkFriendLimit(this.getFriendLimit(), this.getAgentFriendNumber(to))){
+			to.acceptRequest(from);
+		}
+	}
+
+	/**
+	 * Recusa um pedido de ligacao entre dois agentes do tipo Individual.
+	 * @param from
+	 * @param to
+	 */
+	public void refuseFriendRequest(Individual from, Individual to) {
+		to.refuseRequest(from);
+	}
+
+	/**
+	 * Adiciona, se possivel, um voto positivo a uma publicacao
+	 * 
+	 * @param Agent voter - agente que vota na publicacao
+	 * @param Publication pub - publicacao na qual se vai votar
+	 */
+	public void posVote(Agent voter, Publication pub) {
+		if(!pub.checkVoteLimit(this.getVoteLimit())){
+		voter.positiveVote(pub);
+		}
+	}
+
+	/**
+	 * Adiciona, se possivel, um voto negativo a uma publicacao
+	 * 
+	 * @param Agent voter - agente que vota na publicacao
+	 * @param Publication pub - publicacao na qual se vai votar
+	 */
+	public void negVote(Agent voter, Publication pub) {
+		if(!pub.checkVoteLimit(this.getVoteLimit())){
+		voter.negativeVote(pub);
+		}	}
+
+	/**
+	 * Comenta, se possivel, uma publicacao
+	 * 
+	 * @param Agent comentador
+	 * @param Publication publicacao
+	 * @param String comentario
+	 */	
+	public void commentPublication(Agent commentator, Publication pub, String comment) throws YouArentAFriendException {
+		if(pub.getAgent().getPermission().canAcess(commentator, pub.getAgent()) && !pub.checkVoteLimit(this.getVoteLimit())) {
+			Comment comentario = new Comment(commentator, pub, pub.generateCommentId(), comment);
+			pub.commentPublication(comentario);
+		}
+		else { //por enquanto, o unico motivo que o leva a nao ter permissao e nao ser amigo
+			throw new YouArentAFriendException(pub.getAgent().getName());
+		}
+	}
+		
+	/**
+	 * Verifica se um agente Individual ja excedeu o limite de amigos
+	 * 
+	 * @param Individual agent - agente a verificar
+	 */
+	public int getAgentFriendNumber(Agent agent) {
+		int friends=0;		
+		friends=(agent.getAgentCount()+agent.getFriendsCount());
+		return friends;
+	}
+	
+	/**
+	 * Lista todos os amigos de um dado agent
+	 * 
+	 * @param Individual agent - agente a verificar
+	 * @return ArrayList<Agent> - Lista de Agents que sao amigo do agent
+	 */
+	public ArrayList<Agent> getFriendsOf(Agent agent) {
+		ArrayList<Agent> list = new ArrayList<Agent>();
+		
+		list.addAll(agent.getAgentSet());
+		list.addAll(agent.getFriendsSet());
+
+		return list;
+	}
+	
+	/**
+	 * @return PagAmigoServerBridge
+	 */
+	public PagAmigoServerBridge getPagaBridge(){
+		return paga;
+	}
+	
+	/**
+	 * @return LargaCaixaServerBridge
+	 */
+	public LargaCaixaServerBridge getLargaBridge(){
+		return larga;
+	}
+
+}

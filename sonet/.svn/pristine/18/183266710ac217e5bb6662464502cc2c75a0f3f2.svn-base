@@ -1,0 +1,44 @@
+package pt.ist.largacaixa;
+
+
+
+/**
+ * This class represents a simplified local version of the external service LargaCaixa.
+ * The simplifications made are the following ones:
+ * - The data is not persistent
+ * - Every user has an account.
+ * - When asking for access to a content, the answer is always true.
+ * 
+ * @author ES - Grupo 8
+ **/
+
+import java.util.Map;
+import java.util.HashMap;
+
+
+public class LargaCaixaLocal {
+
+	    private static final int INITIAL_AMOUNT_MONEY = new Integer(100);
+
+	    private Map<String, Integer> accounts;
+
+	    public LargaCaixaLocal() {
+		this.accounts = new HashMap<String, Integer>();
+	    }
+
+	    /**
+	     * Transfer the specified amount of money from the the first user's account to the second user's account.
+	     *
+	     * @param first the identifier of the first user
+	     * @param second the identifier of the second user
+	     * @param amount the amount of money to transfer.
+	     * @param description description of the transfer
+	     *
+	     * @throws InvalidTransferException if the account of the first user has less money than the specified amount of money to transfer.
+	     **/
+	    public boolean access(String username, String url) throws InvalidURLException {
+	    	return true;
+	    }
+
+	
+}

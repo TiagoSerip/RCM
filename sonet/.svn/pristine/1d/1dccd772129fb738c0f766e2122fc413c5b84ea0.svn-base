@@ -1,0 +1,32 @@
+package pt.ist.sonet.domain;
+
+/**
+ * @author ES Grupo 8
+ *
+ */
+public class Friend extends Friend_Base {
+
+	/**
+	 * Permissao do tipo amigo
+	 */
+	public  Friend() {
+		super();
+	}
+	/** 
+	 * Aplica regras de permissao de acesso
+	 * @param whoWantsToSee agent que quer aceder
+	 * @param toCheck agent a verificar permissao
+	 */
+	public boolean canAcess(Agent whoWantsToSee, Agent toCheck) {
+		return (toCheck.isMyFriend(whoWantsToSee) || whoWantsToSee.equals(toCheck));		
+	}
+	
+	/**
+	 * Metodo que apresenta a permissao
+	 * 
+	 * @return String
+	 */
+	public String toString(){
+		return "amigo";
+	}
+}

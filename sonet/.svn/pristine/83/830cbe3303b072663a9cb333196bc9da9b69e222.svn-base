@@ -1,0 +1,39 @@
+
+package pt.ist.sonet.service.dto;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.google.gwt.safehtml.shared.SafeHtml;
+
+/**
+ * DTO para representar a listagem de toda a SoNet.
+ * @author ES Grupo 8
+ *
+ */
+public class ListingDto implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private ArrayList<String> list;
+	private String list1;
+	
+	public ListingDto(){
+		list=new ArrayList<String>();
+	}
+		
+	public ArrayList<String> getlisting(){
+		return list;
+	}
+	
+	public String getlist(){
+		return list1;
+	}
+	
+	public void addTolisting(String l){
+		list.add(l);
+	}
+
+}

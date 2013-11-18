@@ -1,0 +1,31 @@
+package pt.ist.sonet.domain;
+
+/**
+ * @author ES Grupo 8
+ * Permissao do tipo publica
+ */
+public class Public extends Public_Base {
+
+	/**
+	 * Permissao publica
+	 */
+	public  Public() {
+		super();
+	}
+
+	/** 
+	 * Aplica regras de permissao de acesso
+	 * @param whoWantsToSee agent que quer aceder
+	 * @param toCheck agent a verificar permissao
+	 */
+	public boolean canAcess(Agent whoWantsToSee, Agent toCheck) {
+		return true;
+
+	}
+
+	public String toString(){
+		return "publica";
+
+	}
+
+}

@@ -1,0 +1,17 @@
+package pt.ist.sonet.presentation.client;
+
+import pt.ist.sonet.service.dto.*;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+/**
+ * The async counterpart of <code>GreetingService</code>.
+ */
+public interface SoNetServletAsync {
+	void greetServer(String input, String pass, AsyncCallback<String> callback)
+			throws IllegalArgumentException;
+	void displaySonet(AsyncCallback<ListingDto> callback);
+	void agentLogin(String username, String password, AsyncCallback<Boolean> callback);
+	void addNote(String username, String label, String text, AsyncCallback<Void> callback);
+	void getFriends(String username, AsyncCallback<AgentListDto> callback);
+}
