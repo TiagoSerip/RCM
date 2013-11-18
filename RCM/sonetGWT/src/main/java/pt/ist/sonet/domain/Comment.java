@@ -8,7 +8,6 @@ public class Comment extends Comment_Base {
 	/**
 	 * Construtor
 	 * 
-	 * 
 	 * @param Agent comentador - agente que faz o comentario
 	 * @param Publication pub - publicacao onde e feito o comentario
 	 * @param int id - identificador do comentario
@@ -17,7 +16,7 @@ public class Comment extends Comment_Base {
 	public  Comment(Agent comentador, AP ap, String text) {
 		super();
 		setAgent(comentador);
-		setAP(ap);
+		setAp(ap);
 		setText(text);
 	}
 
