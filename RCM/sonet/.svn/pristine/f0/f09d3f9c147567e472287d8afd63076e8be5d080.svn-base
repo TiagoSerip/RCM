@@ -1,9 +1,0 @@
-2º Sprint
-
-O segundo sprint incidiu na elaboração das duas classes de teste pedidas no enunciado, resolução de problemas encontrados do sprint anterior e resolução de bugs descobertos durante a criação dos testes.
-Não estava inicialmente previsto elaborar o diagrama de classes da escolha dinamica dos serviços externos a utilizar, mas após a aula de laboratório da semana, foi incluido no sprint.
-
-A maior dificuldade deste sprint deveu-se à curva de aprendizagem da nova Framework de testes Jmockit, o que provocou alguns atrasos inciais, compensados rapidamente depois de conhecer e começar a trabalhar com esta ferramenta.
-Mais uma vez destacamos a relativa facilidade em desenvolver as alterações pedidas ao projecto, visto termos um projecto bem esquematizado e com bom código, confirmado ao não existir praticamente bugs ou falhas identificadas durante a criação dos testes deste sprint.
-Todo o trabalho do sprint foi concuido. Fica pendente a concretização do próximo sprint da aula de laboratório seguinte, para obtermos a opinião do professor do trabalho produzido, sendo que neste momento já não existem novas funcionalidades nem requisitos a implementar.
-Os próximos sprints, serão de resolução de falhas identificadas e pequenos retoques.

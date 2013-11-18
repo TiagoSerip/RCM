@@ -1,6 +1,0 @@
-1º Sprint
-
-Neste primeiro sprint foi desenvolvido todo o trabalho relacionado com as novas funcionalidades pedidas ao nível da interface, bem como a preparação da Class de Setup para as condições pedidas no novo enunciado.
-O trabalho inicialmente definido para este sprint não incluía a funcionalidade de listar as últimas publicações dos amigos ao fazer login com um agente, sendo que a meio do sprint adicionamos esta tarefa por já termos concluído praticamente todo o trabalho.
-O rápido desenvolvimento destas tarefas justifica-se com a boa esquematização produzida para o domínio e os serviços da SoNet que permite facilmente adicionar ou estender funcionalidades, bem como o domínio da Framework GWT (obtido durante a 3ª entrega), que nos permitiram desenvolver os requisitos solicitados com bastante rapidez e eficácia.
-Todo o trabalho do sprint foi concluido atempadamente, prevendo-se agora focar o próximo sprint no desenvolvimento dos testes pedidos para a funcionalidade de votar numa publicação (JUnit) e comprar conteúdo (recorrendo ao JMockit).
