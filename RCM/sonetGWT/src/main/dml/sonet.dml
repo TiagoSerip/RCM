@@ -76,7 +76,8 @@ relation APHasComments{
 	}
 	Comment playsRole comments{
 		multiplicity 0..*;
-	}	
+	}
+}	
 
 relation APHasPI{
 	AP playsRole ap{
