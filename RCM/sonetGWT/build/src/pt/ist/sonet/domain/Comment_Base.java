@@ -5,12 +5,12 @@ import pt.ist.fenixframework.pstm.RelationList;
 import pt.ist.fenixframework.pstm.OJBFunctionalSetWrapper;
 import pt.ist.fenixframework.ValueTypeSerializationGenerator.*;
 public abstract class Comment_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObject {
-    public final static pt.ist.fenixframework.pstm.dml.RoleOne<pt.ist.sonet.domain.Comment,pt.ist.sonet.domain.AP> role$$ap = new pt.ist.fenixframework.pstm.dml.RoleOne<pt.ist.sonet.domain.Comment,pt.ist.sonet.domain.AP>() {
+    public final static pt.ist.fenixframework.pstm.dml.RoleOne<pt.ist.sonet.domain.Comment,pt.ist.sonet.domain.AP> role$$accessPoint = new pt.ist.fenixframework.pstm.dml.RoleOne<pt.ist.sonet.domain.Comment,pt.ist.sonet.domain.AP>() {
         public pt.ist.sonet.domain.AP getValue(pt.ist.sonet.domain.Comment o1) {
-            return ((Comment_Base.DO_State)o1.get$obj$state(false)).ap;
+            return ((Comment_Base.DO_State)o1.get$obj$state(false)).accessPoint;
         }
         public void setValue(pt.ist.sonet.domain.Comment o1, pt.ist.sonet.domain.AP o2) {
-            ((Comment_Base.DO_State)o1.get$obj$state(true)).ap = o2;
+            ((Comment_Base.DO_State)o1.get$obj$state(true)).accessPoint = o2;
         }
         public dml.runtime.Role<pt.ist.sonet.domain.AP,pt.ist.sonet.domain.Comment> getInverseRole() {
             return pt.ist.sonet.domain.AP.role$$comments;
@@ -29,7 +29,7 @@ public abstract class Comment_Base extends pt.ist.fenixframework.pstm.OneBoxDoma
         }
         
     };
-    public final static pt.ist.fenixframework.pstm.LoggingRelation<pt.ist.sonet.domain.Comment,pt.ist.sonet.domain.AP> APHasComments = new pt.ist.fenixframework.pstm.LoggingRelation<pt.ist.sonet.domain.Comment,pt.ist.sonet.domain.AP>(role$$ap);
+    public final static pt.ist.fenixframework.pstm.LoggingRelation<pt.ist.sonet.domain.Comment,pt.ist.sonet.domain.AP> APHasComments = new pt.ist.fenixframework.pstm.LoggingRelation<pt.ist.sonet.domain.Comment,pt.ist.sonet.domain.AP>(role$$accessPoint);
     static {
         pt.ist.sonet.domain.AP.APHasComments = APHasComments.getInverseRelation();
     }
@@ -101,31 +101,31 @@ public abstract class Comment_Base extends pt.ist.fenixframework.pstm.OneBoxDoma
         ((DO_State)obj$state).text = (java.lang.String)((arg0 == null) ? null : arg0);
     }
     
-    public pt.ist.sonet.domain.AP getAp() {
-        pt.ist.fenixframework.pstm.DataAccessPatterns.noteGetAccess(this, "ap");
-        return ((DO_State)this.get$obj$state(false)).ap;
+    public pt.ist.sonet.domain.AP getAccessPoint() {
+        pt.ist.fenixframework.pstm.DataAccessPatterns.noteGetAccess(this, "accessPoint");
+        return ((DO_State)this.get$obj$state(false)).accessPoint;
     }
     
-    public void setAp(pt.ist.sonet.domain.AP ap) {
-        APHasComments.add((pt.ist.sonet.domain.Comment)this, ap);
+    public void setAccessPoint(pt.ist.sonet.domain.AP accessPoint) {
+        APHasComments.add((pt.ist.sonet.domain.Comment)this, accessPoint);
     }
     
-    public boolean hasAp() {
-        return (getAp() != null);
+    public boolean hasAccessPoint() {
+        return (getAccessPoint() != null);
     }
     
-    public void removeAp() {
-        setAp(null);
+    public void removeAccessPoint() {
+        setAccessPoint(null);
     }
     
-    private java.lang.Long get$oidAp() {
-        pt.ist.fenixframework.pstm.AbstractDomainObject value = ((DO_State)this.get$obj$state(false)).ap;
+    private java.lang.Long get$oidAccessPoint() {
+        pt.ist.fenixframework.pstm.AbstractDomainObject value = ((DO_State)this.get$obj$state(false)).accessPoint;
         return (value == null) ? null : value.getOid();
     }
     
     @jvstm.cps.ConsistencyPredicate
-    public final boolean checkMultiplicityOfAp() {
-        if (! hasAp()) return false;
+    public final boolean checkMultiplicityOfAccessPoint() {
+        if (! hasAccessPoint()) return false;
         return true;
     }
     
@@ -158,7 +158,7 @@ public abstract class Comment_Base extends pt.ist.fenixframework.pstm.OneBoxDoma
     }
     
     protected void checkDisconnected() {
-        if (hasAp()) handleAttemptToDeleteConnectedObject();
+        if (hasAccessPoint()) handleAttemptToDeleteConnectedObject();
         if (hasAgent()) handleAttemptToDeleteConnectedObject();
         
     }
@@ -167,7 +167,7 @@ public abstract class Comment_Base extends pt.ist.fenixframework.pstm.OneBoxDoma
         DO_State castedState = (DO_State)state;
         set$id(pt.ist.fenixframework.pstm.ResultSetReader.readint(rs, "ID"), state);
         set$text(pt.ist.fenixframework.pstm.ResultSetReader.readString(rs, "TEXT"), state);
-        castedState.ap = pt.ist.fenixframework.pstm.ResultSetReader.readDomainObject(rs, "OID_AP");
+        castedState.accessPoint = pt.ist.fenixframework.pstm.ResultSetReader.readDomainObject(rs, "OID_ACCESS_POINT");
         castedState.agent = pt.ist.fenixframework.pstm.ResultSetReader.readDomainObject(rs, "OID_AGENT");
     }
     protected dml.runtime.Relation get$$relationFor(String attrName) {
@@ -185,14 +185,14 @@ public abstract class Comment_Base extends pt.ist.fenixframework.pstm.OneBoxDoma
     protected static class DO_State extends pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State {
         private int id;
         private java.lang.String text;
-        private pt.ist.sonet.domain.AP ap;
+        private pt.ist.sonet.domain.AP accessPoint;
         private pt.ist.sonet.domain.Agent agent;
         protected void copyTo(pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State  newState) {
             super.copyTo(newState);
             DO_State newCasted = (DO_State)newState;
             newCasted.id = this.id;
             newCasted.text = this.text;
-            newCasted.ap = this.ap;
+            newCasted.accessPoint = this.accessPoint;
             newCasted.agent = this.agent;
             
         }
@@ -207,14 +207,14 @@ public abstract class Comment_Base extends pt.ist.fenixframework.pstm.OneBoxDoma
             
             private int id;
             private java.lang.String text;
-            private pt.ist.sonet.domain.AP ap;
+            private pt.ist.sonet.domain.AP accessPoint;
             private pt.ist.sonet.domain.Agent agent;
             
             protected  SerializedForm(DO_State obj) {
                 super(obj);
                 this.id = obj.id;
                 this.text = obj.text;
-                this.ap = obj.ap;
+                this.accessPoint = obj.accessPoint;
                 this.agent = obj.agent;
                 
             }
@@ -230,7 +230,7 @@ public abstract class Comment_Base extends pt.ist.fenixframework.pstm.OneBoxDoma
                 DO_State state = (DO_State)obj;
                 state.id = this.id;
                 state.text = this.text;
-                state.ap = this.ap;
+                state.accessPoint = this.accessPoint;
                 state.agent = this.agent;
                 
             }

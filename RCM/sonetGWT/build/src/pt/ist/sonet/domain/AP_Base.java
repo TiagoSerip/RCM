@@ -17,12 +17,21 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
         }
         
     };
+    public final static dml.runtime.RoleMany<pt.ist.sonet.domain.AP,pt.ist.sonet.domain.PI> role$$pi = new dml.runtime.RoleMany<pt.ist.sonet.domain.AP,pt.ist.sonet.domain.PI>() {
+        public dml.runtime.RelationBaseSet<pt.ist.sonet.domain.PI> getSet(pt.ist.sonet.domain.AP o1) {
+            return ((AP_Base)o1).get$rl$pi();
+        }
+        public dml.runtime.Role<pt.ist.sonet.domain.PI,pt.ist.sonet.domain.AP> getInverseRole() {
+            return pt.ist.sonet.domain.PI.role$$ap;
+        }
+        
+    };
     public final static dml.runtime.RoleMany<pt.ist.sonet.domain.AP,pt.ist.sonet.domain.Agent> role$$agent = new dml.runtime.RoleMany<pt.ist.sonet.domain.AP,pt.ist.sonet.domain.Agent>() {
         public dml.runtime.RelationBaseSet<pt.ist.sonet.domain.Agent> getSet(pt.ist.sonet.domain.AP o1) {
             return ((AP_Base)o1).get$rl$agent();
         }
         public dml.runtime.Role<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.AP> getInverseRole() {
-            return pt.ist.sonet.domain.Agent.role$$accessPoint;
+            return pt.ist.sonet.domain.Agent.role$$ap;
         }
         
     };
@@ -31,7 +40,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
             return ((AP_Base)o1).get$rl$comments();
         }
         public dml.runtime.Role<pt.ist.sonet.domain.Comment,pt.ist.sonet.domain.AP> getInverseRole() {
-            return pt.ist.sonet.domain.Comment.role$$ap;
+            return pt.ist.sonet.domain.Comment.role$$accessPoint;
         }
         
     };
@@ -43,10 +52,15 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
     static {
         SonetHasAPs.setRelationName("pt.ist.sonet.domain.AP.SonetHasAPs");
     }
+    public static dml.runtime.Relation<pt.ist.sonet.domain.AP,pt.ist.sonet.domain.PI> APHasPI;
     public static dml.runtime.Relation<pt.ist.sonet.domain.AP,pt.ist.sonet.domain.Agent> APHasAgents;
     public static dml.runtime.Relation<pt.ist.sonet.domain.AP,pt.ist.sonet.domain.Comment> APHasComments;
     
     
+    private RelationList<pt.ist.sonet.domain.AP,pt.ist.sonet.domain.PI> get$rl$pi() {
+        return get$$relationList("pi", APHasPI);
+        
+    }
     private RelationList<pt.ist.sonet.domain.AP,pt.ist.sonet.domain.Agent> get$rl$agent() {
         return get$$relationList("agent", APHasAgents);
         
@@ -167,6 +181,42 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
         return (value == null) ? null : value.getOid();
     }
     
+    public int getPiCount() {
+        return get$rl$pi().size();
+    }
+    
+    public boolean hasAnyPi() {
+        return (! get$rl$pi().isEmpty());
+    }
+    
+    public boolean hasPi(pt.ist.sonet.domain.PI pi) {
+        return get$rl$pi().contains(pi);
+    }
+    
+    public java.util.Set<pt.ist.sonet.domain.PI> getPiSet() {
+        return get$rl$pi();
+    }
+    
+    public void addPi(pt.ist.sonet.domain.PI pi) {
+        APHasPI.add((pt.ist.sonet.domain.AP)this, pi);
+    }
+    
+    public void removePi(pt.ist.sonet.domain.PI pi) {
+        APHasPI.remove((pt.ist.sonet.domain.AP)this, pi);
+    }
+    
+    public java.util.List<pt.ist.sonet.domain.PI> getPi() {
+        return get$rl$pi();
+    }
+    
+    public void set$pi(OJBFunctionalSetWrapper pi) {
+        get$rl$pi().setFromOJB(this, "pi", pi);
+    }
+    
+    public java.util.Iterator<pt.ist.sonet.domain.PI> getPiIterator() {
+        return get$rl$pi().iterator();
+    }
+    
     public int getAgentCount() {
         return get$rl$agent().size();
     }
@@ -241,6 +291,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
     
     protected void checkDisconnected() {
         if (hasSonet()) handleAttemptToDeleteConnectedObject();
+        if (hasAnyPi()) handleAttemptToDeleteConnectedObject();
         if (hasAnyAgent()) handleAttemptToDeleteConnectedObject();
         if (hasAnyComments()) handleAttemptToDeleteConnectedObject();
         
@@ -255,6 +306,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
         castedState.sonet = pt.ist.fenixframework.pstm.ResultSetReader.readDomainObject(rs, "OID_SONET");
     }
     protected dml.runtime.Relation get$$relationFor(String attrName) {
+        if (attrName.equals("pi")) return APHasPI;
         if (attrName.equals("agent")) return APHasAgents;
         if (attrName.equals("comments")) return APHasComments;
         return super.get$$relationFor(attrName);
@@ -266,6 +318,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
     }
     protected void create$allLists() {
         super.create$allLists();
+        get$$relationList("pi", APHasPI);
         get$$relationList("agent", APHasAgents);
         get$$relationList("comments", APHasComments);
         

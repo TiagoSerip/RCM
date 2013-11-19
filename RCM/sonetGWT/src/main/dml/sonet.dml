@@ -2,14 +2,13 @@ package pt.ist.sonet.domain;
 
 
 class SoNet{
-int publicationIds;
+int PIId;
 }
 
 class Agent{
 	String username;
 	String name;
 	String password;
-	int ap;
 	int rssi;
 	String ip;
 }
@@ -53,7 +52,7 @@ relation SonetHasAPs{
 }
 
 relation APHasAgents{
-	AP playsRole acessPoint{
+	AP playsRole ap{
 		multiplicity 1..1;
 	}
 	Agent playsRole agent{

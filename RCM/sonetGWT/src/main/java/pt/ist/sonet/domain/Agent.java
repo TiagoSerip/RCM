@@ -26,7 +26,7 @@ public class Agent extends Agent_Base implements Serializable{
 	 * @param String city - cidade do agente
 	 * @param String nation - pais do agente
 	 */
-	public void init(String user, String pass, String name, int ap, int rssi, String ip) {
+	public void init(String user, String pass, String name, AP ap, int rssi, String ip) {
 		setUsername(user);
 		setName(name);
 		setPassword(pass);
@@ -64,7 +64,7 @@ public class Agent extends Agent_Base implements Serializable{
 	 * @return String
 	 */
 	public String toString() {
-		return "Agent | " + this.getUsername() + " | " + this.getName() + " | " + this.getPassword() + " | " + this.getAp() + ", " + this.getRssi()+", " + this.getIp();
+		return "Agent | " + this.getUsername() + " | " + this.getName() + " | " + this.getPassword() + " | " + "AP-"+this.getAp().getId() + ", " + this.getRssi()+", " + this.getIp();
 	}
 
 	

@@ -7,12 +7,13 @@ import jvstm.Atomic;
 import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.sonet.domain.SoNet;
-import pt.ist.sonet.exception.ApIdAlreadyExistsException;
-import pt.ist.sonet.exception.UsernameAlreadyExistsException;
+import pt.ist.sonet.exception.*;
+import pt.ist.sonet.service.AddCommentService;
 import pt.ist.sonet.service.RegisterAgentService;
 import pt.ist.sonet.service.RegisterApService;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
+import pt.ist.sonet.service.dto.CommentDto;
 
 /**
  * Popula a SoNet
@@ -40,6 +41,8 @@ public class SoNetSetup {
 		createMeshAPs(rede);
 		System.out.println("----------");
 		createUserAP0(rede);
+		System.out.println("----------");
+		createCommentAP0Uivo(rede);
 		System.out.println("SoNet Terminated.");
 	}
 
@@ -83,6 +86,23 @@ public class SoNetSetup {
 			}
 			
 			System.out.println("Created User: 'ivo'.");
+	}
+	
+	public static void createCommentAP0Uivo(SoNet rede){
+		
+		try{
+			CommentDto comment = new CommentDto("ivo", 0, "Teste RCM");
+			new AddCommentService(comment).execute();
+		}catch (AgentUsernameDoesNotExistsException e){
+			System.out.println("User:'"+e.getUsername()+"' doesn't exists.");
+			return;
 		}
+		catch (ApIdDoesNotExistsException e){
+			System.out.println("AP-'"+e.getid()+"' doesn't exists.");
+			return;
+		}
+		
+		System.out.println("Added Comment from 'ivo' to AP-0.");
+}
 
 }

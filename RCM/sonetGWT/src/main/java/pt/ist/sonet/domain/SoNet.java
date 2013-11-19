@@ -17,12 +17,21 @@ import pt.ist.sonet.exception.*;
 public class SoNet extends SoNet_Base implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
 	
 	public SoNet() {
 		super();
 	}
-
+	
+	/**
+	 * gera id para point of intrest
+	 * @return
+	 */
+	public int generatePIId(){
+		int id = this.getPIId();
+		this.setPIId(id+1);
+		return id;
+	}
+	
 	/**
 	 * Obtem um agente individual pelo username
 	 * 
@@ -80,13 +89,16 @@ public class SoNet extends SoNet_Base implements Serializable {
 	 * @throws UsernameAlreadyExistsException
 	 */
 	public Agent createAgent (String user, String pass, String name, int ap, int rssi, String ip)
-					throws UsernameAlreadyExistsException {
+					throws UsernameAlreadyExistsException, ApIdDoesNotExistsException{
 		
 		if(this.hasAgentByUsername(user))
 			throw new UsernameAlreadyExistsException(user);
-
+		
+		if(!this.hasApById(ap))
+			throw new ApIdDoesNotExistsException(ap);
+		AP acesspoint = getApById(ap);
 		Agent agent = new Agent();
-		agent.init(user, pass, name, ap, rssi, ip);
+		agent.init(user, pass, name, acesspoint, rssi, ip);
 		return agent;
 	}
 

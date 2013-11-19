@@ -53,22 +53,22 @@ public abstract class SoNet_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
         super();
     }
     
-    public int getPublicationIds() {
-        pt.ist.fenixframework.pstm.DataAccessPatterns.noteGetAccess(this, "publicationIds");
-        return ((DO_State)this.get$obj$state(false)).publicationIds;
+    public int getPIId() {
+        pt.ist.fenixframework.pstm.DataAccessPatterns.noteGetAccess(this, "PIId");
+        return ((DO_State)this.get$obj$state(false)).PIId;
     }
     
-    public void setPublicationIds(int publicationIds) {
-        ((DO_State)this.get$obj$state(true)).publicationIds = publicationIds;
+    public void setPIId(int PIId) {
+        ((DO_State)this.get$obj$state(true)).PIId = PIId;
     }
     
-    private int get$publicationIds() {
-        int value = ((DO_State)this.get$obj$state(false)).publicationIds;
+    private int get$PIId() {
+        int value = ((DO_State)this.get$obj$state(false)).PIId;
         return pt.ist.fenixframework.pstm.ToSqlConverter.getValueForint(value);
     }
     
-    private final void set$publicationIds(int arg0, pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State  obj$state) {
-        ((DO_State)obj$state).publicationIds = (int)(arg0);
+    private final void set$PIId(int arg0, pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State  obj$state) {
+        ((DO_State)obj$state).PIId = (int)(arg0);
     }
     
     public int getAgentCount() {
@@ -151,7 +151,7 @@ public abstract class SoNet_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
     
     protected void readStateFromResultSet(java.sql.ResultSet rs, pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State  state) throws java.sql.SQLException {
         DO_State castedState = (DO_State)state;
-        set$publicationIds(pt.ist.fenixframework.pstm.ResultSetReader.readint(rs, "PUBLICATION_IDS"), state);
+        set$PIId(pt.ist.fenixframework.pstm.ResultSetReader.readint(rs, "P_I_ID"), state);
     }
     protected dml.runtime.Relation get$$relationFor(String attrName) {
         if (attrName.equals("agent")) return SonetHasAgents;
@@ -170,11 +170,11 @@ public abstract class SoNet_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
         
     }
     protected static class DO_State extends pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State {
-        private int publicationIds;
+        private int PIId;
         protected void copyTo(pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State  newState) {
             super.copyTo(newState);
             DO_State newCasted = (DO_State)newState;
-            newCasted.publicationIds = this.publicationIds;
+            newCasted.PIId = this.PIId;
             
         }
         
@@ -186,11 +186,11 @@ public abstract class SoNet_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
         protected static class SerializedForm extends pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State.SerializedForm {
             private static final long serialVersionUID = 1L;
             
-            private int publicationIds;
+            private int PIId;
             
             protected  SerializedForm(DO_State obj) {
                 super(obj);
-                this.publicationIds = obj.publicationIds;
+                this.PIId = obj.PIId;
                 
             }
             
@@ -203,7 +203,7 @@ public abstract class SoNet_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
             protected void fillInState(pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State obj) {
                 super.fillInState(obj);
                 DO_State state = (DO_State)obj;
-                state.publicationIds = this.publicationIds;
+                state.PIId = this.PIId;
                 
             }
             
