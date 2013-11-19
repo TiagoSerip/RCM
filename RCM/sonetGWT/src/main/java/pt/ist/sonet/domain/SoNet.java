@@ -156,10 +156,10 @@ public class SoNet extends SoNet_Base implements Serializable {
 	 * @throws UsernameAlreadyExistsException
 	 */
 	public AP createAP (int id, String subnet)
-					throws UsernameAlreadyExistsException {
+					throws ApIdAlreadyExistsException {
 		
 		if(this.hasApById(id))
-			throw new UsernameAlreadyExistsException(""+id);
+			throw new ApIdAlreadyExistsException(+id);
 
 		AP ap = new AP();
 		ap.init(id, subnet, 0, 0);
