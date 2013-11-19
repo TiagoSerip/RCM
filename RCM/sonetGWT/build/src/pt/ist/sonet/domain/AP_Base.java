@@ -22,7 +22,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
             return ((AP_Base)o1).get$rl$agent();
         }
         public dml.runtime.Role<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.AP> getInverseRole() {
-            return pt.ist.sonet.domain.Agent.role$$ap;
+            return pt.ist.sonet.domain.Agent.role$$accessPoint;
         }
         
     };

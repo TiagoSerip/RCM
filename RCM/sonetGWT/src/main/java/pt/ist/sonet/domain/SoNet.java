@@ -203,7 +203,8 @@ public class SoNet extends SoNet_Base implements Serializable {
 				return ap;
 			}
 		}
-		throw new ApIdDoesNotExistsException(id);
+
+		return null;
 	}
 	
 	/**
@@ -270,7 +271,8 @@ public class SoNet extends SoNet_Base implements Serializable {
 	 * @param String comentario
 	 */	
 	public void commentAp(Agent agent, AP ap, String comment) {
-		Comment comentario = new Comment(agent, ap, comment);
+		Comment comentario = new Comment();
+		comentario.init(agent, ap, comment);
 		ap.commentAp(comentario);	
 		agent.commentAP(comentario);
 	}

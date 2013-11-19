@@ -3,7 +3,6 @@ package pt.ist.sonet.service;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.sonet.domain.AP;
 import pt.ist.sonet.domain.Agent;
-import pt.ist.sonet.domain.Publication;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;

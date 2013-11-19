@@ -5,30 +5,15 @@ package pt.ist.sonet.presentation.client;
 
 import java.util.ArrayList;
 
-
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
-import pt.ist.sonet.exception.AgentsCantVoteInTheirOwnPublicationsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
-import pt.ist.sonet.exception.FriendAlreadyExistsException;
-import pt.ist.sonet.exception.FriendLimitExceededException;
-import pt.ist.sonet.exception.IndividualsCantAcceptDonationsException;
-import pt.ist.sonet.exception.LargaCaixaTransferException;
-import pt.ist.sonet.exception.OnVoteLimitException;
-import pt.ist.sonet.exception.OrgsCantSendFriendRequestException;
-import pt.ist.sonet.exception.PagAmigoTransferException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
-import pt.ist.sonet.exception.TargetAlreadySentRequestException;
-import pt.ist.sonet.exception.TargetIsAlreadyFriendException;
-import pt.ist.sonet.exception.YouAlreadySentRequestException;
-import pt.ist.sonet.exception.YouArentAFriendException;
 import pt.ist.sonet.presentation.shared.FieldVerifier;
 import pt.ist.sonet.service.dto.ApDto;
-import pt.ist.sonet.service.dto.PublicationViewDto;
-import pt.ist.sonet.service.dto.PublicationWithPriceViewDto;
-import pt.ist.sonet.service.dto.StringListDto;
 import pt.ist.sonet.service.dto.ListingDto;
+import pt.ist.sonet.service.dto.StringListDto;
 
-
+import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -36,33 +21,32 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.DecoratedTabPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.cell.client.NumberCell;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DecoratedTabPanel;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.IntegerBox;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.client.ui.TextArea;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -468,7 +452,7 @@ public class SonetGWT implements EntryPoint {
 	      new TextColumn<ApDto>() {
 	         @Override
 	         public String getValue(ApDto object) {
-	            return object.getLabel()+" | "+object.getPositive()+" | "+object.getNegative()+" | "+object.getComents();
+	            return object.getId()+" | "+object.getPositive()+" | "+object.getNegative()+" | "+object.getSubnet();
 	         }
 	      };
 	      publicationPublicationsCell.addColumn(publicationTextColum, "Publication");
@@ -682,7 +666,7 @@ public class SonetGWT implements EntryPoint {
 				publicationPublicationsOfLabel.setText(PUBLICATIONS_NOUSER);
 				publicationSelectPublicationButton.setEnabled(true);
 				publicationPublicationsUpdateButton.setEnabled(true);
-				publicationPublicationsCell.setRowData(new ArrayList<PublicationViewDto>());
+				publicationPublicationsCell.setRowData(new ArrayList<ApDto>());
 				publicationId=-1;
 				publicationPublicationSelectedLabel.setText("");
 				//Publication View Tab
@@ -703,7 +687,7 @@ public class SonetGWT implements EntryPoint {
 				//Publications List Tab
 				publicationSelectPublicationButton.setEnabled(true);
 				publicationPublicationsUpdateButton.setEnabled(true);
-				publicationPublicationsCell.setRowData(new ArrayList<PublicationViewDto>());
+				publicationPublicationsCell.setRowData(new ArrayList<ApDto>());
 				publicationId=-1;
 				publicationPublicationSelectedLabel.setText("");
 				//Publication View Tab
@@ -726,42 +710,7 @@ public class SonetGWT implements EntryPoint {
 			}
 				
 		}
-		
-		class LoadLatestPublicationsHandler{
-			public LoadLatestPublicationsHandler(){
-				if(active == null)
-					return;
-				loadPubs();
-				}
 
-			private void loadPubs() {
-			sonetServlet.loadLatestPublications(active, new AsyncCallback<StringListDto>() {
-				public void onFailure(Throwable caught) {
-					// Show the RPC error message to the user
-					dialogBox.setText("Latest Publications Failure");
-					serverResponseLabel.addStyleName("serverResponseLabelError");
-					serverResponseLabel.setHTML(LATEST_PUBS_ERROR);
-					dialogBox.center();
-					closeButton.setFocus(true);
-				}
-
-				public void onSuccess(StringListDto result) {
-					loginLatestInfoLabel.setVisible(true);
-					loginPublicationsList.clear();
-					loginPublicationsList.setVisible(true);
-					if(result.getlisting().isEmpty()){
-						loginPublicationsList.addItem("You don't have any friends. After making a friend connection");
-						loginPublicationsList.addItem("you can see their latest updates, each time you login, here!");
-						return;
-					}
-					for(String s : result.getlisting())
-						loginPublicationsList.addItem(s);		
-		
-				}
-			});
-			}		
-		}
-		
 
 		//handler para listagem da Sonet
 		
@@ -875,7 +824,6 @@ public class SonetGWT implements EntryPoint {
 								logoutButton.setEnabled(true);
 								nameField.setText(null);
 								pswrdtxtbxPassword.setText(null);
-								new LoadLatestPublicationsHandler();
 								return;
 								}
 								active=null;
@@ -938,16 +886,13 @@ public class SonetGWT implements EntryPoint {
 					return;
 				}
 				publicationViewCommenttextBox.setText(null);
-				sonetServlet.commentPublication(active, publicationId, text,
+				sonetServlet.commentAp(active, publicationId, text,
 						new AsyncCallback<Void>(){
 					public void onFailure(Throwable caught){
 						dialogBox.setText("Comment Publication Failure");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						dialogBox.center();
 						closeButton.setFocus(true);
-						if (caught instanceof OnVoteLimitException)
-							serverResponseLabel.setHTML(FLAGGED_PUBLICATION_ERROR);
-						else
 							serverResponseLabel.setHTML(COMMENT_ERROR);
 
 					}
@@ -1032,119 +977,6 @@ public class SonetGWT implements EntryPoint {
 			
 		}
 		
-		// Create a handler for the noteButton
-		class FriendsHandler implements ClickHandler, KeyUpHandler {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
-			public void onClick(ClickEvent event) {
-				getFriends();
-			}
-
-			/**
-			 * Fired when the user types in the nameField.
-			 */
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					getFriends();
-				}
-			}
-			/**
-			 * login with as an Active Agent.
-			 */
-			private void getFriends() {
-				// First, we validate the input.
-				noteErrorLabel.setText("");
-				friendList.clear();
-				friendsOfLabel.setText(null);
-				if (active==null) {
-					dialogBox.setText("List Friends Failure");
-					serverResponseLabel.addStyleName("serverResponseLabelError");
-					serverResponseLabel.setHTML("No user logged in. Please login first.");
-					dialogBox.center();
-					closeButton.setFocus(true);
-					return;
-				}
-
-				// Then, we send the input to the server.
-				sonetServlet.getFriends(active,
-						new AsyncCallback<StringListDto>() {
-							public void onFailure(Throwable caught) {
-								// Show the the error to the user
-								dialogBox.setText("Login Failure");
-								serverResponseLabel.addStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(FRIENDS_ERROR);
-								dialogBox.center();
-								closeButton.setFocus(true);
-							}
-
-							public void onSuccess(StringListDto dto) {
-								friendsOfLabel.setText(FRIENDS_INFO+active+":");
-								if(dto.getlisting().isEmpty()){
-									friendList.addItem("Agent doesn't have friends");
-									return;
-								}
-								for(String s : dto.getlisting()){									
-									friendList.addItem(s);
-								}
-							}
-						});
-			}
-		
-		
-			
-		}
-		
-		// Create a handler for Refresh Pending Requests List button
-		class ListPendingRequestsHandler implements ClickHandler, KeyUpHandler {
-			
-			public void onClick(ClickEvent event) {
-				listPendingRequests();
-			}
-			
-			public void onKeyUp(KeyUpEvent keyUpEvent) {
-				if(keyUpEvent.getNativeKeyCode() == KeyCodes.KEY_ENTER)
-					listPendingRequests();
-			}
-			
-			public void listPendingRequests() {
-				//Validate the input (user logged in or not)
-				noteErrorLabel.setText("");
-				pendingList.clear();
-				if(active == null) {
-					dialogBox.setText("List Pending Requests Failure");
-					serverResponseLabel.addStyleName("serverResponseLabelError");
-					serverResponseLabel.setHTML("No user logged in. Please login first.");
-					dialogBox.center();
-					closeButton.setFocus(true);
-				}
-				
-				sonetServlet.listPendingRequests(active,
-						new AsyncCallback<StringListDto>() {
-							public void onFailure(Throwable caught) {
-								dialogBox.setText("List Pending Requests Failure");
-								serverResponseLabel.addStyleName("serverResponseLabelError");
-								dialogBox.center();
-								closeButton.setFocus(true);
-								if(caught instanceof OrgsCantSendFriendRequestException){
-									serverResponseLabel.setHTML(PENDING_RQST_ORG_FAIL);
-									return;
-								}
-								serverResponseLabel.setHTML(PENDING_RQST_FAIL);
-							}
-							public void onSuccess(StringListDto dto) {
-								if(dto.getlisting().isEmpty()){
-									pendingList.addItem("Agent doesn't have pending requests");
-									pendingList.setEnabled(false);
-									return;
-								}
-								pendingList.setEnabled(true);
-								for(String s : dto.getlisting())
-									pendingList.addItem(s);
-							}
-				});
-			}
-		}
 		
 		// Create a handler for the AgentList Update button
 		class PublicationAgentListHandler implements ClickHandler, KeyUpHandler {
@@ -1203,82 +1035,6 @@ public class SonetGWT implements EntryPoint {
 			}
 		}
 		
-
-		// Create a handler for the updatePublicationsButton
-		class PublicationsHandler implements ClickHandler, KeyUpHandler {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
-			public void onClick(ClickEvent event) {
-				getPublications();
-			}
-
-			/**
-			 * Fired when the user types in the nameField.
-			 */
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					getPublications();
-				}
-			}
-			/**
-			 * login with as an Active Agent.
-			 */
-			private void getPublications() {
-				
-				publicationPublicationsErrorLabel.setText("");
-				dataProvider.setList(new ArrayList<ApDto>());
-				//_publicationId=-1;
-				// First, we validate the input.
-				if (active==null) {
-					dialogBox.setText("List Publications Failure");
-					serverResponseLabel.addStyleName("serverResponseLabelError");
-					serverResponseLabel.setHTML("No user logged in. Please login first.");
-					dialogBox.center();
-					closeButton.setFocus(true);
-					return;
-				}
-				if (selected==null) {
-					dialogBox.setText("List Publications Failure");
-					serverResponseLabel.addStyleName("serverResponseLabelError");
-					serverResponseLabel.setHTML("No Agent selected. Please select an Agent in the Agents tab and try again.");
-					dialogBox.center();
-					closeButton.setFocus(true);
-					return;
-				}
-
-				// Then, we send the input to the server.
-				sonetServlet.getPublicationList(selected, 
-						active, new AsyncCallback<ArrayList<ApDto>>() {
-							public void onFailure(Throwable caught) {
-								// Show the the error to the user
-								
-								dialogBox.setText("List Publications of "+selected);
-								serverResponseLabel.addStyleName("serverResponseLabelError");
-								if(caught instanceof YouArentAFriendException){
-									YouArentAFriendException e = (YouArentAFriendException) caught;
-									serverResponseLabel.setHTML(PUBLICATIONS_NOT_FRIEND_ERROR+selected+"<br><br>"+e.reason());
-								}
-								else serverResponseLabel.setHTML(PUBLICATIONS_ERROR);
-								dialogBox.center();
-								closeButton.setFocus(true);
-							}
-
-							public void onSuccess(ArrayList<ApDto> dto) {
-								publicationPublicationsOfLabel.setText(PUBLICATIONS_INFO+selected);
-								if(dto.isEmpty()){
-									publicationPublicationsErrorLabel.setText("Agent doesn't have publications");
-									publicationSelectPublicationButton.setEnabled(false);
-									return;
-								}
-								dataProvider.setList(dto);
-								publicationPublicationsCell.setPageSize(5);
-								publicationPublicationsCell.setRowCount(dto.size(), true);
-								publicationPublicationsPagger.setDisplay(publicationPublicationsCell);
-							}
-						});
-			}
-		}
 			
 			// Create a handler for the updateCommentsList
 			class CommentsHandler implements ClickHandler, KeyUpHandler {
@@ -1328,7 +1084,7 @@ public class SonetGWT implements EntryPoint {
 						return;
 					}
 					// Then, we send the input to the server.
-					sonetServlet.getPublicationComments(publicationId,
+					sonetServlet.getApComments(publicationId,
 							new AsyncCallback<StringListDto>() {
 								public void onFailure(Throwable caught) {
 									// Show the the error to the user
@@ -1356,127 +1112,7 @@ public class SonetGWT implements EntryPoint {
 				}
 			}
 			
-			class OrganizationsListHandler implements ClickHandler, KeyUpHandler {
-				
-				public void onClick(ClickEvent event) {
-					getOrgs();
-				}
 		
-				public void onKeyUp(KeyUpEvent event) {
-					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						getOrgs();
-					}
-				}
-				
-				private void getOrgs() {
-					
-					donateErrorLabel.setText("");
-					donateList.clear();
-					
-					if (active == null) {
-						dialogBox.setText("List Organizational Agents Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("No user logged in. Please login first.");
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-		
-					sonetServlet.getOrganizationalAgents(new AsyncCallback<StringListDto>() {
-						
-						public void onFailure(Throwable caught) {
-							dialogBox.setText("Login Failure");
-							serverResponseLabel.addStyleName("serverResponseLabelError");
-							serverResponseLabel.setHTML(AGENTS_ERROR);
-							dialogBox.center();
-							closeButton.setFocus(true);
-						}
-		
-						public void onSuccess(StringListDto dto) {
-							if(dto.getlisting().isEmpty()){
-								donateButton.setEnabled(false);
-								donateErrorLabel.setText(NO_ORGS);
-								return;
-							}
-							donateButton.setEnabled(true);
-							for(String s : dto.getlisting()){									
-								donateList.addItem(s);
-							}
-						}
-					});
-				}
-			}
-			
-			class DonateHandler implements ClickHandler, KeyUpHandler {
-				
-				public void onClick(ClickEvent event) {
-					donate();
-				}
-				
-				public void onKeyUp(KeyUpEvent event) {
-					if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						donate();
-					}
-				}
-				
-				private void donate() {
-					
-					donateErrorLabel.setText("");
-					
-					if (active == null) {
-						dialogBox.setText("List Organizational Agents Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("No user logged in. Please login first.");
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-					
-					if (orgSelected == null) {
-						dialogBox.setText("List Organizational Agents Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("No organization selected. Please select an Organization of the list and try again.");
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-					
-					Integer _amount = donateTextbox.getValue();
-					if(_amount == null || _amount < 0 || _amount == 0) {
-						donateErrorLabel.setText("Please enter a valid value.");
-						return;
-					}
-					donateTextbox.setValue(null);
-					
-					sonetServlet.makeDonation(active, orgSelected, _amount, DESCRIPTION, new AsyncCallback<Void>() {
-						
-						public void onFailure(Throwable caught) {
-							dialogBox.setText("Donation Failure");
-							serverResponseLabel.addStyleName("serverResponseLabelError");
-							dialogBox.center();
-							closeButton.setFocus(true);
-							if(caught instanceof PagAmigoTransferException){
-								serverResponseLabel.setHTML(((PagAmigoTransferException) caught).toString());
-								return;
-							}
-							if(caught instanceof IndividualsCantAcceptDonationsException){
-								serverResponseLabel.setHTML(((IndividualsCantAcceptDonationsException) caught).reason());
-								return;
-							}
-							serverResponseLabel.setHTML(DONATION_ERROR);
-						}
-											
-						public void onSuccess(Void v) {
-							dialogBox.setText("Successful donation.");
-							serverResponseLabel.removeStyleName("serverResponseLabelError");
-							serverResponseLabel.setHTML(DONATION_OK);
-							dialogBox.center();
-							closeButton.setFocus(true);						
-						}
-					});
-				}
-			}
-			
 			// Create a handler for the positiveVoteButton
 			class PositiveVoteHandler implements ClickHandler, KeyUpHandler {
 				/**
@@ -1536,14 +1172,7 @@ public class SonetGWT implements EntryPoint {
 										serverResponseLabel.setHTML(ALREADY_VOTED);
 										return;
 									}
-									if(caught instanceof AgentsCantVoteInTheirOwnPublicationsException){
-										serverResponseLabel.setHTML(OWN_VOTE_ERROR);
-										return;
-									}
-									if(caught instanceof OnVoteLimitException){
-										serverResponseLabel.setHTML(FLAGGED_PUBLICATION_ERROR);
-										return;
-									}
+
 									else serverResponseLabel.setHTML(POSITIVE_VOTE_ERROR);
 									
 								}
@@ -1618,14 +1247,6 @@ public class SonetGWT implements EntryPoint {
 										serverResponseLabel.setHTML(ALREADY_VOTED);
 										return;
 									}
-									if(caught instanceof AgentsCantVoteInTheirOwnPublicationsException){
-										serverResponseLabel.setHTML(OWN_VOTE_ERROR);
-										return;
-									}
-									if(caught instanceof OnVoteLimitException){
-										serverResponseLabel.setHTML(FLAGGED_PUBLICATION_ERROR);
-										return;
-									}
 									else serverResponseLabel.setHTML(NEGATIVE_VOTE_ERROR);
 									
 								}
@@ -1690,20 +1311,13 @@ public class SonetGWT implements EntryPoint {
 					}		
 
 					// Then, we send the input to the server.
-					sonetServlet.viewPublication(active, 
-							publicationId, new AsyncCallback<PublicationViewDto>()  {
+					sonetServlet.viewAp(publicationId, new AsyncCallback<ApDto>()  {
 								public void onFailure(Throwable caught) {
 									// Show the the error to the user
 									
 									dialogBox.setText("List Publications of "+selected);
 									serverResponseLabel.addStyleName("serverResponseLabelError");
 									
-									if(caught instanceof YouArentAFriendException){
-										YouArentAFriendException e = (YouArentAFriendException) caught;
-										serverResponseLabel.setHTML(PUBLICATIONS_NOT_FRIEND_ERROR+selected+"<br><br>"+e.reason());
-										return;
-									}
-
 									if(caught instanceof ApIdDoesNotExistsException){
 										serverResponseLabel.setHTML(COMMENTS_ID_ERROR + "_publicationId");
 										return;
@@ -1711,128 +1325,21 @@ public class SonetGWT implements EntryPoint {
 								
 								}
 								
-								public void onSuccess(PublicationViewDto dto) {
-									publicationViewTypeLabel.setText(dto.getType());
-									publicationViewLabelLabel.setText(dto.getLabel());
-									publicationViewAuthorLabel.setText(dto.getOwnerUsername());
+								public void onSuccess(ApDto dto) {
+									publicationViewTypeLabel.setText(""+dto.getId());
+									publicationViewLabelLabel.setText(dto.getSubnet());
 									int resultado = dto.getPositive()-dto.getNegative();
 									
 									if (resultado > 0 || resultado == 0)
 										publicationViewVotesLabel.setText("+"+resultado);
 									else
 										publicationViewVotesLabel.setText(""+resultado);
-									if(dto.getType().equals(NOTE)){
-										publicationViewContentLabel.setText(dto.getText());
-										publicationViewPriceInfoLabel.setVisible(false);
-										publicationViewPriceLabel.setVisible(false);
-										publicationBuyButton.setVisible(false);
-									}
-									if(dto.getType().equals(CONTENT)){
-										PublicationWithPriceViewDto content = (PublicationWithPriceViewDto)dto;
-										publicationViewPriceInfoLabel.setVisible(true);
-										publicationViewPriceLabel.setVisible(true);
-										publicationBuyButton.setVisible(true);
-										publicationBuyButton.setEnabled(true);
-										if(content.getPrice()==0){
-											publicationViewPriceLabel.setText("Free");
-											publicationViewContentLabel.setText(VIEW_CONTENT_INFO);
-											publicationBuyButton.setText("View Content");
-										}
-										else {
-											publicationViewPriceLabel.setText(""+content.getPrice());
-											publicationBuyButton.setText("Buy Content");
-											publicationViewContentLabel.setText(BUY_CONTENT_INFO);
-
-
-										}
-									}
 								}
 							});
 				}
 			}
 			
-			// Create a handler for the content transfer
-			class BuySeeContentHandler implements ClickHandler, KeyUpHandler {
-				/**
-				 * Fired when the user clicks on the sendButton.
-				 */
-				public void onClick(ClickEvent event) {
-					getContent();
-				}
-
-				/**
-				 * Fired when the user types in the nameField.
-				 */
-				public void onKeyUp(KeyUpEvent event) {
-					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						getContent();
-					}
-				}
-				/**
-				 * Post a positive vote
-				 */
-				private void getContent() {
-					// First, we validate the input.
-					if (active==null) {
-						dialogBox.setText("Content Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("No user logged in. Please login first.");
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-					if (selected==null) {
-						dialogBox.setText("Conent Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("No Agent selected. Please select an Agent in the Agents tab and try again.");
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-					if (publicationId<=-1) {
-						dialogBox.setText("Content Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("No Publication selected. Please select an Publication in the Publications tab and try again.");
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-					// Then, we send the input to the server.
-					sonetServlet.getContent(active, publicationId,
-							new AsyncCallback<Void>() {
-								public void onFailure(Throwable caught) {
-									// Show the the error to the user
-									dialogBox.setText("Content Failure");
-									serverResponseLabel.addStyleName("serverResponseLabelError");
-									dialogBox.center();
-									closeButton.setFocus(true);
-									if(caught instanceof PagAmigoTransferException){
-										serverResponseLabel.setHTML(CONTENT_PAYMENT_FAIL);
-										return;
-									}
-									if(caught instanceof LargaCaixaTransferException){
-										LargaCaixaTransferException e = (LargaCaixaTransferException) caught;
-										serverResponseLabel.setHTML(e.getDescription());
-										return;
-									}
-									
-									else serverResponseLabel.setHTML(CONTENT_ERROR);
-									
-								}
-
-								public void onSuccess(Void v) {
-									dialogBox.setText("Content");
-									serverResponseLabel.removeStyleName("serverResponseLabelError");
-									serverResponseLabel.setHTML(CONTENT_OK);
-									dialogBox.center();
-									closeButton.setFocus(true);
-									publicationViewContentLabel.setText(CONTENT_OK);
-									publicationBuyButton.setEnabled(false);
-								}
-							});
-				}
-			}			
-		
+			
 			
 			// Create a handler for the AgentList Update button
 			class RequestAgentListHandler implements ClickHandler, KeyUpHandler {
@@ -1868,17 +1375,13 @@ public class SonetGWT implements EntryPoint {
 					}
 		
 					// Then, we send the input to the server.
-					sonetServlet.getFriendRequestAgents(active, new AsyncCallback<StringListDto>() {
+					sonetServlet.getAgents(new AsyncCallback<StringListDto>() {
 								public void onFailure(Throwable caught) {
 									// Show the the error to the user
 									dialogBox.setText("Friend Request Failure");
 									serverResponseLabel.addStyleName("serverResponseLabelError");
 									dialogBox.center();
 									closeButton.setFocus(true);
-									if(caught instanceof OrgsCantSendFriendRequestException){
-									serverResponseLabel.setHTML(SEND_RQST_ORG_FAIL);	
-									return;
-									}
 									serverResponseLabel.setHTML(SEND_RQST_AGENTS_ERROR);
 									
 								}
@@ -1894,250 +1397,7 @@ public class SonetGWT implements EntryPoint {
 								}
 							});
 				}
-			}
-			
-			
-			// Create a handler for the AgentList Update button
-			class SendRequestHandler implements ClickHandler, KeyUpHandler {
-				/**
-				 * Fired when the user clicks on the sendButton.
-				 */
-				public void onClick(ClickEvent event) {
-					sendRequest();
-				}
-		
-				/**
-				 * Fired when the user types in the nameField.
-				 */
-				public void onKeyUp(KeyUpEvent event) {
-					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						sendRequest();
-					}
-				}
-				/**
-				 * login with as an Active Agent.
-				 */
-				private void sendRequest() {
-					// First, we validate the input.
-					try{
-					sendSelected= sendRqstList.getItemText(sendRqstList.getSelectedIndex());
-					}catch (Exception e){
-						sendSelected=null;
-					}
-					sendRqstErrorLabel.setText("");
-					if (active==null) {
-						dialogBox.setText("Send Friend Request Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("No user logged in. Please login first.");
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-					if (sendSelected==null) {
-						dialogBox.setText("Send Friend Request Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("There is no agent selected. Please select one first.");
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-					// Then, we send the input to the server.
-					sonetServlet.sendRequest(active, sendSelected, new AsyncCallback<Void>() {
-								public void onFailure(Throwable caught) {
-									// Show the the error to the user
-									dialogBox.setText("Send Friend Request Failure");
-									serverResponseLabel.addStyleName("serverResponseLabelError");
-									dialogBox.center();
-									closeButton.setFocus(true);
-									
-									if(caught instanceof TargetAlreadySentRequestException){
-										serverResponseLabel.setHTML(SEND_RQST_ERROR_TARGET_ALREADY_SENT);	
-										return;
-									}
-									if(caught instanceof TargetIsAlreadyFriendException){
-										serverResponseLabel.setHTML(SEND_RQST_ERROR_ALREADY_FRIEND);	
-										return;
-									}
-									if(caught instanceof YouAlreadySentRequestException){
-										serverResponseLabel.setHTML(SEND_RQST_ERROR_YOU_ALREADY_SENT);	
-										return;
-									}
-									if(caught instanceof FriendLimitExceededException){
-										FriendLimitExceededException e = (FriendLimitExceededException) caught;
-										if(e.getUsername().equals(active))
-											serverResponseLabel.setHTML(FRIEND_OWN_LIMIT_ERROR);
-										else
-											serverResponseLabel.setHTML(FRIEND_LIMIT_ERROR);
-										return;
-									}
-									if(caught instanceof FriendAlreadyExistsException){
-										serverResponseLabel.setHTML(SEND_RQST_ERROR_ALREADY_FRIEND);	
-										return;
-									}
-									serverResponseLabel.setHTML(SEND_RQST_ERROR);
-									
-								}
-		
-								public void onSuccess(Void v) {
-									dialogBox.setText("Send Friend Request");
-									serverResponseLabel.removeStyleName("serverResponseLabelError");
-									dialogBox.center();
-									closeButton.setFocus(true);
-									serverResponseLabel.setHTML(SEND_RQST_OK+sendSelected);
-									sendSelected=null;
-								}
-							});
-				}
-			}
-			
-			
-			
-			
-			// Create a handler for the Accept Request button
-			class AcceptRequestHandler implements ClickHandler, KeyUpHandler {
-				/**
-				 * Fired when the user clicks on the sendButton.
-				 */
-				public void onClick(ClickEvent event) {
-					acceptRequest();
-				}
-		
-				/**
-				 * Fired when the user types in the nameField.
-				 */
-				public void onKeyUp(KeyUpEvent event) {
-					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						acceptRequest();
-					}
-				}
-				/**
-				 * Accept Request.
-				 */
-				private void acceptRequest() {
-					// First, we validate the input.
-					try{
-					pendingSelected=pendingList.getItemText(pendingList.getSelectedIndex());
-					}catch (Exception e){
-						pendingSelected=null;
-					}
-					sendRqstErrorLabel.setText("");
-					if (active==null) {
-						dialogBox.setText("Accept Request Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("No user logged in. Please login first.");
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-					if (pendingSelected==null) {
-						dialogBox.setText("Accept Request Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("There is no pending request selected. Please select one first.");
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-		
-					// Then, we send the input to the server.
-					sonetServlet.acceptRequest(pendingSelected, active, new AsyncCallback<Void>() {
-								public void onFailure(Throwable caught) {
-									// Show the the error to the user
-									dialogBox.setText("Accept Request Failure");
-									serverResponseLabel.addStyleName("serverResponseLabelError");
-									dialogBox.center();
-									closeButton.setFocus(true);
-									if(caught instanceof FriendLimitExceededException){
-										FriendLimitExceededException e = (FriendLimitExceededException) caught;
-										if(e.getUsername().equals(active))
-											serverResponseLabel.setHTML(FRIEND_OWN_LIMIT_ERROR);
-										else
-											serverResponseLabel.setHTML(FRIEND_LIMIT_ERROR);
-										return;
-									}
-									serverResponseLabel.setHTML(ACCEPT_RQST_ERROR);
-									
-								}
-		
-								public void onSuccess(Void v) {
-									dialogBox.setText("Accept Request");
-									serverResponseLabel.removeStyleName("serverResponseLabelError");
-									dialogBox.center();
-									closeButton.setFocus(true);
-									serverResponseLabel.setHTML(ACCEPT_RQST_OK+pendingSelected);
-									pendingSelected=null;
-								}
-							});
-				}
-			}
-
-			// Create a handler for the Reject Request button
-			   class RejectRequestHandler implements ClickHandler, KeyUpHandler {
-				   /**
-					 * Fired when the user clicks on the sendButton.
-					 */
-					public void onClick(ClickEvent event) {
-						rejectRequest();
-					}
-			
-					/**
-					 * Fired when the user types in the nameField.
-					 */
-					public void onKeyUp(KeyUpEvent event) {
-						if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-							rejectRequest();
-						}
-					}
-					/**
-					 * Reject Request.
-					 */
-					private void rejectRequest() {
-						
-						try{
-						pendingSelected=pendingList.getItemText(pendingList.getSelectedIndex());
-						}catch (Exception e){
-							pendingSelected=null;
-						}
-						sendRqstErrorLabel.setText("");
-						if (active==null) {
-							dialogBox.setText("Reject Request Failure");
-							serverResponseLabel.addStyleName("serverResponseLabelError");
-							serverResponseLabel.setHTML("No user logged in. Please login first.");
-							dialogBox.center();
-							closeButton.setFocus(true);
-							return;
-						}
-						if (pendingSelected==null) {
-							dialogBox.setText("Reject Request Failure");
-							serverResponseLabel.addStyleName("serverResponseLabelError");
-							serverResponseLabel.setHTML("There is no pending request selected. Please select one first.");
-							dialogBox.center();
-							closeButton.setFocus(true);
-							return;
-						}
-			
-						
-						sonetServlet.rejectRequest(pendingSelected, active, new AsyncCallback<Void>() {
-									public void onFailure(Throwable caught) {
-										// Show the the error to the user
-										dialogBox.setText("Reject Request Failure");
-										serverResponseLabel.addStyleName("serverResponseLabelError");
-										dialogBox.center();
-										closeButton.setFocus(true);
-										serverResponseLabel.setHTML(REJECT_RQST_ERROR);
-										
-									}
-			
-									public void onSuccess(Void v) {
-										dialogBox.setText("Reject Request");
-										serverResponseLabel.removeStyleName("serverResponseLabelError");
-										dialogBox.center();
-										closeButton.setFocus(true);
-										serverResponseLabel.setHTML(REJECT_RQST_OK+pendingSelected);
-										pendingSelected=null;
-									}
-								});
-					}
-				}	
+			}	
 
 		//handler para listar a SoNet
 		ListSonetHandler listHandler = new ListSonetHandler();
@@ -2151,37 +1411,17 @@ public class SonetGWT implements EntryPoint {
 		AddNoteHandler noteHandler = new AddNoteHandler();
 		noteButton.addClickHandler(noteHandler);
 		
-		//handler para adicionar um amigo
-		FriendsHandler friendsHandler = new FriendsHandler();
-		friendsButton.addClickHandler(friendsHandler);
-
+		
 		//handler para actualizar a lista de agentes
 		PublicationAgentListHandler agentListHandler = new PublicationAgentListHandler();
 		publicationUpdateAgentListButton.addClickHandler(agentListHandler);
 		publicationAgentClearButton.addClickHandler(agentListHandler);
 		
-		//handler para listar pedidos pendentes de um agente
-		ListPendingRequestsHandler pendingRequestsList = new ListPendingRequestsHandler();
-		pendingRefreshButton.addClickHandler(pendingRequestsList);
-		
-		//handler para actualizar a lista de publicacoes de um agente
-		PublicationsHandler publicationsHandler = new PublicationsHandler();
-		publicationPublicationsUpdateButton.addClickHandler(publicationsHandler);
-		publicationAgentSelectButton.addClickHandler(publicationsHandler);
-		publicationPublicationsClearButton.addClickHandler(publicationsHandler);
-		
 		//handler para carregar a lista de comentarios de uma publicacao
 		CommentsHandler commentsHandler = new CommentsHandler();
 		publicationUpdateButton.addClickHandler(commentsHandler);
 		publicationSelectPublicationButton.addClickHandler(commentsHandler);
-		
-		//handler para actualizar a lista de organizacoes
-		OrganizationsListHandler orgsListHandler = new OrganizationsListHandler();
-		updateOrgsListButton.addClickHandler(orgsListHandler);
-		
-		//handler para fazer um donativo
-		DonateHandler donateHandler = new DonateHandler();
-		donateButton.addClickHandler(donateHandler);
+
 		
 		//handler visualizar uma publicacao
 		PublicationViewHandler viewPublication = new PublicationViewHandler();
@@ -2203,9 +1443,6 @@ public class SonetGWT implements EntryPoint {
 		publicationCommentButton.addClickHandler(addCommentHandler);
 		publicationCommentButton.addClickHandler(commentsHandler);
 		
-		//handler para comprar/ver conteudo
-		BuySeeContentHandler buySeeHandler = new BuySeeContentHandler();
-		publicationBuyButton.addClickHandler(buySeeHandler);
 		
 		//handler para apagar seleccao de agent
 		ClearAgentSelectedHandler agentClearHandler = new ClearAgentSelectedHandler();
@@ -2219,21 +1456,6 @@ public class SonetGWT implements EntryPoint {
 		//handler para actualizar a lista de agents para enviar pedido de ligacao
 		RequestAgentListHandler sendRequestListHandler = new RequestAgentListHandler();
 		sendRqstRefreshButton.addClickHandler(sendRequestListHandler);
-		
-		//handler para enviar um pedido de ligacao
-		SendRequestHandler sendRequestHandler = new SendRequestHandler();
-		sendRqstButton.addClickHandler(sendRequestHandler);
-		sendRqstButton.addClickHandler(sendRequestListHandler);
-		
-		//handler para aceitar um pedido de ligacao
-		AcceptRequestHandler acceptRequestHandler = new AcceptRequestHandler();
-		pendingAcceptButton.addClickHandler(acceptRequestHandler);
-		pendingAcceptButton.addClickHandler(pendingRequestsList);
-		
-		//handler para rejeitar um pedido de ligacao
-		RejectRequestHandler rejectRequestHandler = new RejectRequestHandler();
-		pendingRefuseButton.addClickHandler(rejectRequestHandler);
-		pendingRefuseButton.addClickHandler(pendingRequestsList);
 		
 		//handler para apagar a listagem de ultimas publicacoes na janela de login
 		ClearLoginTabHandler clearLoginTabHandler = new ClearLoginTabHandler();
