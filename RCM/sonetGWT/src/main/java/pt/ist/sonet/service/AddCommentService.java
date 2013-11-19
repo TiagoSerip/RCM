@@ -2,13 +2,12 @@ package pt.ist.sonet.service;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.sonet.domain.Agent;
-import pt.ist.sonet.domain.Publication;
+import pt.ist.sonet.domain.AP;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.CanNotCommentException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
-import pt.ist.sonet.exception.YouArentAFriendException;
 import pt.ist.sonet.service.dto.CommentDto;
 
 /**
@@ -43,14 +42,14 @@ public class AddCommentService extends SonetService {
 		Agent commentator = network.getAgentByUsername(dto.getUser());
 		if(commentator == null)
 			throw new AgentUsernameDoesNotExistsException(dto.getUser());
-		Publication pub = network.getPublicationById(dto.getPubId());
-		if(pub == null)
-			throw new ApIdDoesNotExistsException(dto.getPubId());
-		try {
-			network.commentPublication(commentator,pub, dto.getText());
-		} catch (YouArentAFriendException e) {
-			throw new CanNotCommentException(commentator.getUsername(), dto.getPubId(), pub.getAgent().getName());
-		}
+		AP ap = network.getApById(dto.getApId());
+		if(ap == null)
+			throw new ApIdDoesNotExistsException(dto.getApId());
+//		try {
+			network.commentAp(commentator,ap,dto.getText());
+//		} catch (YouArentConnected e) {
+//			throw new CanNotCommentException(commentator.getUsername(), dto.getApId(), commentator.getName());
+//		}
 	}
 	
 }

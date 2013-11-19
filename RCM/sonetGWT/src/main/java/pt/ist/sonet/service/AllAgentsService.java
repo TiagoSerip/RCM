@@ -1,7 +1,5 @@
 package pt.ist.sonet.service;
 
-import java.util.List;
-
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.sonet.domain.Agent;
 import pt.ist.sonet.domain.SoNet;
@@ -30,11 +28,9 @@ public class AllAgentsService extends SonetService {
 	protected void dispatch() throws SoNetException {
 		
 		SoNet rede = FenixFramework.getRoot();
-		List<Agent> combined = rede.allAgents();
 		
-		for(Agent a : combined) {
+		for(Agent a : rede.getAgentSet()) {
 			dto.addTolisting(a.getUsername());
-
 		}
 	}
 
