@@ -53,7 +53,7 @@ relation SonetHasAPs{
 }
 
 relation APHasAgents{
-	AP playsRole accessPoint{
+	AP playsRole acessPoint{
 		multiplicity 1..1;
 	}
 	Agent playsRole agent{
