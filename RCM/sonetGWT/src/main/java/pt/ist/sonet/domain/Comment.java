@@ -18,7 +18,6 @@ public class Comment extends Comment_Base {
 	}
 	
 	public void init (Agent comentador, AP ap, String text) {
-		
 		setAgent(comentador);
 		setAp(ap);
 		setText(text);
