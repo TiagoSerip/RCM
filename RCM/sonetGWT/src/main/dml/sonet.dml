@@ -21,6 +21,13 @@ class AP{
 	int negVotes;
 }
 
+class PI{
+	int id;
+	String name;
+	String description;
+	String location;;
+}
+
 class Comment{
 	int id;
 	String text;
@@ -69,5 +76,15 @@ relation APHasComments{
 	}
 	Comment playsRole comments{
 		multiplicity 0..*;
+	}	
+
+relation APHasPI{
+	AP playsRole ap{
+		multiplicity 1..*;
 	}
+	PI playsRole pi{
+		multiplicity 0..*;
+	}	
+
 }
+
