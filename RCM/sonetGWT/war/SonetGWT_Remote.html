@@ -1,63 +1,33 @@
-<!doctype html>
-<!-- The DOCTYPE declaration above will set the     -->
-<!-- browser's rendering engine into                -->
-<!-- "Standards Mode". Replacing this declaration   -->
-<!-- with a "Quirks Mode" doctype is not supported. -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta name='gwt:module' content='pt.ist.sonet.presentationserver.client.Core=pt.ist.sonet.presentationserver.client.Core'>
+    </head>
+    <body>
+        <!-- Load the JavaScript code for GWT -->
+        <script language="javascript" src="sonetgwt/sonetgwt.nocache.js"></script>
 
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <!-- For some unknown reason in Internet Explorer you have to have cellpadding/spacing ON THE ELEMENT and not on the STYLE if it is in the body tag like this -->
+        <table id="wrapper" cellpadding="0" cellspacing="0" style="width: 100%;height: 100%;">
 
-    <!--                                                               -->
-    <!-- Consider inlining CSS to reduce the number of requested files -->
-    <!--                                                               -->
-    <link type="text/css" rel="stylesheet" href="SonetGWT.css">
+             <!-- Header row -->
+             <tr style="height: 15%; background: #EDEDED;">
+                 <td colspan="2" id="header"></td>
+             </tr>
 
-    <!--                                           -->
-    <!-- Any title is fine                         -->
-    <!--                                           -->
-    <title>The SoNet</title>
-    
-    
-  </head>
+             <!-- Body row and left nav row -->
+             <tr style="height: 80%;">
+                 <td id="leftnav" style="background: #C4C4C4; width: 20%;"></td>
+                 <td id="content" style="width: 80%;"></td>
+             </tr>
 
-  <!--                                           -->
-  <!-- The body can have arbitrary html, or      -->
-  <!-- you can leave the body empty if you want  -->
-  <!-- to create a completely dynamic UI.        -->
-  <!--                                           -->
-  <body>
+             <!-- Footer row -->
+             <tr style="height: 5%; background: #EDEDED;">
+                <td colspan="2" id="footer"></td>
+             </tr>
 
-    <!-- OPTIONAL: include this if you want history support -->
-    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
-    
-    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
-    <noscript>
-      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
-        Your web browser must have JavaScript enabled
-        in order for this application to display correctly.
-      </div>
-    </noscript>
+        </table>
 
-    <h1>The SoNet WebApp Client</h1>
-    <!-- Loading indicator -->
-	<div id="loading" align="center">
- 	 <div class="loading-indicator">
- 	 <img src="loading.gif"/>
-	<span id="loading-msg">Loading, please wait about 10 seconds on a Macbook Pro. If you don't have one it could take longer...</span></div>
-	</div>
-	
-	<div id="remoteServices"/>
-	<div id="container" align="center">
-	
-	</div>
-	
-	<!--                                           -->
-    <!-- This script loads your compiled module.   -->
-    <!-- If you add any GWT meta tags, they must   -->
-    <!-- be added before this line.                -->
-    <!--                                           -->
-    <script type="text/javascript" language="javascript" src="sonetgwt/sonetgwt.nocache.js"></script>
-	
-  </body>
+        <!-- This iframe handles history -->
+        <iframe id="__gwt_historyFrame" style="width:0;height:0;border:0"></iframe>
+    </body>
 </html>

@@ -221,6 +221,24 @@
       <arg value="pt.ist.sonet.SonetGWT"/>
     </java>
   </target>
+  
+    <target name="gwt-devmode_r" depends="gwt-devmode-prepare" >
+   <echo message="Start GWT devmode with URL='${startUpURL}'"/>
+    <java failonerror="true" fork="true" classname="com.google.gwt.dev.DevMode">
+      <classpath>
+        <path refid="project.classpath"/>
+        <pathelement location="${java.main.src.rel-dir}" />
+      </classpath>
+      <jvmarg value="-Xmx256M"/>
+      <arg value="-startupUrl"/>
+      <arg value="${startUpURL}"/>
+      <arg line="-war"/>
+      <arg value="${gwt.war.rel-dir}"/>
+      <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
+      <arg line="${gwt.args}"/>
+      <arg value="pt.ist.sonet.GWTUI"/>
+    </java>
+  </target>
 
   <target name="devmode-local" 
           description="Runs GWT in development mode with local configuration">
@@ -231,7 +249,7 @@
 
   <target name="devmode-remote"
           description="Runs GWT in development mode with remote configuration">
-    <antcall target="gwt-devmode">
+    <antcall target="gwt-devmode_r">
       <param name="startUpURL" value="SonetGWT_Remote.html"/>
     </antcall>
   </target>
