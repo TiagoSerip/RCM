@@ -40,3 +40,13 @@ h1 {
 Header {
 	background-color: #cccccc;
 }
+.h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+}
+.h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #777777;
+}

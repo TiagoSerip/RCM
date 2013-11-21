@@ -16,6 +16,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.widget.client.TextButton;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -30,7 +34,7 @@ public class Core implements EntryPoint {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 	private static final String NO_USER_LOGIN = "No user logged in.";
-	private static final String ACTIVE_USER = "Logged in as ";
+	private static final String ACTIVE_USER = "Hello, ";
 	private static final String LOGIN_FAIL = "Wrong username or password. Try again...";
 	private static final String LOGIN_OK = "You are now logged in as ";
 	private static final String LOGIN_ERROR = "Something went wrong while logging you in. Try again...";
@@ -87,7 +91,7 @@ public class Core implements EntryPoint {
 	
 	
 	private String active = null; //active user
-	private String ap = null; //selected agent - publication view
+	private int ap = -1; //selected agent - publication view
 
 	private static final String LOGIN = "LOGIN";
 	private static final String USER = "MY PROFILE";
@@ -99,15 +103,30 @@ public class Core implements EntryPoint {
 	private Button signin;
 	private Button apView;
 
-	
-	private Header headerPanel = new Header(active, ap);
-	private Signin signinPanel = new Signin(active, ap);
+	final RootPanel RootContainer = RootPanel.get("content");
+	final RootPanel RootHeader = RootPanel.get("header");
+
+	private Profile profilePanel = new Profile(active, ap);
 	private ViewAP viewAPPanel = new ViewAP(active, ap);
 
 	/**
 	 * Create a remote service proxy to talk to the server-side SoNetServlet.
 	 */
 	private final SoNetServletAsync sonetServlet = GWT.create(SoNetServlet.class);
+	private Label lblusername;
+	private TextBox username;
+	private Label lblPassword;
+	private PasswordTextBox password;
+	private Label lblLoginStatus;
+	private VerticalPanel verticalPanel_1;
+	Button btnProfile = new Button("PROFILE");
+
+	
+	// Create the popup dialog box
+	final DialogBox dialogBox = new DialogBox();
+	final Button closeButton = new Button("Close");
+	final HTML serverResponseLabel = new HTML();
+	
 	/**
 	 * This is the entry point method.
 	 */
@@ -115,21 +134,13 @@ public class Core implements EntryPoint {
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
-		RootPanel RootHeader = RootPanel.get("header");
-		RootHeader.add(headerPanel);
-		
+				
 		RootPanel RootMenu = RootPanel.get("leftnav");
-		
-		final RootPanel RootContainer = RootPanel.get("content");
-		
-		// Create the popup dialog box
-		final DialogBox dialogBox = new DialogBox();
+
 		dialogBox.setText("Remote Procedure Call");
 		dialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
 		// We can set the id of a widget by accessing its Element
 		closeButton.getElement().setId("closeButton");
-		final HTML serverResponseLabel = new HTML();
 		VerticalPanel dialogVPanel = new VerticalPanel();
 		dialogVPanel.addStyleName("dialogVPanel");
 		dialogVPanel.add(new HTML("SoNet:</b>"));
@@ -137,6 +148,13 @@ public class Core implements EntryPoint {
 		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
 		dialogVPanel.add(closeButton);
 		dialogBox.setWidget(dialogVPanel);
+		// Add a handler to close the DialogBox
+		closeButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				dialogBox.hide();
+
+			}
+		});
 		
 		sonetServlet.init("local", new AsyncCallback<Void>() {
 			@Override
@@ -155,33 +173,19 @@ public class Core implements EntryPoint {
 			}
 		});
 		
-		verticalPanel = new VerticalPanel();
-		RootMenu.add(verticalPanel);
-//		MenuBar menu = new MenuBar(false);
-//		verticalPanel.add(menu);
-//		
-//		MenuItem login = new MenuItem(LOGIN, new Command() {
-//		      public void execute() {
-//		    	RootContainer.add(signinPanel);
-//		      }
-//		   });
-//		MenuItem viewAP = new MenuItem(AP, new Command() {
-//		      public void execute() {
-//		    	RootContainer.add(new ViewAP(active, ap));
-//		      }
-//		   });
-//
-//		menu.addItem(login);
-//		menu.addItem(viewAP);
+		verticalPanel_1 = new VerticalPanel();
+		RootMenu.add(verticalPanel_1);
 		
-		this.signin = new Button(LOGIN);
-		signin.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				RootContainer.clear();
-				RootContainer.add(signinPanel);
-			}
-		});
-		this.apView = new Button(AP);
+		lblLoginStatus = new Label(NO_USER_LOGIN);
+		lblLoginStatus.setStyleName("h3");
+		verticalPanel_1.add(lblLoginStatus);
+		
+		verticalPanel = new VerticalPanel();
+		verticalPanel_1.add(verticalPanel);
+		
+		signin = new Button(LOGIN);
+		signin.addClickHandler(loginHandler);
+		apView = new Button(AP);
 		apView.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
@@ -189,17 +193,104 @@ public class Core implements EntryPoint {
 			}
 		});
 		
+		lblusername = new Label("Username:");
+		verticalPanel.add(lblusername);
+		
+		username = new TextBox();
+		username.setVisibleLength(17);
+		verticalPanel.add(username);
+		
+		lblPassword = new Label("Password:");
+		verticalPanel.add(lblPassword);
+		
+		password = new PasswordTextBox();
+		verticalPanel.add(password);
+		
 		verticalPanel.add(signin);
+		
+		btnProfile.setVisible(false);
+		btnProfile.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootContainer.clear();
+				RootContainer.add(profilePanel);
+			}
+		});
+		verticalPanel.add(btnProfile);
 		verticalPanel.add(apView);
 		
 		
-		if(active == null){
-			this.signin.setText(LOGOUT);
-		}
-		else{
-			this.signin.setText(LOGIN);
-		}
+
 
 	}
-		
+	
+	ClickHandler loginHandler = new ClickHandler() {
+		public void onClick(ClickEvent event) {
+			if(active == null){
+				final String user = username.getValue();
+				String pass = password.getValue();
+				
+				if(user == null || pass == null){
+					dialogBox.setText("Login Error");
+					serverResponseLabel.addStyleName("serverResponseLabelError");
+					serverResponseLabel.setHTML("You must fill in your Username and Password.");
+					dialogBox.center();
+					closeButton.setFocus(true);
+					return;
+				}
+
+				sonetServlet.agentLogin(user, pass, new AsyncCallback<Boolean>() {
+					@Override
+					public void onSuccess(Boolean result){
+						if(!result){
+							// Show the RPC error message to the user
+							dialogBox.setText("Login Error");
+							serverResponseLabel.addStyleName("serverResponseLabelError");
+							serverResponseLabel.setHTML(LOGIN_FAIL);
+							dialogBox.center();
+							closeButton.setFocus(true);
+							return;
+						}
+						active=user;
+						ap=0;
+						username.setValue(null);
+						password.setValue(null);
+						username.setVisible(false);
+						password.setVisible(false);
+						lblPassword.setVisible(false);
+						lblusername.setVisible(false);
+						signin.setText(LOGOUT);
+						lblLoginStatus.setText(ACTIVE_USER+active+"!");
+						profilePanel = new Profile(active, ap);
+						btnProfile.setVisible(true);
+						RootContainer.add(profilePanel);
+					}
+					
+					@Override
+					public void onFailure(Throwable caught){
+						// Show the RPC error message to the user
+						dialogBox.setText("Login Error");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(LOGIN_ERROR);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+				});
+
+			}
+			else{
+				username.setVisible(true);
+				password.setVisible(true);
+				lblPassword.setVisible(true);
+				lblusername.setVisible(true);
+				active=null;
+				ap=-1;
+				signin.setText(LOGIN);
+				lblLoginStatus.setText(NO_USER_LOGIN);
+				btnProfile.setVisible(false);
+				RootContainer.clear();
+				
+			}
+		}
+	};
+
 }

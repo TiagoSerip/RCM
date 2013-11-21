@@ -29,12 +29,12 @@ public class ViewAP extends DecoratorPanel {
 	private static final String LOGIN_ERROR = "Something went wrong while logging you in. Try again...";
 	
 	private String user = null; //active user
-	private String ap = null; //user's AP
+	private int ap = -1; //user's AP
 	private final AbsolutePanel panel;
 	private final Label label;
 	private final Button button;
 	
-	public ViewAP(String user, String ap){
+	public ViewAP(String user, int ap){
 		setStyleName("center");
 		setSize("100%", "100%");
 		
