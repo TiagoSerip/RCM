@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
+import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.StringListDto;
@@ -28,4 +29,5 @@ public interface SoNetServlet extends RemoteService {
 	void positiveVote(String user, int pubId) throws AlreadyVotedException;
 	void negativeVote(String user, int pubId) throws AlreadyVotedException;
 	ArrayList<ApDto> getApList();
+	AgentDto getAgent(String user) throws AgentUsernameDoesNotExistsException;
 }

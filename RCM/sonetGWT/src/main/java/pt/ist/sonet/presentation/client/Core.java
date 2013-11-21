@@ -106,8 +106,8 @@ public class Core implements EntryPoint {
 	final RootPanel RootContainer = RootPanel.get("content");
 	final RootPanel RootHeader = RootPanel.get("header");
 
-	private Profile profilePanel = new Profile(active, ap);
-	private ViewAP viewAPPanel = new ViewAP(active, ap);
+	private Profile profilePanel;
+	private ViewAP viewAPPanel;
 
 	/**
 	 * Create a remote service proxy to talk to the server-side SoNetServlet.
@@ -212,6 +212,7 @@ public class Core implements EntryPoint {
 		btnProfile.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
+				profilePanel.loadProfileData();
 				RootContainer.add(profilePanel);
 			}
 		});

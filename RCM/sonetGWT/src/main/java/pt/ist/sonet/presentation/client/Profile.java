@@ -1,6 +1,9 @@
 package pt.ist.sonet.presentation.client;
 
 
+import pt.ist.sonet.service.dto.AgentDto;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
@@ -11,6 +14,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.IntegerBox;
@@ -33,11 +37,20 @@ public class Profile extends DecoratorPanel {
 	private static final String ACTIVE_USER = "Logged in as ";
 	private static final String LOGIN_FAIL = "Wrong username or password. Try again...";
 	private static final String LOGIN_OK = "You are now logged in as ";
-	private static final String LOGIN_ERROR = "Something went wrong while logging you in. Try again...";
+	private static final String LOAD_ERROR = "Something went wrong while loading your profile data. Please try again...";
 	
+	private final SoNetServletAsync sonetServlet = GWT.create(SoNetServlet.class);
+	final DialogBox dialogBox = new DialogBox();
+	final Button closeButton = new Button("Close");
+	final HTML serverResponseLabel = new HTML();
 	private String user = null; //active user
 	private int ap = -1; //user's AP
 	private final AbsolutePanel panel;
+	
+	final TextBox nameBox = new TextBox();
+	final IntegerBox apBox = new IntegerBox();
+	final TextBox ipBox = new TextBox();
+	final IntegerBox rssiBox = new IntegerBox();
 	
 	public Profile(String user, int ap){
 		setSize("100%", "100%");
@@ -47,13 +60,11 @@ public class Profile extends DecoratorPanel {
 		this.ap = ap;
 		this.panel = new AbsolutePanel();
 		
-		final DialogBox dialogBox = new DialogBox();
+		
 		dialogBox.setText("Remote Procedure Call");
 		dialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
 		// We can set the id of a widget by accessing its Element
 		closeButton.getElement().setId("closeButton");
-		final HTML serverResponseLabel = new HTML();
 		VerticalPanel dialogVPanel = new VerticalPanel();
 		dialogVPanel.addStyleName("dialogVPanel");
 		dialogVPanel.add(new HTML("SoNet:</b>"));
@@ -84,19 +95,20 @@ public class Profile extends DecoratorPanel {
 		Label lblAP = new Label("AP:");
 		panel.add(lblAP, 46, 158);
 		
-		final TextBox textBox = new TextBox();
-		panel.add(textBox, 116, 103);
-		textBox.setSize("171", "34");
+		panel.add(nameBox, 116, 103);
+		nameBox.setSize("171", "34");
 		
-		final IntegerBox apBox = new IntegerBox();
 		panel.add(apBox, 117, 148);
 		apBox.setSize("171", "34");
+		
+		//Load the profile data from the FF
+		loadProfileData();
 		
 		Button btnSave = new Button("Save");
 		btnSave.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				
-				String name = textBox.getValue();
+				String name = nameBox.getValue();
 				int ap = apBox.getValue();
 				
 				if(name == null){
@@ -108,7 +120,7 @@ public class Profile extends DecoratorPanel {
 				}
 
 				
-				textBox.setValue(null);
+				nameBox.setValue(null);
 				apBox.setValue(null);
 				
 			}
@@ -118,8 +130,8 @@ public class Profile extends DecoratorPanel {
 		Label lblIpAddress = new Label("IP Address:");
 		panel.add(lblIpAddress, 46, 196);
 		
-		TextBox IpBox = new TextBox();
-		panel.add(IpBox, 116, 186);
+
+		panel.add(ipBox, 116, 186);
 		
 		Label lblChangePassword = new Label("Fill the boxes bellow to change your password:");
 		panel.add(lblChangePassword, 49, 297);
@@ -142,8 +154,32 @@ public class Profile extends DecoratorPanel {
 		Label lblRssi = new Label("RSSI:");
 		panel.add(lblRssi, 46, 237);
 		
-		IntegerBox integerBox = new IntegerBox();
-		panel.add(integerBox, 116, 232);
-		integerBox.setSize("171", "34");
+
+		panel.add(rssiBox, 116, 232);
+		rssiBox.setSize("171", "34");
+	}
+	
+	void loadProfileData(){
+		
+		sonetServlet.getAgent(user, new AsyncCallback<AgentDto>() {
+			@Override
+			public void onSuccess(AgentDto dto){
+				nameBox.setValue(dto.getName());
+				apBox.setValue(dto.getAp());
+				ipBox.setValue(dto.getIp());
+				rssiBox.setValue(dto.getRssi());
+
+			}
+			
+			@Override
+			public void onFailure(Throwable caught){
+				// Show the RPC error message to the user
+				dialogBox.setText("Profile Loding Failure");
+				serverResponseLabel.addStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML(LOAD_ERROR);
+				dialogBox.center();
+				closeButton.setFocus(true);
+			}
+		});
 	}
 }

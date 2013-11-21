@@ -11,11 +11,13 @@ import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.presentation.client.SoNetServlet;
 import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.AllAgentsService;
+import pt.ist.sonet.service.GetAgentByUsernameService;
 import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
 import pt.ist.sonet.service.PositiveVoteService;
+import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.ListingDto;
@@ -173,6 +175,12 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		AllAgentsService service = new AllAgentsService(dto);
 		service.execute();
 		return dto;
+	}
+	
+	public AgentDto getAgent(String user) throws AgentUsernameDoesNotExistsException {
+		GetAgentByUsernameService service = new GetAgentByUsernameService(user);
+		service.execute();
+		return service.getDto();
 	}
 	
 	/**

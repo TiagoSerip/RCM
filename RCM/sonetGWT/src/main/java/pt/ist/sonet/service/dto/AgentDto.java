@@ -3,12 +3,18 @@
  */
 package pt.ist.sonet.service.dto;
 
+import java.io.Serializable;
+
 /**
  * @author ES Grupo 8
  *
  */
-public class AgentDto {
+public class AgentDto implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String name;
 	private String pass;
@@ -33,6 +39,8 @@ public class AgentDto {
 		this.setRssi(rssi);
 		this.setAp(ap);
 	}
+	
+	public AgentDto(){};
 
 	/**
 	 * @return the name
