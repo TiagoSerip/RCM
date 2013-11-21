@@ -3,6 +3,8 @@ package pt.ist.sonet.presentation.client;
 
 
 
+import pt.ist.sonet.service.dto.AgentDto;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
@@ -189,6 +191,7 @@ public class Core implements EntryPoint {
 		apView.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
+				refresh();
 				RootContainer.add(new ViewAP(active, ap));
 			}
 		});
@@ -212,6 +215,7 @@ public class Core implements EntryPoint {
 		btnProfile.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
+				refresh();
 				profilePanel.loadProfileData();
 				RootContainer.add(profilePanel);
 			}
@@ -293,5 +297,29 @@ public class Core implements EntryPoint {
 			}
 		}
 	};
+	
 
+	void refresh(){
+		
+		sonetServlet.getAgent(active, new AsyncCallback<AgentDto>() {
+			@Override
+			public void onSuccess(AgentDto dto){
+				
+				if (dto.getAp() != ap);
+					ap = dto.getAp();
+
+			}
+			
+			@Override
+			public void onFailure(Throwable caught){
+				// Show the RPC error message to the user
+				dialogBox.setText("Refresh Error");
+				serverResponseLabel.addStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML(SERVER_ERROR);
+				dialogBox.center();
+				closeButton.setFocus(true);
+			}
+		});
+	}
+	
 }
