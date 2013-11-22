@@ -279,5 +279,11 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		
 		new ChangeAgentPasswordService(dto).execute();
 	}
+	
+	public String getAgentIP(){
+		String ip = this.getThreadLocalRequest().getRemoteAddr();
+		
+		return ip;
+	}
 
 }

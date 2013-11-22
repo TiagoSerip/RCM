@@ -38,8 +38,10 @@ public class Core implements EntryPoint {
 	private static final String NO_USER_LOGIN = "No user logged in.";
 	private static final String ACTIVE_USER = "Hello, ";
 	private static final String LOGIN_FAIL = "Wrong username or password. Try again...";
-	private static final String LOGIN_OK = "You are now logged in as ";
 	private static final String LOGIN_ERROR = "Something went wrong while logging you in. Try again...";
+	
+	private static final String IP_ERROR = "It wasn't possible to automaticaly determine your current IP address. Plese update this information manualy if it has changed.";
+
 	private static final String NOTE_ERROR = "An error occurred while posting your Text Note. Try again...";
 	private static final String NOTE_OK = "Your Text Note was successfully added.";
 	private static final String FRIENDS_ERROR = "An error occurred while fetching your friends. Try again...";

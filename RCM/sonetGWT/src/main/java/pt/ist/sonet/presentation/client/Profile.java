@@ -38,6 +38,8 @@ public class Profile extends DecoratorPanel {
 	private static final String UPDATE_FAIL = "Something went wrong while updating your profile data. Please try again...";
 	private static final String UPDATE_OK = "You successfully updated your profile data.";
 	private static final String LOAD_ERROR = "Something went wrong while loading your profile data. Please try again...";
+	private static final String IP_ERROR = "It wasn't possible to automaticaly determine your current IP address. Plese update this information manualy if it has changed.";
+
 	
 	private final SoNetServletAsync sonetServlet = GWT.create(SoNetServlet.class);
 	final DialogBox dialogBox = new DialogBox();
@@ -266,6 +268,8 @@ public class Profile extends DecoratorPanel {
 				apBox.setValue(dto.getAp());
 				ipBox.setValue(dto.getIp());
 				rssiBox.setValue(dto.getRssi());
+				
+				loadAgentIp();
 
 			}
 			
@@ -279,5 +283,44 @@ public class Profile extends DecoratorPanel {
 				closeButton.setFocus(true);
 			}
 		});
+	}
+	
+	void loadAgentIp(){
+		
+		sonetServlet.getAgentIP(new AsyncCallback<String>() {
+			@Override
+			public void onSuccess(String ip){
+				
+				if(ip !=null){
+					ipBox.setEnabled(false);
+					ipBox.setValue(ip);
+				}
+				else{
+					// Show the RPC error message to the user
+					dialogBox.setText("Determine IP Failure");
+					serverResponseLabel.addStyleName("serverResponseLabelError");
+					serverResponseLabel.setHTML(IP_ERROR);
+					dialogBox.center();
+					closeButton.setFocus(true);
+					
+					ipBox.setEnabled(true);
+				}
+				
+
+			}
+			
+			@Override
+			public void onFailure(Throwable caught){
+				// Show the RPC error message to the user
+				dialogBox.setText("Determine IP Failure");
+				serverResponseLabel.addStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML(IP_ERROR);
+				dialogBox.center();
+				closeButton.setFocus(true);
+				
+				ipBox.setEnabled(true);
+			}
+		});
+		
 	}
 }

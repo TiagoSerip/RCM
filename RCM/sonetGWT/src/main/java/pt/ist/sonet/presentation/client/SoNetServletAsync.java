@@ -30,4 +30,5 @@ public interface SoNetServletAsync {
 	void getAgent(String user, AsyncCallback<AgentDto> callback);
 	void updateAgentProfile(AgentDto dto, AsyncCallback<Void> callback);
 	void changeAgentPassword(AgentDto dto, AsyncCallback<Void> callback);
+	void getAgentIP(AsyncCallback<String> callback);
 }
