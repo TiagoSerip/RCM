@@ -3,6 +3,13 @@
  */
 package pt.ist.sonet;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import jvstm.Atomic;
 import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
@@ -44,7 +51,7 @@ public class SoNetSetup {
 		System.out.println("----------");
 		createCommentAP0Uivo(rede);
 		System.out.println("SoNet Terminated.");
-	}
+		}
 
 	/**
 	 * Inicializa a SoNet.

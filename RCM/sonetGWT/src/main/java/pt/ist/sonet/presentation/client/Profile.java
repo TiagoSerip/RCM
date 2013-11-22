@@ -1,24 +1,25 @@
 package pt.ist.sonet.presentation.client;
 
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import pt.ist.sonet.service.dto.AgentDto;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.IntegerBox;
-import com.google.gwt.user.client.ui.VerticalSplitPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 /**
@@ -38,7 +39,8 @@ public class Profile extends DecoratorPanel {
 	private static final String UPDATE_FAIL = "Something went wrong while updating your profile data. Please try again...";
 	private static final String UPDATE_OK = "You successfully updated your profile data.";
 	private static final String LOAD_ERROR = "Something went wrong while loading your profile data. Please try again...";
-	private static final String IP_ERROR = "It wasn't possible to automaticaly determine your current IP address. Plese update this information manualy if it has changed.";
+	private static final String IP_ERROR = "It wasn't possible to automaticaly determine your current IP address. Please update this information manualy if it has changed.";
+	private static final String RSSI_ERROR = "It wasn't possible to automaticaly determine your current RSSI. Please update this information manualy if it has changed.";
 
 	
 	private final SoNetServletAsync sonetServlet = GWT.create(SoNetServlet.class);
@@ -270,6 +272,7 @@ public class Profile extends DecoratorPanel {
 				rssiBox.setValue(dto.getRssi());
 				
 				loadAgentIp();
+				loadRSSIMacOS();
 
 			}
 			
@@ -290,7 +293,6 @@ public class Profile extends DecoratorPanel {
 		sonetServlet.getAgentIP(new AsyncCallback<String>() {
 			@Override
 			public void onSuccess(String ip){
-				
 				if(ip !=null){
 					ipBox.setEnabled(false);
 					ipBox.setValue(ip);
@@ -323,4 +325,36 @@ public class Profile extends DecoratorPanel {
 		});
 		
 	}
+	
+	public void loadRSSIMacOS(){
+		
+		sonetServlet.loadRSSIMacOS(new AsyncCallback<Integer>() {
+			@Override
+			public void onSuccess(Integer rssi){
+				if(rssi>0){
+					fail();
+					return;
+				}
+				rssiBox.setEnabled(false);
+				rssiBox.setValue(rssi);
+				
+			}
+			@Override
+			public void onFailure(Throwable caught){
+				fail();
+			}
+			
+			void fail(){
+				// Show the RPC error message to the user
+				dialogBox.setText("Determine RSSI Failure");
+				serverResponseLabel.addStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML(RSSI_ERROR);
+				dialogBox.center();
+				closeButton.setFocus(true);
+				
+				rssiBox.setEnabled(true);
+			}
+		});
+	}
+	
 }

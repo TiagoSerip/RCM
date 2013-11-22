@@ -33,5 +33,6 @@ public interface SoNetServlet extends RemoteService {
 	void updateAgentProfile(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
 	void changeAgentPassword(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
 	String getAgentIP();
+	Integer loadRSSIMacOS();
 
 }

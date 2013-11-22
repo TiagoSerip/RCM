@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.Frame;
 
 
 /**
@@ -33,6 +34,7 @@ public class ViewAP extends DecoratorPanel {
 	private final AbsolutePanel panel;
 	private final Label label;
 	private final Button button;
+	private Frame frame;
 	
 	public ViewAP(String user, int ap){
 		setStyleName("center");
@@ -62,8 +64,10 @@ public class ViewAP extends DecoratorPanel {
 		
 		this.add(this.panel);
 		panel.setSize("100%", "100%");
+		
+		frame = new Frame("https://mapsengine.google.com/map/embed?mid=zfVxo7FXwYtM.kMWYZEetIvgg");
+		panel.add(frame);
+		frame.setSize("640", "480");
 	}
-	
-	
 
 }

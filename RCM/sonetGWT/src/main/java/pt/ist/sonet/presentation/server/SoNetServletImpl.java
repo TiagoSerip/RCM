@@ -1,5 +1,7 @@
 package pt.ist.sonet.presentation.server;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import pt.ist.fenixframework.Config;
@@ -284,6 +286,28 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		String ip = this.getThreadLocalRequest().getRemoteAddr();
 		
 		return ip;
+	}
+	
+public Integer loadRSSIMacOS(){
+		int rssi = 1;
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec("/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | grep agrCtlRSSI");
+			p.waitFor();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					p.getInputStream()));
+	
+			String line = reader.readLine();
+
+			String[] res = line.split("\\s+");
+			Integer value = new Integer(res[2]);
+			rssi = value.intValue();
+			}
+	
+		catch (Exception e) {}
+		
+		return rssi;
+		
 	}
 
 }
