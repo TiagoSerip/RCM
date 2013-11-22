@@ -190,6 +190,7 @@ public class Core implements EntryPoint {
 		signin = new Button(LOGIN);
 		signin.addClickHandler(loginHandler);
 		apView = new Button(AP);
+		apView.setVisible(false);
 		apView.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
@@ -222,6 +223,15 @@ public class Core implements EntryPoint {
 				RootContainer.add(profilePanel);
 			}
 		});
+		
+		btnRegister = new Button("REGISTER");
+		btnRegister.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootContainer.clear();
+				RootContainer.add(new Register());
+			}
+		});
+		verticalPanel.add(btnRegister);
 		verticalPanel.add(btnProfile);
 		verticalPanel.add(apView);
 		
@@ -269,6 +279,9 @@ public class Core implements EntryPoint {
 						lblLoginStatus.setText(ACTIVE_USER+active+"!");
 						profilePanel = new Profile(active, ap);
 						btnProfile.setVisible(true);
+						apView.setVisible(true);
+						btnRegister.setVisible(false);
+						RootContainer.clear();
 						RootContainer.add(profilePanel);
 					}
 					
@@ -294,11 +307,14 @@ public class Core implements EntryPoint {
 				signin.setText(LOGIN);
 				lblLoginStatus.setText(NO_USER_LOGIN);
 				btnProfile.setVisible(false);
+				btnRegister.setVisible(true);
+				apView.setVisible(false);
 				RootContainer.clear();
 				
 			}
 		}
 	};
+	private Button btnRegister;
 	
 
 	void refresh(){

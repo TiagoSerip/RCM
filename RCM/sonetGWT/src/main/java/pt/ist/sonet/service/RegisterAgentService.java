@@ -7,6 +7,7 @@ import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentNameDoesNotExistsException;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
+import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.fenixframework.FenixFramework;
 
@@ -34,7 +35,7 @@ public class RegisterAgentService extends SonetService {
 	 *  @throws SoNetException
 	 */
 	@Override
-	public void dispatch() throws SoNetException, AgentUsernameDoesNotExistsException, AgentNameDoesNotExistsException {
+	public void dispatch() throws SoNetException, UsernameAlreadyExistsException {
 		
 		SoNet network = FenixFramework.getRoot();
 		

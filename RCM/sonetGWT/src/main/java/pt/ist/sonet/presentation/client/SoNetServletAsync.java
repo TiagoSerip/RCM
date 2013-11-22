@@ -2,9 +2,11 @@ package pt.ist.sonet.presentation.client;
 
 import java.util.ArrayList;
 
+import pt.ist.sonet.exception.AgentNameDoesNotExistsException;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
+import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ListingDto;
@@ -32,4 +34,5 @@ public interface SoNetServletAsync {
 	void changeAgentPassword(AgentDto dto, AsyncCallback<Void> callback);
 	void getAgentIP(AsyncCallback<String> callback);
 	void loadRSSIMacOS(AsyncCallback<Integer> callback);
+	void registerAgentProfile(AgentDto dto, AsyncCallback<Void> asyncCallback) throws UsernameAlreadyExistsException;
 }

@@ -1,6 +1,8 @@
 package pt.ist.sonet.exception;
 
-public class UsernameAlreadyExistsException extends SoNetException {
+import java.io.Serializable;
+
+public class UsernameAlreadyExistsException extends SoNetException implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -10,7 +12,9 @@ public class UsernameAlreadyExistsException extends SoNetException {
 		this.conflictingUsername = conflictingUsername;
 	}
 	
-	public String getConflictingName() {
+	public UsernameAlreadyExistsException(){}
+	
+	public String getConflictingUsername() {
 		return this.conflictingUsername;
 	}
 	

@@ -10,6 +10,7 @@ import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
+import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.presentation.client.SoNetServlet;
 import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.AllAgentsService;
@@ -20,6 +21,7 @@ import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
 import pt.ist.sonet.service.PositiveVoteService;
+import pt.ist.sonet.service.RegisterAgentService;
 import pt.ist.sonet.service.UpdateAgentInfoService;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
@@ -309,5 +311,12 @@ public Integer loadRSSIMacOS(){
 		return rssi;
 		
 	}
+
+@Override
+public void registerAgentProfile(AgentDto dto) throws UsernameAlreadyExistsException{
+	
+	new RegisterAgentService(dto).execute();
+	
+}
 
 }

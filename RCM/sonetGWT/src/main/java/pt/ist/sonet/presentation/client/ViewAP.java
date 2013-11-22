@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.HTML;
 
 
 /**
@@ -35,6 +36,7 @@ public class ViewAP extends DecoratorPanel {
 	private final Label label;
 	private final Button button;
 	private Frame frame;
+	private HTML htmlNewHtml;
 	
 	public ViewAP(String user, int ap){
 		setStyleName("center");
@@ -68,6 +70,7 @@ public class ViewAP extends DecoratorPanel {
 		frame = new Frame("https://mapsengine.google.com/map/embed?mid=zfVxo7FXwYtM.kMWYZEetIvgg");
 		panel.add(frame);
 		frame.setSize("640", "480");
+		
 	}
 
 }
