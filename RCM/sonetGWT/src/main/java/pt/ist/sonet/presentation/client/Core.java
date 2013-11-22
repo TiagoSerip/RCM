@@ -268,7 +268,6 @@ public class Core implements EntryPoint {
 							return;
 						}
 						active=user;
-						ap=0;
 						username.setValue(null);
 						password.setValue(null);
 						username.setVisible(false);
@@ -277,6 +276,7 @@ public class Core implements EntryPoint {
 						lblusername.setVisible(false);
 						signin.setText(LOGOUT);
 						lblLoginStatus.setText(ACTIVE_USER+active+"!");
+						refresh();
 						profilePanel = new Profile(active, ap);
 						btnProfile.setVisible(true);
 						apView.setVisible(true);
