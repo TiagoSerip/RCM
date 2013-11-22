@@ -30,4 +30,7 @@ public interface SoNetServlet extends RemoteService {
 	void negativeVote(String user, int pubId) throws AlreadyVotedException;
 	ArrayList<ApDto> getApList();
 	AgentDto getAgent(String user) throws AgentUsernameDoesNotExistsException;
+	void updateAgentProfile(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
+	void changeAgentPassword(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
+
 }

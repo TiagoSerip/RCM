@@ -33,10 +33,10 @@ public class Profile extends DecoratorPanel {
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
-	private static final String NO_USER_LOGIN = "No user logged in.";
-	private static final String ACTIVE_USER = "Logged in as ";
-	private static final String LOGIN_FAIL = "Wrong username or password. Try again...";
-	private static final String LOGIN_OK = "You are now logged in as ";
+	private static final String PASS_FAIL = "Something went wrong while changing your password. Please try again...";
+	private static final String PASS_OK = "You successfully changed your password.";
+	private static final String UPDATE_FAIL = "Something went wrong while updating your profile data. Please try again...";
+	private static final String UPDATE_OK = "You successfully updated your profile data.";
 	private static final String LOAD_ERROR = "Something went wrong while loading your profile data. Please try again...";
 	
 	private final SoNetServletAsync sonetServlet = GWT.create(SoNetServlet.class);
@@ -52,7 +52,7 @@ public class Profile extends DecoratorPanel {
 	final TextBox ipBox = new TextBox();
 	final IntegerBox rssiBox = new IntegerBox();
 	
-	public Profile(String user, int ap){
+	public Profile(final String user, int ap){
 		setSize("100%", "100%");
 		setStyleName("center");
 		
@@ -110,21 +110,75 @@ public class Profile extends DecoratorPanel {
 				
 				String name = nameBox.getValue();
 				int ap = apBox.getValue();
+				String ip = ipBox.getValue();
+				int rssi = rssiBox.getValue();
 				
-				if(name == null){
-					dialogBox.setText("Singin Error");
+				if(name == null || name.equals("")){
+					dialogBox.setText("Update Profile Error");
 					serverResponseLabel.addStyleName("serverResponseLabelError");
-					serverResponseLabel.setHTML("You must fill in your Username and Password.");
+					serverResponseLabel.setHTML("You must fill in the name field.");
 					dialogBox.center();
 					closeButton.setFocus(true);
+					return;
 				}
+				
+				if(ip == null || ip.equals("")){
+					dialogBox.setText("Update Profile Error");
+					serverResponseLabel.addStyleName("serverResponseLabelError");
+					serverResponseLabel.setHTML("You must fill in your current IP address.");
+					dialogBox.center();
+					closeButton.setFocus(true);
+					return;
 
+				}
 				
-				nameBox.setValue(null);
-				apBox.setValue(null);
+				if(rssi >= 0){
+					dialogBox.setText("Update Profile Error");
+					serverResponseLabel.addStyleName("serverResponseLabelError");
+					serverResponseLabel.setHTML("The RSSI field must be a negative number (dBm).");
+					dialogBox.center();
+					closeButton.setFocus(true);
+					return;
+
+				}
 				
+				if(ap < 0 || ap > 7){
+					dialogBox.setText("Update Profile Error");
+					serverResponseLabel.addStyleName("serverResponseLabelError");
+					serverResponseLabel.setHTML("The AP-ID must be between 0 and 7.");
+					dialogBox.center();
+					closeButton.setFocus(true);
+					return;
+
+				}
+				
+				AgentDto dto = new AgentDto(user, null, name, ap, rssi, ip);
+				
+				sonetServlet.updateAgentProfile(dto, new AsyncCallback<Void>() {
+					@Override
+					public void onSuccess(Void v){
+						// Show the RPC error message to the user
+						dialogBox.setText("Profile Update");
+						serverResponseLabel.removeStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(UPDATE_OK);
+						dialogBox.center();
+						closeButton.setFocus(true);
+
+					}
+					
+					@Override
+					public void onFailure(Throwable caught){
+						// Show the RPC error message to the user
+						dialogBox.setText("Profile Update Failure");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(UPDATE_FAIL);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+				});
 			}
 		});
+
 		panel.add(btnSave, 342, 232);
 		
 		Label lblIpAddress = new Label("IP Address:");
@@ -142,13 +196,57 @@ public class Profile extends DecoratorPanel {
 		Label lblConfirmPassword = new Label("Confirm Password:");
 		panel.add(lblConfirmPassword, 46, 403);
 		
-		PasswordTextBox passwordConfirmTextBox = new PasswordTextBox();
-		panel.add(passwordConfirmTextBox, 172, 392);
-		
-		PasswordTextBox passwordTextBox = new PasswordTextBox();
+		final PasswordTextBox passwordTextBox = new PasswordTextBox();
 		panel.add(passwordTextBox, 172, 338);
 		
+		final PasswordTextBox passwordConfirmTextBox = new PasswordTextBox();
+		panel.add(passwordConfirmTextBox, 172, 392);
+
 		Button pswdButton = new Button("Confirm");
+		pswdButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				
+				String pass = passwordTextBox.getValue();
+				String confirm = passwordConfirmTextBox.getValue();
+				
+				if(pass == null || !pass.equals(confirm)){
+					dialogBox.setText("Change Password Error");
+					serverResponseLabel.addStyleName("serverResponseLabelError");
+					serverResponseLabel.setHTML("The two password fields must match.");
+					dialogBox.center();
+					closeButton.setFocus(true);
+					return;
+
+				}
+				
+				AgentDto dto = new AgentDto(user, pass, null, -1, -1, null);
+				
+				sonetServlet.changeAgentPassword(dto, new AsyncCallback<Void>() {
+					@Override
+					public void onSuccess(Void v){
+						// Show the RPC error message to the user
+						dialogBox.setText("Change Password");
+						serverResponseLabel.removeStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(PASS_OK);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+					
+					@Override
+					public void onFailure(Throwable caught){
+						// Show the RPC error message to the user
+						dialogBox.setText("Change Password Failure");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(PASS_FAIL);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+				});
+				
+				passwordTextBox.setValue(null);
+				passwordConfirmTextBox.setValue(null);
+			}
+		});
 		panel.add(pswdButton, 342, 391);
 		
 		Label lblRssi = new Label("RSSI:");

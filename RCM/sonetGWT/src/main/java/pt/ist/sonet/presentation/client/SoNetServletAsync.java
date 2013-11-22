@@ -28,4 +28,6 @@ public interface SoNetServletAsync {
 	void viewAp(int pubId, AsyncCallback<ApDto> asyncCallback)throws ApIdDoesNotExistsException;
 	void init(String serverType, AsyncCallback<Void> callback);
 	void getAgent(String user, AsyncCallback<AgentDto> callback);
+	void updateAgentProfile(AgentDto dto, AsyncCallback<Void> callback);
+	void changeAgentPassword(AgentDto dto, AsyncCallback<Void> callback);
 }

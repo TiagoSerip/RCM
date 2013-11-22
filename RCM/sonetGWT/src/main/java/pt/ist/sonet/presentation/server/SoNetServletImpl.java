@@ -11,12 +11,14 @@ import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.presentation.client.SoNetServlet;
 import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.AllAgentsService;
+import pt.ist.sonet.service.ChangeAgentPasswordService;
 import pt.ist.sonet.service.GetAgentByUsernameService;
 import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
 import pt.ist.sonet.service.PositiveVoteService;
+import pt.ist.sonet.service.UpdateAgentInfoService;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.BooleanDto;
@@ -234,7 +236,7 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	 * @throws ApIdDoesNotExistsException
 	 * @return PublicationViewDto 
 	 */
-	public ApDto viewAp(String asking, int ApId) throws ApIdDoesNotExistsException {
+	public ApDto viewAp(int ApId) throws ApIdDoesNotExistsException {
 		GetApByIdService service = new GetApByIdService(ApId);
 		service.execute();
 		return service.getPublication();
@@ -261,16 +263,21 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		return null;
 	}
 
-	@Override
-	public ApDto viewAp(int apId) throws ApIdDoesNotExistsException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public ArrayList<ApDto> getApList() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public void updateAgentProfile(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException{
+	
+		new UpdateAgentInfoService(dto).execute();
+	}
+	
+	public void changeAgentPassword(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException{
+		
+		new ChangeAgentPasswordService(dto).execute();
 	}
 
 }
