@@ -13,6 +13,7 @@ import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.presentation.client.SoNetServlet;
 import pt.ist.sonet.service.AgentLoginService;
+import pt.ist.sonet.service.AgentsByApService;
 import pt.ist.sonet.service.AllAgentsService;
 import pt.ist.sonet.service.ChangeAgentPasswordService;
 import pt.ist.sonet.service.GetAgentByUsernameService;
@@ -176,9 +177,9 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	 * @return StringListDto
 	 */
 	@Override
-	public StringListDto getAgents() {
+	public StringListDto getAgents(int ap) throws ApIdDoesNotExistsException{
 		StringListDto dto = new StringListDto();
-		AllAgentsService service = new AllAgentsService(dto);
+		AgentsByApService service = new AgentsByApService(ap, dto);
 		service.execute();
 		return dto;
 	}

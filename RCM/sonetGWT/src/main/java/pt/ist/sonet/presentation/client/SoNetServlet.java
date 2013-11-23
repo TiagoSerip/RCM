@@ -25,7 +25,7 @@ public interface SoNetServlet extends RemoteService {
 	Boolean agentLogin(String username, String password) throws AgentUsernameDoesNotExistsException;
 	void addNote(String username, String label, String text);
 	void commentAp(String username, int apId, String text) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
-	StringListDto getAgents();
+	StringListDto getAgents(int ap) throws ApIdDoesNotExistsException;
 	StringListDto getApComments(int apId) throws ApIdDoesNotExistsException;
 	ApDto viewAp(int apId) throws ApIdDoesNotExistsException;
 	void positiveVote(String user, int pubId) throws AlreadyVotedException;

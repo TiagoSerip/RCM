@@ -208,8 +208,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 	 * @return Publication instacia com o id indicado
 	 * @throws ApIdDoesNotExistsException
 	 */
-	public AP getApById(int id)
-			throws ApIdDoesNotExistsException {
+	public AP getApById(int id){
 		for (AP ap : getApSet()) {
 			if (ap.getId() == id) {
 				return ap;

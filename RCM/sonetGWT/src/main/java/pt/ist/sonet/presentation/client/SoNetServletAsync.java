@@ -23,7 +23,7 @@ public interface SoNetServletAsync {
 	void addNote(String username, String label, String text, AsyncCallback<Void> callback);
 	void commentAp(String username, int apId, String text, AsyncCallback<Void> callback) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
 	void getApList(AsyncCallback<ArrayList<ApDto>> asyncCallback);
-	void getAgents(AsyncCallback<StringListDto> asyncCallback);
+	void getAgents(int ap, AsyncCallback<StringListDto> asyncCallback) throws ApIdDoesNotExistsException;
 	void getApComments(int apId, AsyncCallback<StringListDto> asyncCallback)throws ApIdDoesNotExistsException;
 	void negativeVote(String user, int apId, AsyncCallback<Void> callback) throws AlreadyVotedException, ApIdDoesNotExistsException;
 	void positiveVote(String user, int apId, AsyncCallback<Void> callback) throws AlreadyVotedException, ApIdDoesNotExistsException;

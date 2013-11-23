@@ -98,10 +98,10 @@ public class Core implements EntryPoint {
 	private int ap = -1; //selected agent - publication view
 
 	private static final String LOGIN = "LOGIN";
-	private static final String USER = "MY PROFILE";
+	private static final String PROFILE= "MY PROFILE";
 	private static final String REGISTER = "REGISTER";
 	private static final String LOGOUT = "LOGOUT";
-	private static final String AP = "VIEW AP";
+	private static final String MAP = "TAGUS MAP";
 	
 	private VerticalPanel verticalPanel;
 	private Button signin;
@@ -111,7 +111,7 @@ public class Core implements EntryPoint {
 	final RootPanel RootHeader = RootPanel.get("header");
 
 	private Profile profilePanel;
-	private ViewAP viewAPPanel;
+	private Map viewMap;
 
 	/**
 	 * Create a remote service proxy to talk to the server-side SoNetServlet.
@@ -123,7 +123,7 @@ public class Core implements EntryPoint {
 	private PasswordTextBox password;
 	private Label lblLoginStatus;
 	private VerticalPanel verticalPanel_1;
-	Button btnProfile = new Button("PROFILE");
+	Button btnProfile = new Button(PROFILE);
 
 	
 	// Create the popup dialog box
@@ -180,7 +180,7 @@ public class Core implements EntryPoint {
 		verticalPanel_1 = new VerticalPanel();
 		RootMenu.add(verticalPanel_1);
 		
-		lblLoginStatus = new Label(NO_USER_LOGIN);
+		lblLoginStatus = new Label("No user logged in");
 		lblLoginStatus.setStyleName("h3");
 		verticalPanel_1.add(lblLoginStatus);
 		
@@ -189,13 +189,13 @@ public class Core implements EntryPoint {
 		
 		signin = new Button(LOGIN);
 		signin.addClickHandler(loginHandler);
-		apView = new Button(AP);
+		apView = new Button(MAP);
 		apView.setVisible(false);
 		apView.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
 				refresh();
-				RootContainer.add(new ViewAP(active, ap));
+				RootContainer.add(new Map(active, ap));
 			}
 		});
 		
@@ -224,7 +224,7 @@ public class Core implements EntryPoint {
 			}
 		});
 		
-		btnRegister = new Button("REGISTER");
+		btnRegister = new Button(REGISTER);
 		btnRegister.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
