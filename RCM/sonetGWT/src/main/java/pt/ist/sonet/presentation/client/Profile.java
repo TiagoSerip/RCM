@@ -1,8 +1,6 @@
 package pt.ist.sonet.presentation.client;
 
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 import pt.ist.sonet.service.dto.AgentDto;
 
@@ -271,8 +269,8 @@ public class Profile extends DecoratorPanel {
 				ipBox.setValue(dto.getIp());
 				rssiBox.setValue(dto.getRssi());
 				
-				loadAgentIp();
-				loadRSSIMacOS();
+				//loadAgentIp();
+				//loadRSSIMacOS();
 
 			}
 			

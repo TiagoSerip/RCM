@@ -96,7 +96,7 @@
   </target>
 
   <target name="run" depends="compile" description="Runs the program">
-    <java classname="pt.ist.sonet.presentationserver.PresentationServer" fork="false">
+    <java classname="pt.ist.sonet.SoNetApp" fork="false">
 	  <classpath>
 	    <path refid="project.classpath" />
 	  </classpath>
