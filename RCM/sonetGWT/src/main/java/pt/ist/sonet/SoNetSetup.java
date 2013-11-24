@@ -47,6 +47,8 @@ public class SoNetSetup {
 		SoNet rede = startSoNet();
 		createMeshAPs(rede);
 		System.out.println("----------");
+		createDevelopmentAPs(rede);
+		System.out.println("----------");
 		createUserAP0(rede);
 		System.out.println("----------");
 		createCommentAP0Uivo(rede);
@@ -70,7 +72,7 @@ public class SoNetSetup {
 			int i;
 			for(i=0; i<8; i++){
 				try{
-				ApDto ap = new ApDto(i, "192.168.10"+i+".000", 0,0 );
+				ApDto ap = new ApDto(i, "192.168.10"+i, 0,0 );
 				new RegisterApService(ap).execute();
 				}catch (ApIdAlreadyExistsException e){
 					System.out.println("AP '"+e.getConflictingId()+"' already exists.");
@@ -81,6 +83,19 @@ public class SoNetSetup {
 			}
 	}
 
+	public static void createDevelopmentAPs(SoNet rede){
+		
+		
+		try{
+		ApDto ap = new ApDto(8, "127.0.0", 0,0 );
+		new RegisterApService(ap).execute();
+		}catch (ApIdAlreadyExistsException e){
+			System.out.println("AP '"+e.getConflictingId()+"' already exists.");
+		}
+		
+		System.out.println("Created AP-8.");
+	}
+
 	
 	public static void createUserAP0(SoNet rede){
 		
@@ -88,7 +103,7 @@ public class SoNetSetup {
 				AgentDto agent = new AgentDto("ivo", "rcm5", "Ivo Pereira", 0, -34, "192.168.100.3");
 				new RegisterAgentService(agent).execute();
 			}catch (UsernameAlreadyExistsException e){
-				System.out.println("User:'"+e.getConflictingName()+"' already exists.");
+				System.out.println("User:'"+e.getConflictingUsername()+"' already exists.");
 				return;
 			}
 			

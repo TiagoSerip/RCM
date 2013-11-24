@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.sonet.domain.Agent;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
+import pt.ist.sonet.exception.IpOutOfMeshException;
 import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.presentation.client.SoNetServlet;
 import pt.ist.sonet.service.AgentLoginService;
@@ -17,6 +19,7 @@ import pt.ist.sonet.service.AgentsByApService;
 import pt.ist.sonet.service.AllAgentsService;
 import pt.ist.sonet.service.ChangeAgentPasswordService;
 import pt.ist.sonet.service.GetAgentByUsernameService;
+import pt.ist.sonet.service.GetAllApService;
 import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.ListAllService;
@@ -24,8 +27,10 @@ import pt.ist.sonet.service.NegativeVoteService;
 import pt.ist.sonet.service.PositiveVoteService;
 import pt.ist.sonet.service.RegisterAgentService;
 import pt.ist.sonet.service.UpdateAgentInfoService;
+import pt.ist.sonet.service.UpdateAgentIpService;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
+import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.StringListDto;
@@ -270,14 +275,25 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 
 
 	@Override
-	public ArrayList<ApDto> getApList() {
-		// TODO Auto-generated method stub
-		return null;
+	public ApListDto getApList() {
+		GetAllApService service = new GetAllApService();
+		service.execute();
+		return service.getListing();
 	}
 	
 	public void updateAgentProfile(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException{
 	
 		new UpdateAgentInfoService(dto).execute();
+	}
+	
+	public int updateAgentIP(AgentDto dto) throws AgentUsernameDoesNotExistsException, IpOutOfMeshException{
+		
+		new UpdateAgentIpService(dto).execute();
+		GetAgentByUsernameService service = new GetAgentByUsernameService(dto.getUsername());
+		service.execute();
+		AgentDto agent = service.getDto();
+		return agent.getAp();
+		
 	}
 	
 	public void changeAgentPassword(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException{

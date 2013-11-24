@@ -6,9 +6,11 @@ import pt.ist.sonet.exception.AgentNameDoesNotExistsException;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
+import pt.ist.sonet.exception.IpOutOfMeshException;
 import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
+import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
@@ -30,12 +32,12 @@ public interface SoNetServlet extends RemoteService {
 	ApDto viewAp(int apId) throws ApIdDoesNotExistsException;
 	void positiveVote(String user, int pubId) throws AlreadyVotedException;
 	void negativeVote(String user, int pubId) throws AlreadyVotedException;
-	ArrayList<ApDto> getApList();
+	ApListDto getApList();
 	AgentDto getAgent(String user) throws AgentUsernameDoesNotExistsException;
 	void updateAgentProfile(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
 	void changeAgentPassword(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
 	String getAgentIP();
 	Integer loadRSSIMacOS();
 	void registerAgentProfile(AgentDto dto) throws UsernameAlreadyExistsException;
-
+	int updateAgentIP(AgentDto dto) throws AgentUsernameDoesNotExistsException, IpOutOfMeshException;
 }

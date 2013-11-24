@@ -288,5 +288,24 @@ public class SoNet extends SoNet_Base implements Serializable {
 		agent.commentAP(comentario);
 	}
 
+	public AP determineAP(String ip){
+		
+		for(AP ap : this.getApSet()){
+			if (ip.contains(ap.getSubnet()))
+					return ap;
+		}
+		
+		return null;
+	}
+	
+	public void updateAgentIP(Agent agent, String ip){
+		
+		AP ap = determineAP(ip);
+		if (ap==null){
+			throw new IpOutOfMeshException(ip);
+		}
+		agent.setAp(ap);
+		
+	}
 
 }

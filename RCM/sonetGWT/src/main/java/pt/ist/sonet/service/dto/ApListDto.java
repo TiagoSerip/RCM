@@ -20,7 +20,7 @@ public class ApListDto implements Serializable{
 	public ApListDto(){
 		list=new ArrayList<ApDto>();
 	}
-		
+			
 	public ArrayList<ApDto> getlisting(){
 		return list;
 	}

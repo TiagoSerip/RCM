@@ -98,6 +98,8 @@ public class Register extends DecoratorPanel {
 		
 		panel.add(nameBox, 116, 103);
 		nameBox.setSize("171", "34");
+		apBox.setEnabled(false);
+		apBox.setText("0");
 		
 		panel.add(apBox, 117, 148);
 		apBox.setSize("171", "34");
@@ -111,12 +113,15 @@ public class Register extends DecoratorPanel {
 
 		panel.add(ipBox, 116, 186);
 		
+		panel.add(rssiBox, 116, 226);
+		final TextBox usernameBox = new TextBox();
+		panel.add(usernameBox, 116, 261);
 		Label lblNewPassword = new Label("Password:");
 		panel.add(lblNewPassword, 46, 316);
 		
 		Label lblConfirmPassword = new Label("Confirm Password:");
 		panel.add(lblConfirmPassword, 46, 354);
-		final TextBox usernameBox = new TextBox();
+		
 		final PasswordTextBox passwordTextBox = new PasswordTextBox();
 		panel.add(passwordTextBox, 116, 302);
 		
@@ -237,21 +242,20 @@ public class Register extends DecoratorPanel {
 		Label lblRssi = new Label("RSSI:");
 		panel.add(lblRssi, 46, 226);
 		
-
-		panel.add(rssiBox, 116, 226);
+		
 		rssiBox.setSize("171", "34");
 		
 		Label lblUsername = new Label("Username:");
 		panel.add(lblUsername, 46, 271);
 		
 
-		panel.add(usernameBox, 116, 261);
+		
 	}
 	
 	void loadProfileData(){
 		
 				loadAgentIp();
-				loadRSSIMacOS();
+			//	loadRSSIMacOS();
 
 	}
 	

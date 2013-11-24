@@ -3,7 +3,11 @@ package pt.ist.sonet.presentation.client;
 
 
 
+import java.util.ArrayList;
+
 import pt.ist.sonet.service.dto.AgentDto;
+import pt.ist.sonet.service.dto.ApDto;
+import pt.ist.sonet.service.dto.ApListDto;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -96,7 +100,8 @@ public class Core implements EntryPoint {
 	
 	private String active = null; //active user
 	private int ap = -1; //selected agent - publication view
-
+	private String ip = null;
+	
 	private static final String LOGIN = "LOGIN";
 	private static final String PROFILE= "MY PROFILE";
 	private static final String REGISTER = "REGISTER";
@@ -315,29 +320,60 @@ public class Core implements EntryPoint {
 		}
 	};
 	private Button btnRegister;
-	
-
+		
 	void refresh(){
 		
-		sonetServlet.getAgent(active, new AsyncCallback<AgentDto>() {
+		sonetServlet.getAgentIP(new AsyncCallback<String>() {
 			@Override
-			public void onSuccess(AgentDto dto){
+			public void onSuccess(String res){
+				if(res !=null){
+					ip = res;
+					updateAgentIp();
+				}
+				else{
+					// Show the RPC error message to the user
+					dialogBox.setText("Determine IP Failure");
+					serverResponseLabel.addStyleName("serverResponseLabelError");
+					serverResponseLabel.setHTML(IP_ERROR);
+					dialogBox.center();
+					closeButton.setFocus(true);
+				}
 				
-				if (dto.getAp() != ap);
-					ap = dto.getAp();
 
 			}
 			
 			@Override
 			public void onFailure(Throwable caught){
 				// Show the RPC error message to the user
-				dialogBox.setText("Refresh Error");
+				dialogBox.setText("Determine IP Failure");
 				serverResponseLabel.addStyleName("serverResponseLabelError");
-				serverResponseLabel.setHTML(SERVER_ERROR);
+				serverResponseLabel.setHTML(IP_ERROR);
 				dialogBox.center();
 				closeButton.setFocus(true);
 			}
 		});
+		
+	}
+	
+	void updateAgentIp(){
+		
+		sonetServlet.updateAgentIP(new AgentDto(active, null, null, 0, 0, ip), new AsyncCallback<Integer>() {
+			@Override
+			public void onSuccess(Integer res){
+				ap=res;
+			}
+			
+			@Override
+			public void onFailure(Throwable caught){
+				// Show the RPC error message to the user
+				dialogBox.setText("Determine IP Failure");
+				serverResponseLabel.addStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML(IP_ERROR);
+				dialogBox.center();
+				closeButton.setFocus(true);
+			}
+		});
+		
 	}
 	
 }
