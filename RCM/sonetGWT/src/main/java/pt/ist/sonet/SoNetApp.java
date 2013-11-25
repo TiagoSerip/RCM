@@ -281,7 +281,7 @@ public class SoNetApp {
 	
 	public static void openWebApp(){
 		 try {
-			  URI url = new URI("http://192.168.1.105/rcm");
+			  URI url = new URI("http://192.168.1.105:8080/rcm");
 				Desktop.getDesktop().browse(url);
 			} catch (Exception e) {
 				System.out.println("Failed to open the app web page.");
