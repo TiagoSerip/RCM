@@ -163,7 +163,7 @@
     </junit>
   </target>
   
-  <target name="gwtc" depends="compile" 
+  <target name="gwtc" depends="gwt-devmode-prepare" 
                     description="GWT compile to JavaScript (production mode)">
     <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
       <classpath>
@@ -176,7 +176,7 @@
       <arg value="${gwt.war.rel-dir}" />
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg line="${gwt.args}" />
-      <arg value="pt.ist.sonet.SonetGWT" />
+      <arg value="pt.ist.sonet.GWTUI" />
     </java>
   </target>
 
@@ -196,12 +196,20 @@
     <copy todir="${gwt.war.classes.rel-dir}" file="log4j.properties" />
     <echo message="Copy DML definition to WAR directory"/>
     <copy todir="${gwt.war.rel-dir}/src/main/dml" file="${dml.rel-file}" />
+    <echo message="Copy DML definition to WAR root directory"/>
+    <copy todir="${gwt.war.rel-dir}" file="${dml.rel-file}" />
     <echo message="Copy images to WAR directory"/>
     <copy todir="${gwt.war.web-inf.rel-dir}">
       <fileset dir="${gwt.war.rel-dir}" includes="*.gif" />
     </copy>
     <echo message="Copy DML definition to WAR classes directory"/>
     <copy todir="${gwt.war.classes.rel-dir}/src/main/dml" file="${dml.rel-file}" />
+  	<echo message="Copy DML definition to WAR classes root directory"/>
+  	    <copy todir="${gwt.war.classes.rel-dir}" file="${dml.rel-file}" />
+    <echo message="Copy lib files"/>
+    <copy todir="${gwt.war.lib.rel-dir}">
+      <fileset dir="${lib.rel-dir}" includes="*.jar" />
+    </copy>
   </target>
 
   <target name="gwt-devmode" depends="gwt-devmode-prepare" >

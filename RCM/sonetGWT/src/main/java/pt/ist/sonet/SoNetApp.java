@@ -53,12 +53,14 @@ public class SoNetApp {
 		readPassword();
 		try{
 			if(!agentLogin(username, password)){
-				System.out.println("Wrong Username or Password...");
+				System.out.println("Wrong Username or Password, you will be redirected to a page were you can Register a new user.");
+				openWebApp();
 				System.out.println("SoNet Terminated.");
 				System.exit(-1);
 			}
 		}catch(AgentUsernameDoesNotExistsException e){
-			System.out.println("Wrong Username or Password...");
+			System.out.println("Wrong Username or Password, you will be redirected to a page were you can Register a new user.");
+			openWebApp();
 			System.out.println("SoNet Terminated.");
 			System.exit(-1);
 		}
@@ -73,12 +75,21 @@ public class SoNetApp {
 			  };
 			  new Timer(delay, taskPerformer).start();
 			// Launch your default web browser with ...
-			  try {
-			  URI url = new URI("http://127.0.0.1:8888/SonetGWT_Remote.html?gwt.codesvr=127.0.0.1:9997");
-				Desktop.getDesktop().browse(url);
-			} catch (Exception e) {
-				System.out.println("Failed to open the app web page.");
+			  openWebApp();
+			while(true){
 			}
+			
+		}
+		if(System.getProperty("os.name").contains("Ubuntu")){
+			int delay = 60*1000; //milliseconds
+			  ActionListener taskPerformer = new ActionListener() {
+			      public void actionPerformed(ActionEvent evt) {
+			          linuxListner();
+			      }
+			  };
+			  new Timer(delay, taskPerformer).start();
+			// Launch your default web browser with ...
+			  openWebApp();
 			while(true){
 			}
 			
@@ -121,6 +132,34 @@ public class SoNetApp {
 			String[] res = line.split("\\s+");
 			Integer value = new Integer(res[2]);
 			rssi = value.intValue();
+			}
+	
+		catch (Exception e) {}
+		
+		return rssi;
+		
+	}
+	
+	public static Integer loadRSSILinux(){
+		int rssi = 1;
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec("iwconfig wlan0");
+			p.waitFor();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					p.getInputStream()));
+	
+			String line = reader.readLine();
+			int i=1;
+			while(i!=6){
+				line = reader.readLine();
+				i++;
+			}
+			String[] res = line.split("\\s+");
+			String s = res[3];
+			String parse = s.replaceAll("[^\\D]", "");
+			Integer value = new Integer(parse);
+			rssi = value.intValue()*-1;
 			}
 	
 		catch (Exception e) {}
@@ -223,6 +262,31 @@ public class SoNetApp {
 		}
 	}
 
+	public static void linuxListner(){
+		int rssi = loadRSSILinux();
+		if(rssi>=0){
+			System.out.println("Failed to get RSSI.");
+			return;
+		}
+		try{
+			Transaction.begin();
+			Agent a = rede.getAgentByUsername(username);
+			a.setRssi(rssi);
+			Transaction.commit();
+			System.out.println("RSSI: "+rssi);
+		}catch(Exception  e){
+			System.out.println("Failed to push your RSSI to server. Please check your connection.");
+		}
+	}
+	
+	public static void openWebApp(){
+		 try {
+			  URI url = new URI("http://192.168.1.105/rcm");
+				Desktop.getDesktop().browse(url);
+			} catch (Exception e) {
+				System.out.println("Failed to open the app web page.");
+			}
+	}
 
 }
 

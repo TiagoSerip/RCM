@@ -22,7 +22,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("sonet")
 public interface SoNetServlet extends RemoteService {
-	void init(String serverType);
+	String init(String serverType);
 	ListingDto displaySonet();
 	Boolean agentLogin(String username, String password) throws AgentUsernameDoesNotExistsException;
 	void addNote(String username, String label, String text);

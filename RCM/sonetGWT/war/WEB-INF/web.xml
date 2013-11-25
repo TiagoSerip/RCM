@@ -18,7 +18,7 @@
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>SonetGWT.html</welcome-file>
+    <welcome-file>SonetGWT_Remote.html</welcome-file>
   </welcome-file-list>
 
 </web-app>

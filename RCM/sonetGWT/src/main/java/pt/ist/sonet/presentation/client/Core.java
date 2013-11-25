@@ -3,29 +3,22 @@ package pt.ist.sonet.presentation.client;
 
 
 
-import java.util.ArrayList;
-
 import pt.ist.sonet.service.dto.AgentDto;
-import pt.ist.sonet.service.dto.ApDto;
-import pt.ist.sonet.service.dto.ApListDto;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Command;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.widget.client.TextButton;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -44,7 +37,7 @@ public class Core implements EntryPoint {
 	private static final String LOGIN_FAIL = "Wrong username or password. Try again...";
 	private static final String LOGIN_ERROR = "Something went wrong while logging you in. Try again...";
 	
-	private static final String IP_ERROR = "It wasn't possible to automaticaly determine your current IP address. Plese update this information manualy if it has changed.";
+	private static final String IP_ERROR = "It wasn't possible to automaticaly determine your current IP address. Please update this information manualy if it has changed.";
 
 	private static final String NOTE_ERROR = "An error occurred while posting your Text Note. Try again...";
 	private static final String NOTE_OK = "Your Text Note was successfully added.";
@@ -110,7 +103,8 @@ public class Core implements EntryPoint {
 	
 	private VerticalPanel verticalPanel;
 	private Button signin;
-	private Button apView;
+	private Button map;
+	private Button streaming;
 
 	final RootPanel RootContainer = RootPanel.get("content");
 	final RootPanel RootHeader = RootPanel.get("header");
@@ -165,10 +159,13 @@ public class Core implements EntryPoint {
 			}
 		});
 		
-		sonetServlet.init("local", new AsyncCallback<Void>() {
+		sonetServlet.init("local", new AsyncCallback<String>() {
 			@Override
-			public void onSuccess(Void result){
-				
+			public void onSuccess(String result){
+				dialogBox.setText("External Services Init OK");
+				serverResponseLabel.setHTML(result);
+				dialogBox.center();
+				closeButton.setFocus(true);
 			}
 			
 			@Override
@@ -176,7 +173,7 @@ public class Core implements EntryPoint {
 				// Show the RPC error message to the user
 				dialogBox.setText("External Services Init Error");
 				serverResponseLabel.addStyleName("serverResponseLabelError");
-				serverResponseLabel.setHTML("Failed to initialize external services, some services may be unavailable.");
+				serverResponseLabel.setHTML("Failed to connect to server, some services may be unavailable.\n");
 				dialogBox.center();
 				closeButton.setFocus(true);
 			}
@@ -194,9 +191,9 @@ public class Core implements EntryPoint {
 		
 		signin = new Button(LOGIN);
 		signin.addClickHandler(loginHandler);
-		apView = new Button(MAP);
-		apView.setVisible(false);
-		apView.addClickHandler(new ClickHandler() {
+		map = new Button(MAP);
+		map.setVisible(false);
+		map.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
 				refresh();
@@ -236,10 +233,19 @@ public class Core implements EntryPoint {
 				RootContainer.add(new Register());
 			}
 		});
+		
+		streaming = new Button("STREAMING");
+		streaming.setVisible(false);
+		streaming.addClickHandler(new ClickHandler() {
+		  public void onClick(ClickEvent event) {
+		    Window.Location.assign("http://192.168.1.105:23424/mediabrowser/");
+		  }
+		});
+		
 		verticalPanel.add(btnRegister);
 		verticalPanel.add(btnProfile);
-		verticalPanel.add(apView);
-		
+		verticalPanel.add(map);
+		verticalPanel.add(streaming);
 		
 
 
@@ -284,8 +290,9 @@ public class Core implements EntryPoint {
 						refresh();
 						profilePanel = new Profile(active, ap);
 						btnProfile.setVisible(true);
-						apView.setVisible(true);
+						map.setVisible(true);
 						btnRegister.setVisible(false);
+						streaming.setVisible(true);
 						RootContainer.clear();
 						RootContainer.add(profilePanel);
 					}
@@ -313,7 +320,8 @@ public class Core implements EntryPoint {
 				lblLoginStatus.setText(NO_USER_LOGIN);
 				btnProfile.setVisible(false);
 				btnRegister.setVisible(true);
-				apView.setVisible(false);
+				map.setVisible(false);
+				streaming.setVisible(false);
 				RootContainer.clear();
 				
 			}

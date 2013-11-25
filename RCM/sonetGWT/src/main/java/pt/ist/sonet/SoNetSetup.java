@@ -89,11 +89,21 @@ public class SoNetSetup {
 		try{
 		ApDto ap = new ApDto(8, "127.0.0", 0,0 );
 		new RegisterApService(ap).execute();
+		System.out.println("Created AP-8.");
 		}catch (ApIdAlreadyExistsException e){
 			System.out.println("AP '"+e.getConflictingId()+"' already exists.");
 		}
 		
-		System.out.println("Created AP-8.");
+		
+		
+		try{
+		ApDto ap = new ApDto(9, "192.168.1", 0,0 );
+		new RegisterApService(ap).execute();
+		System.out.println("Created AP-9.");
+		}catch (ApIdAlreadyExistsException e){
+			System.out.println("AP '"+e.getConflictingId()+"' already exists.");
+		}
+
 	}
 
 	

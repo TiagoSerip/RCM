@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -55,6 +56,27 @@ public class Map extends DecoratorPanel {
 	final HTML serverResponseLabel = new HTML();
 	
 	public Map(String user, int ap){
+		
+		dialogBox.setText("Remote Procedure Call");
+		dialogBox.setAnimationEnabled(true);
+		// We can set the id of a widget by accessing its Element
+		closeButton.getElement().setId("closeButton");
+		VerticalPanel dialogVPanel = new VerticalPanel();
+		dialogVPanel.addStyleName("dialogVPanel");
+		dialogVPanel.add(new HTML("SoNet:</b>"));
+		dialogVPanel.add(serverResponseLabel);
+		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+		dialogVPanel.add(closeButton);
+		dialogBox.setWidget(dialogVPanel);
+		// Add a handler to close the DialogBox
+		closeButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				dialogBox.hide();
+
+			}
+		});
+		
+		
 		setStyleName("center");
 		setSize("100%", "100%");
 		

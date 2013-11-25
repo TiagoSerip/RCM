@@ -106,6 +106,8 @@ public class Profile extends DecoratorPanel {
 		//Load the profile data from the FF
 		loadProfileData();
 		
+		loadAgentIp();
+		
 		Button btnSave = new Button("Save");
 		btnSave.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {

@@ -2,11 +2,9 @@ package pt.ist.sonet.presentation.server;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.sonet.domain.Agent;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
@@ -16,7 +14,6 @@ import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.presentation.client.SoNetServlet;
 import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.AgentsByApService;
-import pt.ist.sonet.service.AllAgentsService;
 import pt.ist.sonet.service.ChangeAgentPasswordService;
 import pt.ist.sonet.service.GetAgentByUsernameService;
 import pt.ist.sonet.service.GetAllApService;
@@ -43,6 +40,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServlet {
 	static {
+		try{
 		if(FenixFramework.getConfig()==null) {
 			FenixFramework.initialize(new Config() {{
 				domainModelPath="src/main/dml/sonet.dml";
@@ -54,13 +52,21 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 				rootClass=SoNet.class;
 			}});
 		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 		
-	public void init(String serverType) {
-		if(serverType.equals("LOCAL")){
-			return;
+	public String init(String serverType) {
+		try{
+			if(FenixFramework.getConfig()==null)
+				return "Sem config";
+			
+			return "Ligado!";
+		}catch(Exception e){
+			e.printStackTrace();
+			return "Exception";
 		}
-
 	}
 	
 	/**

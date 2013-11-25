@@ -305,6 +305,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 			throw new IpOutOfMeshException(ip);
 		}
 		agent.setAp(ap);
+		agent.setIp(ip);
 		
 	}
 

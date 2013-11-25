@@ -26,7 +26,7 @@ public interface SoNetServletAsync {
 	void negativeVote(String user, int apId, AsyncCallback<Void> callback) throws AlreadyVotedException, ApIdDoesNotExistsException;
 	void positiveVote(String user, int apId, AsyncCallback<Void> callback) throws AlreadyVotedException, ApIdDoesNotExistsException;
 	void viewAp(int pubId, AsyncCallback<ApDto> asyncCallback)throws ApIdDoesNotExistsException;
-	void init(String serverType, AsyncCallback<Void> callback);
+	void init(String serverType, AsyncCallback<String> callback);
 	void getAgent(String user, AsyncCallback<AgentDto> callback);
 	void updateAgentProfile(AgentDto dto, AsyncCallback<Void> callback);
 	void changeAgentPassword(AgentDto dto, AsyncCallback<Void> callback);
