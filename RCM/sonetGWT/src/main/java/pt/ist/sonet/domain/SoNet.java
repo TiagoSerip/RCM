@@ -141,6 +141,59 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return null;
 	}
 	
+	public PI getPIByName(String name) {
+		for(AP a : getApSet()) {
+			for(PI p : a.getPiSet()) {
+				if(p.getName().equals(name))
+					return p;
+			}				
+		}
+		return null;
+	}
+		
+	public PI getPIByID(int id) {
+		for(AP a : getApSet()) {
+			for(PI p : a.getPiSet()) {
+				if(p.getId() == id)
+					return p;
+			}				
+		}
+		return null;
+	}
+	
+	public boolean hasPIById(int id) {
+		return getPIByID(id) != null;
+	}
+	
+	public boolean hasPIByName(String name) {
+		return getPIByName(name) != null;
+	}
+	
+	public PI createPI(int id, String name, String location, String description) {
+		
+//		if(getPIByID(id)!=null)
+//			throw new PIIdAlreadyExistsException(id);
+		
+//		if(getPIByName(name)!=null)
+//			throw new PINameAlreadyExistsException(name);
+		
+		PI pi = new PI();
+		pi.init(id, name, location, description);
+		return pi;		
+	}
+	
+	public void addPI(PI pi, AP ap) {
+		ap.addPI(pi);
+	}
+	
+	public void removeAPa(int id)
+			throws AgentUsernameDoesNotExistsException {
+		AP toRemove = this.getApById(id);
+		if (toRemove == null)
+			throw new AgentUsernameDoesNotExistsException(""+id);
+		super.removeAp(toRemove);
+	}
+	
 	/**
 	 * Verifica se existe um agent com um dado username
 	 * 
@@ -171,7 +224,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 					throws ApIdAlreadyExistsException {
 		
 		if(this.hasApById(id))
-			throw new ApIdAlreadyExistsException(+id);
+			throw new ApIdAlreadyExistsException(""+id); //porque o +
 
 		AP ap = new AP();
 		ap.init(id, subnet, 0, 0);
