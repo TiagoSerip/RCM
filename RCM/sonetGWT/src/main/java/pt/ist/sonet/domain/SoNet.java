@@ -224,7 +224,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 					throws ApIdAlreadyExistsException {
 		
 		if(this.hasApById(id))
-			throw new ApIdAlreadyExistsException(""+id); //porque o +
+			throw new ApIdAlreadyExistsException(id); //porque o +
 
 		AP ap = new AP();
 		ap.init(id, subnet, 0, 0);

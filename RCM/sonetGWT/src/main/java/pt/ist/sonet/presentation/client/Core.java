@@ -96,7 +96,7 @@ public class Core implements EntryPoint {
 	private String ip = null;
 	
 	private static final String HOMEIP = "192.168.1.105";
-	private static final String TAGUSIP = "192.168.100.100";	
+	private static final String TAGUSIP = "192.168.103.1";	
 	
 	private static final String LOGIN = "LOGIN";
 	private static final String PROFILE= "MY PROFILE";
@@ -241,7 +241,9 @@ public class Core implements EntryPoint {
 		streaming.setVisible(false);
 		streaming.addClickHandler(new ClickHandler() {
 		  public void onClick(ClickEvent event) {
-		    Window.Location.assign("http://"+HOMEIP+":23424/mediabrowser/");
+		    //Window.Location.assign("http://"+HOMEIP+":23424/mediabrowser/");
+			  Window.Location.assign("http://"+TAGUSIP+":23424/mediabrowser/");
+
 		  }
 		});
 		
