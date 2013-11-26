@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="build/src"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre6"/>
 	<classpathentry kind="lib" path="../lib/aether-api-1.11.jar"/>
 	<classpathentry kind="lib" path="../lib/aether-impl-1.11.jar"/>
 	<classpathentry kind="lib" path="../lib/aether-spi-1.11.jar"/>

@@ -76,5 +76,25 @@ public class AP extends AP_Base {
 	public Set<Agent> getApAgents(){
 		return this.getAgentSet();
 	}
+	
+	public boolean hasPIs(){
+		return this.hasAnyPi();
+	}
+	
+	public void addPI(PI pi){
+		this.addPi(pi);
+	}
+	
+//	public PI getPIByName(String name) {
+//		for(PI p : getPiSet()) {
+//			if(p.getName().equals(name))
+//				return p;
+//		}
+//		return null;
+//	}
+	
+	public Set<PI> getPIs(){
+		return this.getPiSet();
+	}
     
 }
