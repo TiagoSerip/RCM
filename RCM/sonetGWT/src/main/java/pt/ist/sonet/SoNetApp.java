@@ -67,7 +67,7 @@ public class SoNetApp {
 		
 		System.out.println(System.getProperty("os.name"));
 		if(System.getProperty("os.name").contains("Mac OS X")){
-			int delay = 60*1000; //milliseconds
+			int delay = 15*1000; //milliseconds
 			  ActionListener taskPerformer = new ActionListener() {
 			      public void actionPerformed(ActionEvent evt) {
 			          macOSListner();
@@ -80,8 +80,8 @@ public class SoNetApp {
 			}
 			
 		}
-		if(System.getProperty("os.name").contains("Ubuntu")){
-			int delay = 60*1000; //milliseconds
+		if(System.getProperty("os.name").contains("Linux")){
+			int delay = 15*1000; //milliseconds
 			  ActionListener taskPerformer = new ActionListener() {
 			      public void actionPerformed(ActionEvent evt) {
 			          linuxListner();
@@ -156,8 +156,8 @@ public class SoNetApp {
 				i++;
 			}
 			String[] res = line.split("\\s+");
-			String s = res[3];
-			String parse = s.replaceAll("[^\\D]", "");
+			String s = res[4];
+			String parse = s.replaceAll("[^\\d]", "");
 			Integer value = new Integer(parse);
 			rssi = value.intValue()*-1;
 			}
@@ -265,7 +265,7 @@ public class SoNetApp {
 	public static void linuxListner(){
 		int rssi = loadRSSILinux();
 		if(rssi>=0){
-			System.out.println("Failed to get RSSI.");
+			System.out.println("Failed to get RSSI. ("+rssi+")");
 			return;
 		}
 		try{
