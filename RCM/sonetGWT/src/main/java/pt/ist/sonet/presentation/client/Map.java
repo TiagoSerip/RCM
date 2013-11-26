@@ -234,7 +234,7 @@ public class Map extends DecoratorPanel {
 		
 
 		listGrid.setWidget(2, 0, listBox);
-		listBox.setWidth("280px");
+		listBox.setWidth("400px");
 		listBox.setVisibleItemCount(10);
 		
 		

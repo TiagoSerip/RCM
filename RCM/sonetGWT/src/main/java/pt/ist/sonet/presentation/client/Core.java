@@ -95,6 +95,9 @@ public class Core implements EntryPoint {
 	private int ap = -1; //selected agent - publication view
 	private String ip = null;
 	
+	private static final String HOMEIP = "192.168.1.105";
+	private static final String TAGUSIP = "192.168.100.100";	
+	
 	private static final String LOGIN = "LOGIN";
 	private static final String PROFILE= "MY PROFILE";
 	private static final String REGISTER = "REGISTER";
@@ -238,7 +241,7 @@ public class Core implements EntryPoint {
 		streaming.setVisible(false);
 		streaming.addClickHandler(new ClickHandler() {
 		  public void onClick(ClickEvent event) {
-		    Window.Location.assign("http://192.168.1.105:23424/mediabrowser/");
+		    Window.Location.assign("http://"+HOMEIP+":23424/mediabrowser/");
 		  }
 		});
 		
@@ -279,6 +282,7 @@ public class Core implements EntryPoint {
 							return;
 						}
 						active=user;
+						refresh();
 						username.setValue(null);
 						password.setValue(null);
 						username.setVisible(false);
@@ -287,7 +291,6 @@ public class Core implements EntryPoint {
 						lblusername.setVisible(false);
 						signin.setText(LOGOUT);
 						lblLoginStatus.setText(ACTIVE_USER+active+"!");
-						refresh();
 						profilePanel = new Profile(active, ap);
 						btnProfile.setVisible(true);
 						map.setVisible(true);

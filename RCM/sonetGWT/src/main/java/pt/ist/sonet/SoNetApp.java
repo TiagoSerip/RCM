@@ -40,7 +40,7 @@ public class SoNetApp {
 	 */
 	public static void main(String[] args) {
 		FenixFramework.initialize(new Config() {{
-			dbAlias = "//localhost:3306/sonetdb"; 
+			dbAlias = "//192.168.103.1:3306/sonetdb"; 
 			dbUsername = "sonet";
 			dbPassword = "s0n3t";
 			domainModelPath="src/main/dml/sonet.dml";

@@ -272,8 +272,6 @@ public class Profile extends DecoratorPanel {
 				rssiBox.setValue(dto.getRssi());
 				
 				//loadAgentIp();
-				//loadRSSIMacOS();
-
 			}
 			
 			@Override
@@ -293,9 +291,10 @@ public class Profile extends DecoratorPanel {
 		sonetServlet.getAgentIP(new AsyncCallback<String>() {
 			@Override
 			public void onSuccess(String ip){
-				if(ip !=null){
+				if(ip != null){
 					ipBox.setEnabled(false);
 					ipBox.setValue(ip);
+					rssiBox.setEnabled(false);
 				}
 				else{
 					// Show the RPC error message to the user
@@ -306,6 +305,8 @@ public class Profile extends DecoratorPanel {
 					closeButton.setFocus(true);
 					
 					ipBox.setEnabled(true);
+					rssiBox.setEnabled(true);
+
 				}
 				
 
@@ -321,40 +322,10 @@ public class Profile extends DecoratorPanel {
 				closeButton.setFocus(true);
 				
 				ipBox.setEnabled(true);
-			}
-		});
-		
-	}
-	
-	public void loadRSSIMacOS(){
-		
-		sonetServlet.loadRSSIMacOS(new AsyncCallback<Integer>() {
-			@Override
-			public void onSuccess(Integer rssi){
-				if(rssi>0){
-					fail();
-					return;
-				}
-				rssiBox.setEnabled(false);
-				rssiBox.setValue(rssi);
-				
-			}
-			@Override
-			public void onFailure(Throwable caught){
-				fail();
-			}
-			
-			void fail(){
-				// Show the RPC error message to the user
-				dialogBox.setText("Determine RSSI Failure");
-				serverResponseLabel.addStyleName("serverResponseLabelError");
-				serverResponseLabel.setHTML(RSSI_ERROR);
-				dialogBox.center();
-				closeButton.setFocus(true);
-				
 				rssiBox.setEnabled(true);
 			}
 		});
+		
 	}
 	
 }

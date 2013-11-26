@@ -112,6 +112,7 @@ public class Register extends DecoratorPanel {
 		
 
 		panel.add(ipBox, 116, 186);
+		rssiBox.setText("-1");
 		
 		panel.add(rssiBox, 116, 226);
 		final TextBox usernameBox = new TextBox();
@@ -216,7 +217,7 @@ public class Register extends DecoratorPanel {
 						passwordTextBox.setValue(null);
 						passwordConfirmTextBox.setValue(null);
 						nameBox.setValue(null);
-						apBox.setValue(null);
+						apBox.setValue(0);
 						usernameBox.setValue(null);
 						loadProfileData();
 					}
@@ -277,6 +278,8 @@ public class Register extends DecoratorPanel {
 					closeButton.setFocus(true);
 					
 					ipBox.setEnabled(true);
+					rssiBox.setEnabled(true);
+
 				}
 				
 
@@ -292,39 +295,10 @@ public class Register extends DecoratorPanel {
 				closeButton.setFocus(true);
 				
 				ipBox.setEnabled(true);
+				rssiBox.setEnabled(true);
 			}
 		});
 		
 	}
 	
-	public void loadRSSIMacOS(){
-		
-		sonetServlet.loadRSSIMacOS(new AsyncCallback<Integer>() {
-			@Override
-			public void onSuccess(Integer rssi){
-				if(rssi>0){
-					fail();
-					return;
-				}
-				rssiBox.setEnabled(false);
-				rssiBox.setValue(rssi);
-				
-			}
-			@Override
-			public void onFailure(Throwable caught){
-				fail();
-			}
-			
-			void fail(){
-				// Show the RPC error message to the user
-				dialogBox.setText("Determine RSSI Failure");
-				serverResponseLabel.addStyleName("serverResponseLabelError");
-				serverResponseLabel.setHTML(RSSI_ERROR);
-				dialogBox.center();
-				closeButton.setFocus(true);
-				
-				rssiBox.setEnabled(true);
-			}
-		});
-	}
 }
