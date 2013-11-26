@@ -141,6 +141,10 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return null;
 	}
 	
+	public Set<PI> getAllPIFromAP(AP ap) {
+		return ap.getPIs();
+	}
+	
 	public PI getPIByName(String name) {
 		for(AP a : getApSet()) {
 			for(PI p : a.getPiSet()) {
@@ -169,13 +173,14 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return getPIByName(name) != null;
 	}
 	
-	public PI createPI(int id, String name, String location, String description) {
+	public PI createPI(int id, String name, String location, String description) 
+			throws PINameAlreadyExistsException, PIIdAlreadyExistsException {
 		
-//		if(getPIByID(id)!=null)
-//			throw new PIIdAlreadyExistsException(id);
+		if(getPIByID(id)!=null)
+			throw new PIIdAlreadyExistsException(id);
 		
-//		if(getPIByName(name)!=null)
-//			throw new PINameAlreadyExistsException(name);
+		if(getPIByName(name)!=null)
+			throw new PINameAlreadyExistsException(name);
 		
 		PI pi = new PI();
 		pi.init(id, name, location, description);
@@ -184,14 +189,6 @@ public class SoNet extends SoNet_Base implements Serializable {
 	
 	public void addPI(PI pi, AP ap) {
 		ap.addPI(pi);
-	}
-	
-	public void removeAPa(int id)
-			throws AgentUsernameDoesNotExistsException {
-		AP toRemove = this.getApById(id);
-		if (toRemove == null)
-			throw new AgentUsernameDoesNotExistsException(""+id);
-		super.removeAp(toRemove);
 	}
 	
 	/**
