@@ -169,6 +169,11 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return getPIByID(id) != null;
 	}
 	
+	public void removePI(PI pi, AP ap) {
+		ap.removePi(pi);
+	}
+	
+	
 	public boolean hasPIByName(String name) {
 		return getPIByName(name) != null;
 	}
