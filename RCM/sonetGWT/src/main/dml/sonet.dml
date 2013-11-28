@@ -2,7 +2,8 @@ package pt.ist.sonet.domain;
 
 
 class SoNet{
-int PIId;
+	int PIId;
+	int MessageId;
 }
 
 class Agent{
@@ -15,6 +16,7 @@ class Agent{
 
 class AP{
 	int id;
+	int rssi;
 	String subnet;
 	int posVotes;
 	int negVotes;
@@ -28,6 +30,11 @@ class PI{
 }
 
 class Comment{
+	int id;
+	String text;
+}
+
+class Message{
 	int id;
 	String text;
 }
@@ -85,6 +92,22 @@ relation APHasPI{
 	PI playsRole pi{
 		multiplicity 0..*;
 	}	
-
 }
 
+relation MessageHasSender{
+	Message playsRole sentMessage{
+		multiplicity 0..*;
+	}
+	Agent playsRole sender{
+		multiplicity 1..1;
+	}
+}
+
+relation MessagesHasReceiver{
+	Message playsRole receivedMessage{
+		multiplicity 0..*;
+	}
+	Agent playsRole receiver{
+		multiplicity 1..1;
+	}
+}	

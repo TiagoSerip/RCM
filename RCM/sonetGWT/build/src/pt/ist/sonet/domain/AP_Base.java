@@ -105,6 +105,24 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
         ((DO_State)obj$state).id = (int)(arg0);
     }
     
+    public int getRssi() {
+        pt.ist.fenixframework.pstm.DataAccessPatterns.noteGetAccess(this, "rssi");
+        return ((DO_State)this.get$obj$state(false)).rssi;
+    }
+    
+    public void setRssi(int rssi) {
+        ((DO_State)this.get$obj$state(true)).rssi = rssi;
+    }
+    
+    private int get$rssi() {
+        int value = ((DO_State)this.get$obj$state(false)).rssi;
+        return pt.ist.fenixframework.pstm.ToSqlConverter.getValueForint(value);
+    }
+    
+    private final void set$rssi(int arg0, pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State  obj$state) {
+        ((DO_State)obj$state).rssi = (int)(arg0);
+    }
+    
     public java.lang.String getSubnet() {
         pt.ist.fenixframework.pstm.DataAccessPatterns.noteGetAccess(this, "subnet");
         return ((DO_State)this.get$obj$state(false)).subnet;
@@ -300,6 +318,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
     protected void readStateFromResultSet(java.sql.ResultSet rs, pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State  state) throws java.sql.SQLException {
         DO_State castedState = (DO_State)state;
         set$id(pt.ist.fenixframework.pstm.ResultSetReader.readint(rs, "ID"), state);
+        set$rssi(pt.ist.fenixframework.pstm.ResultSetReader.readint(rs, "RSSI"), state);
         set$subnet(pt.ist.fenixframework.pstm.ResultSetReader.readString(rs, "SUBNET"), state);
         set$posVotes(pt.ist.fenixframework.pstm.ResultSetReader.readint(rs, "POS_VOTES"), state);
         set$negVotes(pt.ist.fenixframework.pstm.ResultSetReader.readint(rs, "NEG_VOTES"), state);
@@ -325,6 +344,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
     }
     protected static class DO_State extends pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State {
         private int id;
+        private int rssi;
         private java.lang.String subnet;
         private int posVotes;
         private int negVotes;
@@ -333,6 +353,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
             super.copyTo(newState);
             DO_State newCasted = (DO_State)newState;
             newCasted.id = this.id;
+            newCasted.rssi = this.rssi;
             newCasted.subnet = this.subnet;
             newCasted.posVotes = this.posVotes;
             newCasted.negVotes = this.negVotes;
@@ -349,6 +370,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
             private static final long serialVersionUID = 1L;
             
             private int id;
+            private int rssi;
             private java.lang.String subnet;
             private int posVotes;
             private int negVotes;
@@ -357,6 +379,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
             protected  SerializedForm(DO_State obj) {
                 super(obj);
                 this.id = obj.id;
+                this.rssi = obj.rssi;
                 this.subnet = obj.subnet;
                 this.posVotes = obj.posVotes;
                 this.negVotes = obj.negVotes;
@@ -374,6 +397,7 @@ public abstract class AP_Base extends pt.ist.fenixframework.pstm.OneBoxDomainObj
                 super.fillInState(obj);
                 DO_State state = (DO_State)obj;
                 state.id = this.id;
+                state.rssi = this.rssi;
                 state.subnet = this.subnet;
                 state.posVotes = this.posVotes;
                 state.negVotes = this.negVotes;

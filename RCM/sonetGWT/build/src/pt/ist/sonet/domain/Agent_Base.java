@@ -17,6 +17,24 @@ public abstract class Agent_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
         }
         
     };
+    public final static dml.runtime.RoleMany<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Message> role$$receivedMessage = new dml.runtime.RoleMany<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Message>() {
+        public dml.runtime.RelationBaseSet<pt.ist.sonet.domain.Message> getSet(pt.ist.sonet.domain.Agent o1) {
+            return ((Agent_Base)o1).get$rl$receivedMessage();
+        }
+        public dml.runtime.Role<pt.ist.sonet.domain.Message,pt.ist.sonet.domain.Agent> getInverseRole() {
+            return pt.ist.sonet.domain.Message.role$$receiver;
+        }
+        
+    };
+    public final static dml.runtime.RoleMany<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Message> role$$sentMessage = new dml.runtime.RoleMany<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Message>() {
+        public dml.runtime.RelationBaseSet<pt.ist.sonet.domain.Message> getSet(pt.ist.sonet.domain.Agent o1) {
+            return ((Agent_Base)o1).get$rl$sentMessage();
+        }
+        public dml.runtime.Role<pt.ist.sonet.domain.Message,pt.ist.sonet.domain.Agent> getInverseRole() {
+            return pt.ist.sonet.domain.Message.role$$sender;
+        }
+        
+    };
     public final static pt.ist.fenixframework.pstm.dml.RoleOne<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.AP> role$$ap = new pt.ist.fenixframework.pstm.dml.RoleOne<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.AP>() {
         public pt.ist.sonet.domain.AP getValue(pt.ist.sonet.domain.Agent o1) {
             return ((Agent_Base.DO_State)o1.get$obj$state(false)).ap;
@@ -46,6 +64,22 @@ public abstract class Agent_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
     static {
         SonetHasAgents.setRelationName("pt.ist.sonet.domain.Agent.SonetHasAgents");
     }
+    public final static pt.ist.fenixframework.pstm.LoggingRelation<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Message> MessagesHasReceiver = new pt.ist.fenixframework.pstm.LoggingRelation<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Message>(role$$receivedMessage);
+    static {
+        pt.ist.sonet.domain.Message.MessagesHasReceiver = MessagesHasReceiver.getInverseRelation();
+    }
+    
+    static {
+        MessagesHasReceiver.setRelationName("pt.ist.sonet.domain.Agent.MessagesHasReceiver");
+    }
+    public final static pt.ist.fenixframework.pstm.LoggingRelation<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Message> MessageHasSender = new pt.ist.fenixframework.pstm.LoggingRelation<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Message>(role$$sentMessage);
+    static {
+        pt.ist.sonet.domain.Message.MessageHasSender = MessageHasSender.getInverseRelation();
+    }
+    
+    static {
+        MessageHasSender.setRelationName("pt.ist.sonet.domain.Agent.MessageHasSender");
+    }
     public final static pt.ist.fenixframework.pstm.LoggingRelation<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.AP> APHasAgents = new pt.ist.fenixframework.pstm.LoggingRelation<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.AP>(role$$ap);
     static {
         pt.ist.sonet.domain.AP.APHasAgents = APHasAgents.getInverseRelation();
@@ -57,6 +91,14 @@ public abstract class Agent_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
     public static dml.runtime.Relation<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Comment> AgentHasComments;
     
     
+    private RelationList<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Message> get$rl$receivedMessage() {
+        return get$$relationList("receivedMessage", MessagesHasReceiver);
+        
+    }
+    private RelationList<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Message> get$rl$sentMessage() {
+        return get$$relationList("sentMessage", MessageHasSender);
+        
+    }
     private RelationList<pt.ist.sonet.domain.Agent,pt.ist.sonet.domain.Comment> get$rl$comments() {
         return get$$relationList("comments", AgentHasComments);
         
@@ -197,6 +239,78 @@ public abstract class Agent_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
         return true;
     }
     
+    public int getReceivedMessageCount() {
+        return get$rl$receivedMessage().size();
+    }
+    
+    public boolean hasAnyReceivedMessage() {
+        return (! get$rl$receivedMessage().isEmpty());
+    }
+    
+    public boolean hasReceivedMessage(pt.ist.sonet.domain.Message receivedMessage) {
+        return get$rl$receivedMessage().contains(receivedMessage);
+    }
+    
+    public java.util.Set<pt.ist.sonet.domain.Message> getReceivedMessageSet() {
+        return get$rl$receivedMessage();
+    }
+    
+    public void addReceivedMessage(pt.ist.sonet.domain.Message receivedMessage) {
+        MessagesHasReceiver.add((pt.ist.sonet.domain.Agent)this, receivedMessage);
+    }
+    
+    public void removeReceivedMessage(pt.ist.sonet.domain.Message receivedMessage) {
+        MessagesHasReceiver.remove((pt.ist.sonet.domain.Agent)this, receivedMessage);
+    }
+    
+    public java.util.List<pt.ist.sonet.domain.Message> getReceivedMessage() {
+        return get$rl$receivedMessage();
+    }
+    
+    public void set$receivedMessage(OJBFunctionalSetWrapper receivedMessage) {
+        get$rl$receivedMessage().setFromOJB(this, "receivedMessage", receivedMessage);
+    }
+    
+    public java.util.Iterator<pt.ist.sonet.domain.Message> getReceivedMessageIterator() {
+        return get$rl$receivedMessage().iterator();
+    }
+    
+    public int getSentMessageCount() {
+        return get$rl$sentMessage().size();
+    }
+    
+    public boolean hasAnySentMessage() {
+        return (! get$rl$sentMessage().isEmpty());
+    }
+    
+    public boolean hasSentMessage(pt.ist.sonet.domain.Message sentMessage) {
+        return get$rl$sentMessage().contains(sentMessage);
+    }
+    
+    public java.util.Set<pt.ist.sonet.domain.Message> getSentMessageSet() {
+        return get$rl$sentMessage();
+    }
+    
+    public void addSentMessage(pt.ist.sonet.domain.Message sentMessage) {
+        MessageHasSender.add((pt.ist.sonet.domain.Agent)this, sentMessage);
+    }
+    
+    public void removeSentMessage(pt.ist.sonet.domain.Message sentMessage) {
+        MessageHasSender.remove((pt.ist.sonet.domain.Agent)this, sentMessage);
+    }
+    
+    public java.util.List<pt.ist.sonet.domain.Message> getSentMessage() {
+        return get$rl$sentMessage();
+    }
+    
+    public void set$sentMessage(OJBFunctionalSetWrapper sentMessage) {
+        get$rl$sentMessage().setFromOJB(this, "sentMessage", sentMessage);
+    }
+    
+    public java.util.Iterator<pt.ist.sonet.domain.Message> getSentMessageIterator() {
+        return get$rl$sentMessage().iterator();
+    }
+    
     public pt.ist.sonet.domain.AP getAp() {
         pt.ist.fenixframework.pstm.DataAccessPatterns.noteGetAccess(this, "ap");
         return ((DO_State)this.get$obj$state(false)).ap;
@@ -263,6 +377,8 @@ public abstract class Agent_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
     
     protected void checkDisconnected() {
         if (hasSonet()) handleAttemptToDeleteConnectedObject();
+        if (hasAnyReceivedMessage()) handleAttemptToDeleteConnectedObject();
+        if (hasAnySentMessage()) handleAttemptToDeleteConnectedObject();
         if (hasAp()) handleAttemptToDeleteConnectedObject();
         if (hasAnyComments()) handleAttemptToDeleteConnectedObject();
         
@@ -279,6 +395,8 @@ public abstract class Agent_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
         castedState.ap = pt.ist.fenixframework.pstm.ResultSetReader.readDomainObject(rs, "OID_AP");
     }
     protected dml.runtime.Relation get$$relationFor(String attrName) {
+        if (attrName.equals("receivedMessage")) return MessagesHasReceiver;
+        if (attrName.equals("sentMessage")) return MessageHasSender;
         if (attrName.equals("comments")) return AgentHasComments;
         return super.get$$relationFor(attrName);
         
@@ -289,6 +407,8 @@ public abstract class Agent_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
     }
     protected void create$allLists() {
         super.create$allLists();
+        get$$relationList("receivedMessage", MessagesHasReceiver);
+        get$$relationList("sentMessage", MessageHasSender);
         get$$relationList("comments", AgentHasComments);
         
     }
