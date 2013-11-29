@@ -32,6 +32,12 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return id;
 	}
 	
+	public int generateMessageId() {
+		int id = this.getMessageId();
+		this.setMessageId(id+1);
+		return id;
+	}
+	
 	/**
 	 * Obtem um agente individual pelo username
 	 * 
@@ -178,23 +184,20 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return getPIByName(name) != null;
 	}
 	
-	public PI createPI(int id, String name, String location, String description) 
+	public PI createPI(String name, String location, String description, AP ap) 
 			throws PINameAlreadyExistsException, PIIdAlreadyExistsException {
-		
-		if(getPIByID(id)!=null)
-			throw new PIIdAlreadyExistsException(id);
 		
 		if(getPIByName(name)!=null)
 			throw new PINameAlreadyExistsException(name);
 		
 		PI pi = new PI();
-		pi.init(id, name, location, description);
+		int id = this.generatePIId();
+		pi.init(id, name, location, description, ap);
+		ap.addPI(pi);
+		
 		return pi;		
 	}
-	
-	public void addPI(PI pi, AP ap) {
-		ap.addPI(pi);
-	}
+
 	
 	/**
 	 * Verifica se existe um agent com um dado username
@@ -222,14 +225,14 @@ public class SoNet extends SoNet_Base implements Serializable {
 	 * @return Individual instacia de agente Individual criada.
 	 * @throws UsernameAlreadyExistsException
 	 */
-	public AP createAP (int id, String subnet)
+	public AP createAP (int id, String subnet, int rssi)
 					throws ApIdAlreadyExistsException {
 		
 		if(this.hasApById(id))
 			throw new ApIdAlreadyExistsException(id);
 
 		AP ap = new AP();
-		ap.init(id, subnet, 0, 0);
+		ap.init(id, subnet, rssi, 0, 0);
 		return ap;
 	}
 
@@ -342,7 +345,41 @@ public class SoNet extends SoNet_Base implements Serializable {
 		ap.commentAp(comentario);	
 		agent.commentAP(comentario);
 	}
+	
+	/**
+	 * Enviar uma private message
+	 * 
+	 * @param Agent sender
+	 * @param Agent receiver
+	 * @param String mensagem
+	 */	
+	public void talkTo(int id, Agent sender, Agent receiver, String text) {
+		Message msg = new Message();
+		msg.init(id, sender, receiver, text);
+		sender.addSentMessage(msg);
+		receiver.addReceivedMessage(msg);		
+	}
 
+	public List<Message> getLastConversationWithSomeone(Agent requester, Agent otherGuy) {
+		return requester.getLastConversationWithSomeone(otherGuy);		
+	}
+	
+	public Message getAgentLastSentMsg(Agent agent) {
+		Message lastMessage = new Message(); 
+		while(agent.getSentMessageSet().iterator().hasNext()) {
+			lastMessage = agent.getSentMessageSet().iterator().next();
+		}
+		return lastMessage;		
+	}
+	
+	public Message getAgentLastReceivedMsg(Agent agent) {
+		Message lastMessage = new Message(); 
+		while(agent.getReceivedMessageSet().iterator().hasNext()) {
+			lastMessage = agent.getReceivedMessageSet().iterator().next();
+		}
+		return lastMessage;		
+	}
+	
 	public AP determineAP(String ip){
 		
 		for(AP ap : this.getApSet()){
@@ -370,7 +407,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 		
 		AP ap = user.getAp();
 		int pr=user.getRssi();
-		int p0=-50;//ap.getRssi();
+		int p0=ap.getRssi();
 		
 		res = Math.exp((pr-p0)/(-10*1.42)); //)e^((pr-p0)/(-10n) n= 2.407
 		

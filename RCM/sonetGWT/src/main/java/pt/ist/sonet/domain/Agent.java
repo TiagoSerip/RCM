@@ -1,6 +1,7 @@
 package pt.ist.sonet.domain;
 
 import java.io.Serializable;
+import java.util.*;
 
 import pt.ist.sonet.exception.*;
 
@@ -55,7 +56,48 @@ public class Agent extends Agent_Base implements Serializable{
 //			throw new YouArentAFriendException(pub.getAgent().getName());
 //		}
 	}
+	
+	public void sendMessage(Message msg){
+		this.addSentMessage(msg);
+	}
 
+	public List<Message> getLastConversationWithSomeone(Agent agent) {
+		List<Message> sentMsg = new ArrayList<Message>();
+		List<Message> receivedMsg = new ArrayList<Message>();
+		List<Message> allMsg = new ArrayList<Message>();
+		List<Message> allMsgSort = new ArrayList<Message>();
+		
+		for(Message m : this.getSentMessageSet()){
+			if(m.getReceiver().equals(agent))
+				sentMsg.add(m);
+		}
+		
+		for(Message m : this.getReceivedMessageSet()){
+			if(m.getSender().equals(this))
+				receivedMsg.add(m);		
+		}
+		
+		allMsg.addAll(sentMsg);
+		allMsg.addAll(receivedMsg);
+		
+		int[] msgIDs = new int[allMsg.size()];
+		int i = 0;
+		
+		for(Message m : allMsg) {
+			msgIDs[i] = m.getId();
+			i++;
+		}
+		
+		Arrays.sort(msgIDs);
+		
+		for(int x : msgIDs) {
+			for(Message m : allMsg) {
+				if(m.getId() == x)
+					allMsgSort.add(m);
+			}
+		}		
+		return allMsgSort;
+	}
 
 
 	/**

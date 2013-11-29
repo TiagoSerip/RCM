@@ -44,7 +44,7 @@ public class GetAllApService extends SonetService{
 			return;
 		
 		for(AP ap : sonet.getApSet()){
-			listDto.addTolisting(new ApDto(ap.getId(), ap.getSubnet(), ap.getPosVotes(), ap.getNegVotes()));
+			listDto.addTolisting(new ApDto(ap.getId(), ap.getSubnet(), ap.getRssi(), ap.getPosVotes(), ap.getNegVotes()));
 		}
 	}
 		

@@ -13,14 +13,15 @@ public class PI extends PI_Base {
 	 * @param location
 	 * @param description
 	 */
-    public void init(int id, String name, String location, String description) {
+    public void init(int id, String name, String location, String description, AP ap) {
     	setId(id);
     	setName(name);
     	setLocation(location);
     	setDescription(description);
+    	setAp(ap);
     }
     
-    public String toString() {
-    	return this.getName() + " in " + this.getLocation() + " || " + this.getDescription();
-    }
+//    public String toString() {
+//    	return this.getName() + " in " + this.getLocation() + " || " + this.getDescription();
+//    }
 }

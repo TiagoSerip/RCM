@@ -48,7 +48,7 @@ public class GetApByIdService extends SonetService{
 		if(ap == null)
 			throw new ApIdDoesNotExistsException(apId);
 		
-		dto = new ApDto(ap.getId(), ap.getSubnet(), ap.getPosVotes(), ap.getNegVotes());
+		dto = new ApDto(ap.getId(), ap.getSubnet(), ap.getRssi(), ap.getPosVotes(), ap.getNegVotes());
 
 	}
 	

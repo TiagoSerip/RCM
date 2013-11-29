@@ -17,6 +17,7 @@ import pt.ist.sonet.service.AgentsByApService;
 import pt.ist.sonet.service.ChangeAgentPasswordService;
 import pt.ist.sonet.service.GetAgentByUsernameService;
 import pt.ist.sonet.service.GetAllApService;
+import pt.ist.sonet.service.GetAllPIFromAPService;
 import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.ListAllService;
@@ -30,6 +31,7 @@ import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.ListingDto;
+import pt.ist.sonet.service.dto.PIListDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -339,6 +341,15 @@ public Integer loadRSSIMacOS(){
 public void registerAgentProfile(AgentDto dto) throws UsernameAlreadyExistsException{
 	
 	new RegisterAgentService(dto).execute();
+	
+}
+
+@Override
+public PIListDto getPIsByAp(int apId) throws ApIdDoesNotExistsException{
+	
+	GetAllPIFromAPService service = new GetAllPIFromAPService(apId);
+	service.execute();
+	return service.getListing();
 	
 }
 

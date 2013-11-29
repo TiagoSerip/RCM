@@ -87,7 +87,7 @@ relation APHasComments{
 
 relation APHasPI{
 	AP playsRole ap{
-		multiplicity 1..*;
+		multiplicity 1..1;
 	}
 	PI playsRole pi{
 		multiplicity 0..*;

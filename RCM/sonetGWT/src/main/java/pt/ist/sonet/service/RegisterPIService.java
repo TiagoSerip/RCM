@@ -22,8 +22,9 @@ public class RegisterPIService extends SonetService {
 		AP ap = network.getApById(apID);
 		if(ap==null)
 			throw new ApIdDoesNotExistsException(apID);
-		PI pi = network.createPI(PIdto.getId(), PIdto.getName(), PIdto.getLocation(), PIdto.getDescription());
-		network.addPI(pi, ap);		
+		
+		network.createPI(PIdto.getName(), PIdto.getLocation(), PIdto.getDescription(), ap);
+	
 		
 	}
 	

@@ -17,11 +17,12 @@ public class ApDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String subnet;
+	private int rssi;
 	private int positive;
 	private int negative;
 	
 
-	public ApDto(int id, String subnet, int positive , int negative) {
+	public ApDto(int id, String subnet, int rssi, int positive , int negative) {
 		this.id = id;
 		this.positive = positive;
 		this.negative = negative;
@@ -52,9 +53,13 @@ public class ApDto implements Serializable{
 	public int getId() {
 		return id;
 	}
+	
+	public int getRssi() {
+		return rssi;
+	}
 
 	public String toString(){
-		return "AP"+id+" | "+positive+" | "+negative+" | "+subnet;
+		return "AP"+id+" | "+positive+" | "+negative+" | "+subnet+" | "+rssi;
 	}
 	
 	

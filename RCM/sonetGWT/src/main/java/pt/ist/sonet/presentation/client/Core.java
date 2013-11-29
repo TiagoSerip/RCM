@@ -306,6 +306,7 @@ public class Core implements EntryPoint {
 						signin.setText(LOGOUT);
 						lblLoginStatus.setText(ACTIVE_USER+active+"!");
 						profilePanel = new Profile(active, ap);
+						profilePanel.loadProfileData();
 						btnProfile.setVisible(true);
 						map.setVisible(true);
 						btnRegister.setVisible(false);

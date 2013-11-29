@@ -17,9 +17,10 @@ public class AP extends AP_Base {
 	 * @param neg
 	 * @param creator
 	 */
-	protected void init(int id, String subnet, int pos, int neg) {
+	protected void init(int id, String subnet, int rssi, int pos, int neg) {
 		setId(id);
 		setSubnet(subnet);
+		setRssi(rssi);
 		setNegVotes(neg);
 		setPosVotes(pos);
 

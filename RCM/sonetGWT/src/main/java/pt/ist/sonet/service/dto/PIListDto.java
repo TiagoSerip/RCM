@@ -1,8 +1,9 @@
 package pt.ist.sonet.service.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PIListDto {
+public class PIListDto implements Serializable{
 	
 	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;

@@ -12,6 +12,7 @@ import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.ListingDto;
+import pt.ist.sonet.service.dto.PIListDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -40,4 +41,5 @@ public interface SoNetServlet extends RemoteService {
 	Integer loadRSSIMacOS();
 	void registerAgentProfile(AgentDto dto) throws UsernameAlreadyExistsException;
 	int updateAgentIP(AgentDto dto) throws AgentUsernameDoesNotExistsException, IpOutOfMeshException;
+	PIListDto getPIsByAp(int apId) throws ApIdDoesNotExistsException;
 }

@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.sun.tools.javac.sym.CreateSymbols;
+
 import jvstm.Atomic;
 import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
@@ -18,9 +20,11 @@ import pt.ist.sonet.exception.*;
 import pt.ist.sonet.service.AddCommentService;
 import pt.ist.sonet.service.RegisterAgentService;
 import pt.ist.sonet.service.RegisterApService;
+import pt.ist.sonet.service.RegisterPIService;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.CommentDto;
+import pt.ist.sonet.service.dto.PIDto;
 
 /**
  * Popula a SoNet
@@ -29,6 +33,9 @@ import pt.ist.sonet.service.dto.CommentDto;
  */
 public class SoNetSetup {
 
+	static int rssi[]={-55, -55, -60, -50, -55, -60, -60, -65};
+	
+	
 	/**
 	 * Executa a SoNet e efectua os testes pedidos no enunciado.
 	 * @param args
@@ -52,6 +59,10 @@ public class SoNetSetup {
 		createUserAP0(rede);
 		System.out.println("----------");
 		createCommentAP0Uivo(rede);
+		System.out.println("----------");
+		createCommentAP8Uivo(rede);
+		System.out.println("----------");
+		createPIAP8(rede);
 		System.out.println("SoNet Terminated.");
 		}
 
@@ -71,23 +82,30 @@ public class SoNetSetup {
 		
 			int i;
 			for(i=0; i<8; i++){
-				try{
-				ApDto ap = new ApDto(i, "192.168.10"+i, 0,0 );
-				new RegisterApService(ap).execute();
-				}catch (ApIdAlreadyExistsException e){
-					System.out.println("AP '"+e.getConflictingId()+"' already exists.");
-					continue;
-				}
+				createAP(rede, i, "192.168.10"+i+".", rssi[i], 0, 0);
 				
-				System.out.println("Created AP-"+i+".");
 			}
 	}
+	
+	public static void createAP(SoNet rede, int id, String subnet, int rssi, int pos, int neg){
+		
+		try{
+		ApDto ap = new ApDto(id, subnet, rssi, pos, neg);
+		new RegisterApService(ap).execute();
+		System.out.println("Created AP-"+id+".");
+
+		}catch (ApIdAlreadyExistsException e){
+			System.out.println("AP '"+e.getConflictingId()+"' already exists.");
+		}
+		
+
+}
 
 	public static void createDevelopmentAPs(SoNet rede){
 		
 		
 		try{
-		ApDto ap = new ApDto(8, "127.0.0", 0,0 );
+		ApDto ap = new ApDto(8, "127.0.0.",-50 , 0, 0);
 		new RegisterApService(ap).execute();
 		System.out.println("Created AP-8.");
 		}catch (ApIdAlreadyExistsException e){
@@ -97,7 +115,7 @@ public class SoNetSetup {
 		
 		
 		try{
-		ApDto ap = new ApDto(9, "192.168.1", 0,0 );
+		ApDto ap = new ApDto(9, "192.168.1.",-50 ,0,0 );
 		new RegisterApService(ap).execute();
 		System.out.println("Created AP-9.");
 		}catch (ApIdAlreadyExistsException e){
@@ -135,6 +153,36 @@ public class SoNetSetup {
 		}
 		
 		System.out.println("Added Comment from 'ivo' to AP-0.");
-}
+	}
+	
+	public static void createCommentAP8Uivo(SoNet rede){
+		
+		try{
+			CommentDto comment = new CommentDto("ivo", 8, "Teste RCM");
+			new AddCommentService(comment).execute();
+		}catch (AgentUsernameDoesNotExistsException e){
+			System.out.println("User:'"+e.getUsername()+"' doesn't exists.");
+			return;
+		}
+		catch (ApIdDoesNotExistsException e){
+			System.out.println("AP-'"+e.getid()+"' doesn't exists.");
+			return;
+		}
+		
+		System.out.println("Added Comment from 'ivo' to AP-8.");
+	}
+	
+	public static void createPIAP8(SoNet rede){
+		
+		try{
+			PIDto dto = new PIDto(-1, "Limbo","Dentro do AP", "Teste RCM");
+			new RegisterPIService(dto, 8).execute();
+			System.out.println("Created PI on AP-8.");
+		}
+		catch (ApIdDoesNotExistsException e){
+			System.out.println("AP-'"+e.getid()+"' doesn't exists.");
+			return;
+		}
+	}
 
 }
