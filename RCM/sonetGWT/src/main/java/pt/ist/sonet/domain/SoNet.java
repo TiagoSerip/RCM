@@ -226,7 +226,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 					throws ApIdAlreadyExistsException {
 		
 		if(this.hasApById(id))
-			throw new ApIdAlreadyExistsException(id); //porque o +
+			throw new ApIdAlreadyExistsException(id);
 
 		AP ap = new AP();
 		ap.init(id, subnet, 0, 0);
@@ -364,4 +364,27 @@ public class SoNet extends SoNet_Base implements Serializable {
 		
 	}
 
+	public int calculateDistanceToAP(Agent user){
+		double res;
+		int distance;
+		
+		AP ap = user.getAp();
+		int pr=user.getRssi();
+		int p0=-50;//ap.getRssi();
+		
+		res = Math.exp((pr-p0)/(-10*1.42)); //)e^((pr-p0)/(-10n) n= 2.407
+		
+		if(res<1)
+			return 1;
+		
+		distance = (int) res;
+		
+		if(res%10>0.5)
+			distance++;
+
+		
+		return distance;
+		
+		
+	}
 }

@@ -39,7 +39,7 @@ public class AgentsByApService extends SonetService {
 			throw new ApIdDoesNotExistsException(id);
 		
 		for(Agent a : ap.getAgentSet()) {
-			dto.addTolisting(a.viewString());
+			dto.addTolisting(a.viewString()+" > radius: "+rede.calculateDistanceToAP(a)+"m (+/-5m).");
 		}
 	}
 

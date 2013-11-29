@@ -69,7 +69,7 @@ public class Agent extends Agent_Base implements Serializable{
 
 	
 	public String viewString() {
-		return this.getUsername() + ": " + this.getName() + " | " + this.getIp()+ ", RSSI:"+this.getRssi()+"dBm.";
+		return this.getUsername() + ": " + this.getName() + " | " + this.getIp()+ ", RSSI:"+this.getRssi()+"dBm";
 	}
 
 

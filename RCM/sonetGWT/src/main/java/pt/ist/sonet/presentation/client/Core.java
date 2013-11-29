@@ -106,6 +106,7 @@ public class Core implements EntryPoint {
 	
 	private VerticalPanel verticalPanel;
 	private Button signin;
+	private Button btnDirectory;
 	private Button map;
 	private Button streaming;
 
@@ -241,15 +242,26 @@ public class Core implements EntryPoint {
 		streaming.setVisible(false);
 		streaming.addClickHandler(new ClickHandler() {
 		  public void onClick(ClickEvent event) {
-		    //Window.Location.assign("http://"+HOMEIP+":23424/mediabrowser/");
-			  Window.Location.assign("http://"+TAGUSIP+":23424/mediabrowser/");
+			  Window.alert("Use 'rcm' as password.");
+		    Window.Location.assign("http://"+HOMEIP+":23424/mediabrowser/");
+			//Window.Location.assign("http://"+TAGUSIP+":23424/mediabrowser/");
 
 		  }
+		});
+		btnDirectory = new Button("PI DIRECTORY");
+		btnDirectory.setVisible(false);
+		btnDirectory.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootContainer.clear();
+				refresh();
+				RootContainer.add(new PIDirectory(active, ap));
+			}
 		});
 		
 		verticalPanel.add(btnRegister);
 		verticalPanel.add(btnProfile);
 		verticalPanel.add(map);
+		verticalPanel.add(btnDirectory);
 		verticalPanel.add(streaming);
 		
 
@@ -298,6 +310,7 @@ public class Core implements EntryPoint {
 						map.setVisible(true);
 						btnRegister.setVisible(false);
 						streaming.setVisible(true);
+						btnDirectory.setVisible(true);
 						RootContainer.clear();
 						RootContainer.add(profilePanel);
 					}
