@@ -32,12 +32,6 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return id;
 	}
 	
-	public int generateMessageId() {
-		int id = this.getMessageId();
-		this.setMessageId(id+1);
-		return id;
-	}
-	
 	/**
 	 * Obtem um agente individual pelo username
 	 * 
@@ -348,41 +342,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 		ap.commentAp(comentario);	
 		agent.commentAP(comentario);
 	}
-	
-	/**
-	 * Enviar uma private message
-	 * 
-	 * @param Agent sender
-	 * @param Agent receiver
-	 * @param String mensagem
-	 */	
-	public void talkTo(int id, Agent sender, Agent receiver, String text) {
-		Message msg = new Message();
-		msg.init(id, sender, receiver, text);
-		sender.addSentMessage(msg);
-		receiver.addReceivedMessage(msg);		
-	}
 
-	public List<Message> getLastConversationWithSomeone(Agent requester, Agent otherGuy) {
-		return requester.getLastConversationWithSomeone(otherGuy);		
-	}
-	
-	public Message getAgentLastSentMsg(Agent agent) {
-		Message lastMessage = new Message(); 
-		while(agent.getSentMessageSet().iterator().hasNext()) {
-			lastMessage = agent.getSentMessageSet().iterator().next();
-		}
-		return lastMessage;		
-	}
-	
-	public Message getAgentLastReceivedMsg(Agent agent) {
-		Message lastMessage = new Message(); 
-		while(agent.getReceivedMessageSet().iterator().hasNext()) {
-			lastMessage = agent.getReceivedMessageSet().iterator().next();
-		}
-		return lastMessage;		
-	}
-	
 	public AP determineAP(String ip){
 		
 		for(AP ap : this.getApSet()){

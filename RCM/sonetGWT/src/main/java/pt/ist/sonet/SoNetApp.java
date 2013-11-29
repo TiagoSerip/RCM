@@ -41,7 +41,7 @@ public class SoNetApp {
 	public static void main(String[] args) {
 		System.out.println("Starting...");
 		FenixFramework.initialize(new Config() {{
-			dbAlias = "//localhost:3306/sonetdb"; 
+			dbAlias = "//192.168.103.1:3306/sonetdb"; 
 			dbUsername = "sonet";
 			dbPassword = "s0n3t";
 			domainModelPath="src/main/dml/sonet.dml";
@@ -68,7 +68,7 @@ public class SoNetApp {
 		
 		System.out.println(System.getProperty("os.name"));
 		if(System.getProperty("os.name").contains("Mac OS X")){
-			int delay = 1*1000; //milliseconds
+			int delay = 15*1000; //milliseconds
 			  ActionListener taskPerformer = new ActionListener() {
 			      public void actionPerformed(ActionEvent evt) {
 			          macOSListner();
