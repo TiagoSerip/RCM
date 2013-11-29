@@ -71,6 +71,24 @@ public abstract class SoNet_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
         ((DO_State)obj$state).PIId = (int)(arg0);
     }
     
+    public int getMessageId() {
+        pt.ist.fenixframework.pstm.DataAccessPatterns.noteGetAccess(this, "MessageId");
+        return ((DO_State)this.get$obj$state(false)).MessageId;
+    }
+    
+    public void setMessageId(int MessageId) {
+        ((DO_State)this.get$obj$state(true)).MessageId = MessageId;
+    }
+    
+    private int get$MessageId() {
+        int value = ((DO_State)this.get$obj$state(false)).MessageId;
+        return pt.ist.fenixframework.pstm.ToSqlConverter.getValueForint(value);
+    }
+    
+    private final void set$MessageId(int arg0, pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State  obj$state) {
+        ((DO_State)obj$state).MessageId = (int)(arg0);
+    }
+    
     public int getAgentCount() {
         return get$rl$agent().size();
     }
@@ -152,6 +170,7 @@ public abstract class SoNet_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
     protected void readStateFromResultSet(java.sql.ResultSet rs, pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State  state) throws java.sql.SQLException {
         DO_State castedState = (DO_State)state;
         set$PIId(pt.ist.fenixframework.pstm.ResultSetReader.readint(rs, "P_I_ID"), state);
+        set$MessageId(pt.ist.fenixframework.pstm.ResultSetReader.readint(rs, "MESSAGE_ID"), state);
     }
     protected dml.runtime.Relation get$$relationFor(String attrName) {
         if (attrName.equals("agent")) return SonetHasAgents;
@@ -171,10 +190,12 @@ public abstract class SoNet_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
     }
     protected static class DO_State extends pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State {
         private int PIId;
+        private int MessageId;
         protected void copyTo(pt.ist.fenixframework.pstm.OneBoxDomainObject.DO_State  newState) {
             super.copyTo(newState);
             DO_State newCasted = (DO_State)newState;
             newCasted.PIId = this.PIId;
+            newCasted.MessageId = this.MessageId;
             
         }
         
@@ -187,10 +208,12 @@ public abstract class SoNet_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
             private static final long serialVersionUID = 1L;
             
             private int PIId;
+            private int MessageId;
             
             protected  SerializedForm(DO_State obj) {
                 super(obj);
                 this.PIId = obj.PIId;
+                this.MessageId = obj.MessageId;
                 
             }
             
@@ -204,6 +227,7 @@ public abstract class SoNet_Base extends pt.ist.fenixframework.pstm.OneBoxDomain
                 super.fillInState(obj);
                 DO_State state = (DO_State)obj;
                 state.PIId = this.PIId;
+                state.MessageId = this.MessageId;
                 
             }
             
