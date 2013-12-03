@@ -28,6 +28,7 @@ import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
 import pt.ist.sonet.service.PositiveVoteService;
 import pt.ist.sonet.service.RegisterAgentService;
+import pt.ist.sonet.service.RegisterPIService;
 import pt.ist.sonet.service.SendPrivateMessageService;
 import pt.ist.sonet.service.UpdateAgentInfoService;
 import pt.ist.sonet.service.UpdateAgentIpService;
@@ -391,6 +392,11 @@ public PIDto getPIById(int id) throws PIIdDoesNotExistsException{
 	service.execute();
 	return service.getPI();
 	
+}
+
+public void createPI(int ap, String name, String location, String description) throws ApIdDoesNotExistsException{
+	RegisterPIService service = new RegisterPIService(new PIDto(-1, name, location, description), ap);
+	service.execute();
 }
 
 }

@@ -46,4 +46,5 @@ public interface SoNetServlet extends RemoteService {
 	int updateAgentIP(AgentDto dto) throws AgentUsernameDoesNotExistsException, IpOutOfMeshException;
 	PIListDto getPIsByAp(int apId) throws ApIdDoesNotExistsException;
 	PIDto getPIById(int id) throws PIIdDoesNotExistsException;
+	public void createPI(int ap, String name, String location, String description) throws ApIdDoesNotExistsException;
 }
