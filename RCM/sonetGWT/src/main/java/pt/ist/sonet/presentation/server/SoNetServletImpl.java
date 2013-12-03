@@ -218,8 +218,9 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		return service.getDto();
 	}
 	
+	@Override
 	//tirar o id do input
-	public void SendPrivateMessage(String user, String otherGuy, String text) throws AgentUsernameDoesNotExistsException {
+	public void sendPrivateMessage(String user, String otherGuy, String text) throws AgentUsernameDoesNotExistsException {
 		MessageDto message = new MessageDto(user, otherGuy, text);
 		SendPrivateMessageService service = new SendPrivateMessageService(message);
 		service.execute();
