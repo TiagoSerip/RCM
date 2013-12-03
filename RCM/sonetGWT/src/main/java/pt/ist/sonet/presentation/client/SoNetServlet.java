@@ -14,6 +14,7 @@ import pt.ist.sonet.service.dto.PIDto;
 import pt.ist.sonet.service.dto.PIListDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -34,6 +35,7 @@ public interface SoNetServlet extends RemoteService {
 	void negativeVote(String user, int pubId) throws AlreadyVotedException;
 	StringListDto getAllAgents();
 	ApListDto getApList();
+	void sendPrivateMessage(String user, String otherGuy, String text) throws AgentUsernameDoesNotExistsException;
 	StringListDto getConversation(String user, String otherGuy) throws AgentUsernameDoesNotExistsException;
 	AgentDto getAgent(String user) throws AgentUsernameDoesNotExistsException;
 	void updateAgentProfile(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;

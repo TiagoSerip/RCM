@@ -16,10 +16,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.cellview.client.CellList;
-import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.Cell.Context;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -40,6 +36,10 @@ public class Chat extends DecoratorPanel {
 	final HTML serverResponseLabel = new HTML();
 	private String selected = null;
 	final ListBox listBox = new ListBox();
+	final TextArea sendWindow = new TextArea();
+	final Button sendButton = new Button("Send");
+	final Button selectButton = new Button("Select");
+	final CellTable<String> cellTable = new CellTable<String>();
 	private String user = null; //active user
 	private final AbsolutePanel panel;
 	final Label listLbl;
@@ -96,34 +96,29 @@ public class Chat extends DecoratorPanel {
 		listBox.setWidth("400px");
 		listBox.setVisibleItemCount(10);	
 		
-		final Button btnSelect = new Button("Select");
-		panel.add(btnSelect, 353, 304);
+		panel.add(selectButton, 353, 304);
 		
-		TextArea textArea_1 = new TextArea();
-		panel.add(textArea_1, 0, 513);
-		textArea_1.setSize("314px", "40px");
+		panel.add(sendWindow, 0, 513);
+		sendWindow.setSize("314px", "40px");
 		
-		Button btnSend = new Button("Send");
-		panel.add(btnSend, 340, 513);
-		btnSend.setSize("46px", "40px");
+		panel.add(sendButton, 340, 513);
+		sendButton.setSize("46px", "40px");
 		
-		CellTable<Object> cellTable = new CellTable<Object>();
 		panel.add(cellTable, 0, 348);
 		cellTable.setSize("386px", "159px");
-		
-		TextColumn<Object> textColumn = new TextColumn<Object>() {
+		TextColumn<String> conversationWindow = new TextColumn<String>() {
 			@Override
-			public String getValue(Object object) {
-				return object.toString();
+			public String getValue(String object) {
+				return object;
 			}
 		};
-		textColumn.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		cellTable.addColumn(textColumn, "Conversation");
+		conversationWindow.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		cellTable.addColumn(conversationWindow, "Conversation");
 		
-		btnSelect.addClickHandler(new ClickHandler() {
+		selectButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if(listBox.getSelectedIndex()>-1){
-					btnSelect.setEnabled(false);
+					selectButton.setEnabled(false);
 					selected=listBox.getValue(listBox.getSelectedIndex());					
 				}
 			}
@@ -136,7 +131,7 @@ public class Chat extends DecoratorPanel {
 		sonetServlet.getAllAgents(new AsyncCallback<StringListDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("AP's Users Loading Error:");
+						dialogBox.setText("Loading Error.");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
@@ -155,6 +150,49 @@ public class Chat extends DecoratorPanel {
 				});
 	}
 	
+	void loadConversation(){
+		//listBox.clear();
+		sonetServlet.getConversation(user, selected, new AsyncCallback<StringListDto>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("Loading error.");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
+						closeButton.setFocus(true);
+						selectButton.setEnabled(true);
+
+					}
+
+					public void onSuccess(StringListDto dto) {
+						cellTable.setTitle("Conversation with ");
+						cellTable.setRowData(dto.getlisting());
+						selectButton.setEnabled(true);
+					}
+				});
+	}
+	
+//	void sendMessage(){
+//		//listBox.clear();
+//		sonetServlet.sendPrivateMessage(user, selected, text, new AsyncCallback<StringListDto>() {
+//					public void onFailure(Throwable caught) {
+//						// Show the the error to the user
+//						dialogBox.setText("Loading error.");
+//						serverResponseLabel.addStyleName("serverResponseLabelError");
+//						serverResponseLabel.setHTML(SERVER_ERROR);
+//						dialogBox.center();
+//						closeButton.setFocus(true);
+//						selectButton.setEnabled(true);
+//
+//					}
+//
+//					public void onSuccess(StringListDto dto) {
+//						cellTable.setTitle("Conversation with ");
+//						cellTable.setRowData(dto.getlisting());
+//						selectButton.setEnabled(true);
+//					}
+//				});
+//	}
 		
 }
 

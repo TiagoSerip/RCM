@@ -35,6 +35,7 @@ public interface SoNetServletAsync {
 	void changeAgentPassword(AgentDto dto, AsyncCallback<Void> callback);
 	void getConversation(String user, String otherGuy, AsyncCallback<StringListDto> callback) throws AgentUsernameDoesNotExistsException;
 	void getAgentIP(AsyncCallback<String> callback);
+	void sendPrivateMessage(String user, String otherGuy, String text, AsyncCallback<Void> callback) throws AgentUsernameDoesNotExistsException;
 	void loadRSSIMacOS(AsyncCallback<Integer> callback);
 	void registerAgentProfile(AgentDto dto, AsyncCallback<Void> asyncCallback) throws UsernameAlreadyExistsException;
 	void updateAgentIP(AgentDto dto, AsyncCallback<Integer> callback);
