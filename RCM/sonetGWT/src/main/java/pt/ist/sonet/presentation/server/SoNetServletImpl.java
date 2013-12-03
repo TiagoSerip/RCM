@@ -17,8 +17,8 @@ import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.AgentsByApService;
 import pt.ist.sonet.service.ChangeAgentPasswordService;
 import pt.ist.sonet.service.GetAgentByUsernameService;
-import pt.ist.sonet.service.GetAllAgentsService;
 import pt.ist.sonet.service.GetAllApService;
+import pt.ist.sonet.service.GetAllOtherAgentsService;
 import pt.ist.sonet.service.GetAllPIFromAPService;
 import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
@@ -205,9 +205,9 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	}
 	
 	@Override
-	public StringListDto getAllAgents() {
+	public StringListDto getAllOtherAgents(String user) throws AgentUsernameDoesNotExistsException {
 		StringListDto dto = new StringListDto();
-		GetAllAgentsService service = new GetAllAgentsService(dto);
+		GetAllOtherAgentsService service = new GetAllOtherAgentsService(dto, user);
 		service.execute();
 		return dto;
 	}

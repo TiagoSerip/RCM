@@ -14,7 +14,7 @@ public class Message extends Message_Base {
     }
     
     public String toString() {
-    	return "From " + this.getSender() + " To " + this.getReceiver() + " || " + this.getText();
+    	return this.getSender().getUsername() + ": " + this.getText();
     }
     
 }

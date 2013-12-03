@@ -30,7 +30,7 @@ public interface SoNetServletAsync {
 	void viewAp(int pubId, AsyncCallback<ApDto> asyncCallback)throws ApIdDoesNotExistsException;
 	void init(String serverType, AsyncCallback<String> callback);
 	void getAgent(String user, AsyncCallback<AgentDto> callback);
-	void getAllAgents(AsyncCallback<StringListDto> callback);
+	void getAllOtherAgents(String user, AsyncCallback<StringListDto> callback) throws AgentUsernameDoesNotExistsException;
 	void updateAgentProfile(AgentDto dto, AsyncCallback<Void> callback);
 	void changeAgentPassword(AgentDto dto, AsyncCallback<Void> callback);
 	void getConversation(String user, String otherGuy, AsyncCallback<StringListDto> callback) throws AgentUsernameDoesNotExistsException;

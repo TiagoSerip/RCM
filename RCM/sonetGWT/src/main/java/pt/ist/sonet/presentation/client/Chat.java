@@ -28,6 +28,7 @@ public class Chat extends DecoratorPanel {
 	private static final String NO_AGENTS = "There are no users in the network.";
 	private static final String INFO = "Choose the user with who you want to talk.";
 	private static final String LIST_LBL = "These are the users in the network:";
+	private static final String NO_CONVERSATION = "No past messages.";
 	
 	private final SoNetServletAsync sonetServlet = GWT.create(SoNetServlet.class);
 	// Create the popup dialog box
@@ -37,13 +38,15 @@ public class Chat extends DecoratorPanel {
 	private String selected = null;
 	private String messageToSend = null;
 	final ListBox listBox = new ListBox();
+	ListBox conversationWindow = new ListBox();
 	final TextArea sendWindow = new TextArea();
 	final Button sendButton = new Button("Send");
 	final Button selectButton = new Button("Select");
-	final CellTable<String> cellTable = new CellTable<String>();
 	private String user = null; //active user
 	private final AbsolutePanel panel;
 	final Label listLbl;
+	final Label lblConversation = new Label("Conversation");
+
 
 	
 	public Chat(String user) {
@@ -73,7 +76,7 @@ public class Chat extends DecoratorPanel {
 		this.user = user;
 		this.panel = new AbsolutePanel();
 		
-		final Label title = new Label("PRIVATE CHAT");
+		final Label title = new Label("Private Chat");
 		title.setStyleName("h1");
 		panel.add(title);
 		
@@ -82,10 +85,11 @@ public class Chat extends DecoratorPanel {
 		panel.add(spaceLBL);
 		
 		Label info = new Label(INFO);
-		panel.add(info);
+		panel.add(info, 0, 35);
+		info.setSize("251px", "18px");
 		
 		this.add(this.panel);
-		panel.setSize("100%", "623px");
+		panel.setSize("715px", "376px");
 
 		Grid listGrid = new Grid(3, 1);
 		panel.add(listGrid);
@@ -94,31 +98,27 @@ public class Chat extends DecoratorPanel {
 		listGrid.setWidget(1, 0, listLbl);
 		
 		listGrid.setWidget(2, 0, listBox);
-		listBox.setWidth("400px");
+		listBox.setWidth("245px");
 		listBox.setVisibleItemCount(10);	
 		
-		panel.add(selectButton, 353, 304);
+		panel.add(selectButton, 194, 304);
 		selectButton.setSize("57", "30");
 		
-		panel.add(sendWindow, 0, 513);
+		panel.add(sendWindow, 284, 258);
 		sendWindow.setSize("314px", "40px");
 		
-		panel.add(sendButton, 329, 513);
+		panel.add(sendButton, 614, 258);
 		sendButton.setSize("57px", "40px");
 		
-		panel.add(cellTable, 0, 348);
-		cellTable.setSize("386px", "159px");
-		TextColumn<String> conversationWindow = new TextColumn<String>() {
-			@Override
-			public String getValue(String object) {
-				return object;
-			}
-		};
-		conversationWindow.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		cellTable.addColumn(conversationWindow, "Conversation");
-		
 		Button uptadeButton = new Button("Update");
-		panel.add(uptadeButton, 266, 304);
+		panel.add(uptadeButton, 117, 304);
+		
+		panel.add(conversationWindow, 284, 53);
+		conversationWindow.setSize("387px", "199px");
+		conversationWindow.setVisibleItemCount(5);
+		
+		panel.add(lblConversation, 283, 35);
+		lblConversation.setSize("388px", "18px");
 		
 		loadAllAgents();
 		
@@ -135,8 +135,9 @@ public class Chat extends DecoratorPanel {
 				if(listBox.getItemText(listBox.getSelectedIndex()) != null){
 					selectButton.setEnabled(false);
 					selected=listBox.getItemText(listBox.getSelectedIndex());
+					lblConversation.setText("Conversation with "+selected);
+					lblConversation.setTitle("Conversation with "+selected);
 					loadConversation();
-					cellTable.setTitle("Conversation with "+selected);
 				}
 			}
 		});
@@ -157,7 +158,7 @@ public class Chat extends DecoratorPanel {
 	void loadAllAgents(){
 		listLbl.setText(LIST_LBL);
 		listBox.clear();
-		sonetServlet.getAllAgents(new AsyncCallback<StringListDto>() {
+		sonetServlet.getAllOtherAgents(user, new AsyncCallback<StringListDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
 						dialogBox.setText("Loading Error.");
@@ -194,7 +195,14 @@ public class Chat extends DecoratorPanel {
 					}
 
 					public void onSuccess(StringListDto dto) {
-						cellTable.setRowData(dto.getlisting());
+						if(dto.getlisting().isEmpty()) {
+							conversationWindow.addItem(NO_CONVERSATION);
+							selectButton.setEnabled(true);
+							return;
+						}
+						for(String s : dto.getlisting()){									
+							conversationWindow.addItem(s);
+						}
 						selectButton.setEnabled(true);
 					}
 				});

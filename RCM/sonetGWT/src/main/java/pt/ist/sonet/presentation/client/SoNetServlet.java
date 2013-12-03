@@ -33,8 +33,8 @@ public interface SoNetServlet extends RemoteService {
 	ApDto viewAp(int apId) throws ApIdDoesNotExistsException;
 	void positiveVote(String user, int pubId) throws AlreadyVotedException;
 	void negativeVote(String user, int pubId) throws AlreadyVotedException;
-	StringListDto getAllAgents();
-	ApListDto getApList();
+	StringListDto getAllOtherAgents(String user) throws AgentUsernameDoesNotExistsException;
+	ApListDto getApList(); 
 	void sendPrivateMessage(String user, String otherGuy, String text) throws AgentUsernameDoesNotExistsException;
 	StringListDto getConversation(String user, String otherGuy) throws AgentUsernameDoesNotExistsException;
 	AgentDto getAgent(String user) throws AgentUsernameDoesNotExistsException;
