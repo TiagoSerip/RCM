@@ -132,9 +132,9 @@ public class Chat extends DecoratorPanel {
 		//BOTAO SELECT
 		selectButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if(listBox.getName() != null){
+				if(listBox.getItemText(listBox.getSelectedIndex()) != null){
 					selectButton.setEnabled(false);
-					selected=listBox.getName();
+					selected=listBox.getItemText(listBox.getSelectedIndex());
 					loadConversation();
 					cellTable.setTitle("Conversation with "+selected);
 				}
