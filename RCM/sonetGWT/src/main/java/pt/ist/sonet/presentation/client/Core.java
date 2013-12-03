@@ -107,6 +107,7 @@ public class Core implements EntryPoint {
 	private VerticalPanel verticalPanel;
 	private Button signin;
 	private Button btnDirectory;
+	private Button chat;
 	private Button map;
 	private Button streaming;
 
@@ -115,6 +116,7 @@ public class Core implements EntryPoint {
 
 	private Profile profilePanel;
 	private Map viewMap;
+	private Chat viewChat;
 
 	/**
 	 * Create a remote service proxy to talk to the server-side SoNetServlet.
@@ -238,6 +240,16 @@ public class Core implements EntryPoint {
 			}
 		});
 		
+		chat = new Button("PRIVATE CHAT");
+		chat.setVisible(false);
+		chat.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootContainer.clear();
+				refresh();
+				RootContainer.add(viewChat);
+			}
+		});
+		
 		streaming = new Button("STREAMING");
 		streaming.setVisible(false);
 		streaming.addClickHandler(new ClickHandler() {
@@ -257,12 +269,14 @@ public class Core implements EntryPoint {
 				RootContainer.add(new PIDirectory(active, ap));
 			}
 		});
+
 		
 		verticalPanel.add(btnRegister);
 		verticalPanel.add(btnProfile);
 		verticalPanel.add(map);
 		verticalPanel.add(btnDirectory);
 		verticalPanel.add(streaming);
+		verticalPanel.add(chat);
 		
 
 
@@ -312,6 +326,7 @@ public class Core implements EntryPoint {
 						btnRegister.setVisible(false);
 						streaming.setVisible(true);
 						btnDirectory.setVisible(true);
+						chat.setVisible(true);
 						RootContainer.clear();
 						RootContainer.add(profilePanel);
 					}
@@ -341,6 +356,7 @@ public class Core implements EntryPoint {
 				btnRegister.setVisible(true);
 				map.setVisible(false);
 				streaming.setVisible(false);
+				chat.setVisible(false);
 				RootContainer.clear();
 				
 			}

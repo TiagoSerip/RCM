@@ -16,14 +16,17 @@ import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.AgentsByApService;
 import pt.ist.sonet.service.ChangeAgentPasswordService;
 import pt.ist.sonet.service.GetAgentByUsernameService;
+import pt.ist.sonet.service.GetAllAgentsService;
 import pt.ist.sonet.service.GetAllApService;
 import pt.ist.sonet.service.GetAllPIFromAPService;
 import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
+import pt.ist.sonet.service.GetConversationService;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
 import pt.ist.sonet.service.PositiveVoteService;
 import pt.ist.sonet.service.RegisterAgentService;
+import pt.ist.sonet.service.SendPrivateMessageService;
 import pt.ist.sonet.service.UpdateAgentInfoService;
 import pt.ist.sonet.service.UpdateAgentIpService;
 import pt.ist.sonet.service.dto.AgentDto;
@@ -31,6 +34,7 @@ import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.ListingDto;
+import pt.ist.sonet.service.dto.MessageDto;
 import pt.ist.sonet.service.dto.PIListDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
@@ -197,10 +201,25 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		return dto;
 	}
 	
+	@Override
+	public StringListDto getAllAgents() {
+		StringListDto dto = new StringListDto();
+		GetAllAgentsService service = new GetAllAgentsService(dto);
+		service.execute();
+		return dto;
+	}
+	
 	public AgentDto getAgent(String user) throws AgentUsernameDoesNotExistsException {
 		GetAgentByUsernameService service = new GetAgentByUsernameService(user);
 		service.execute();
 		return service.getDto();
+	}
+	
+	//tirar o id do input
+	public void SendPrivateMessage(String user, String otherGuy, String text, int id) throws AgentUsernameDoesNotExistsException {
+		MessageDto message = new MessageDto(id, user, otherGuy, text);
+		SendPrivateMessageService service = new SendPrivateMessageService(message);
+		service.execute();
 	}
 	
 	/**
@@ -213,6 +232,14 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	public StringListDto getPublicationComments(int pubId) throws ApIdDoesNotExistsException{
 		StringListDto dto = new StringListDto();
 		GetApCommentsService service = new GetApCommentsService(pubId, dto);
+		service.execute();
+		return dto;
+	}
+	
+	@Override
+	public StringListDto getConversation(String user, String otherGuy) throws AgentUsernameDoesNotExistsException {
+		StringListDto dto = new StringListDto();
+		GetConversationService service = new GetConversationService(user, otherGuy, dto);
 		service.execute();
 		return dto;
 	}

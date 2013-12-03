@@ -29,8 +29,10 @@ public interface SoNetServletAsync {
 	void viewAp(int pubId, AsyncCallback<ApDto> asyncCallback)throws ApIdDoesNotExistsException;
 	void init(String serverType, AsyncCallback<String> callback);
 	void getAgent(String user, AsyncCallback<AgentDto> callback);
+	void getAllAgents(AsyncCallback<StringListDto> callback);
 	void updateAgentProfile(AgentDto dto, AsyncCallback<Void> callback);
 	void changeAgentPassword(AgentDto dto, AsyncCallback<Void> callback);
+	void getConversation(String user, String otherGuy, AsyncCallback<StringListDto> callback) throws AgentUsernameDoesNotExistsException;
 	void getAgentIP(AsyncCallback<String> callback);
 	void loadRSSIMacOS(AsyncCallback<Integer> callback);
 	void registerAgentProfile(AgentDto dto, AsyncCallback<Void> asyncCallback) throws UsernameAlreadyExistsException;
