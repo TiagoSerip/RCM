@@ -33,6 +33,8 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TabBar;
+import com.google.gwt.user.client.ui.TabPanel;
 
 
 /**
@@ -57,9 +59,10 @@ public class PIDirectory extends DecoratorPanel {
 	private static final String AP_ID_ERROR = "The AP that you are using doesn't allow adding new PI's. Sorry...";
 	private static final String NAME_ERROR = "You must enter a name for the new PI.";
 	private static final String DESC_ERROR = "You must enter a description for the new PI.";
+	private static final String ADD_OK = "You have sucessfully created a new PI on this AP.";
+	private static final String PI_CREATE_ERROR = "Failed to create a new PI. Try again...";
 
 	
-
 	
 	private final SoNetServletAsync sonetServlet = GWT.create(SoNetServlet.class);
 
@@ -71,11 +74,9 @@ public class PIDirectory extends DecoratorPanel {
 	final CellTable<PIDto> pointCell;
 	int selected = -1;
 	
-	
-	final Label lblNameData;
-	final Label lblLoactionData;
-	final Label lblDescriptionData;
-	final Label lblRatingData;
+    final Label lblLocationData;
+    final Label lblNameData;
+    final TextArea lblDescriptionData;
 	
 	// Create the popup dialog box
 	final DialogBox dialogBox = new DialogBox();
@@ -115,26 +116,45 @@ public class PIDirectory extends DecoratorPanel {
 		title.setStyleName("h1");
 		panel.add(title);
 		
-		Label spaceLBL = new Label(" ");
-		panel.add(spaceLBL);
+		TabPanel tabPanel = new TabPanel();
+		panel.add(tabPanel, 0, 35);
+		tabPanel.setSize("761px", "390px");
+				
+				this.add(this.panel);
+				panel.setSize("793px", "568px");
+			      // Add a selection model to handle user selection.
+			      final SingleSelectionModel<PIDto> selectionModel 
+			      = new SingleSelectionModel<PIDto>();
+			      selectionModel.addSelectionChangeHandler(
+			      new SelectionChangeEvent.Handler() {
+			         public void onSelectionChange(SelectionChangeEvent event) {
+			        	 PIDto pi = selectionModel.getSelectedObject();
+			             selected = pi.getId();
+			        	 //publicationId = selected.getId();
+			            }
+			         }
+			      );
+			      
+			    final ListDataProvider<PIDto> dataProvider = new ListDataProvider<PIDto>();
+		
+		AbsolutePanel viewPanel = new AbsolutePanel();
+		tabPanel.add(viewPanel, "View PI's", false);
+		viewPanel.setSize("750px", "350px");
 		
 		Label info = new Label("Pick a Point of Interest in the box bellow and press 'View' to see more information.");
-		panel.add(info);
-		
-		this.add(this.panel);
-		panel.setSize("100%", "568px");
+		viewPanel.add(info);
 		
 		listLbl = new Label("No AP selected.");
-		panel.add(listLbl);
-
-		Grid listGrid = new Grid(2, 1);
-		panel.add(listGrid);
+		viewPanel.add(listLbl);
 		
-		pointCell = new CellTable<PIDto>(){};
-		pointCell.setPageSize(5);
-		listGrid.setWidget(0,0,pointCell);
-		pointCell.setSize("587px", "215px");
-		// Add a number column to show the id.
+				Grid listGrid = new Grid(2, 1);
+				viewPanel.add(listGrid);
+				
+				pointCell = new CellTable<PIDto>(){};
+				pointCell.setPageSize(5);
+				listGrid.setWidget(0,0,pointCell);
+				pointCell.setSize("465px", "215px");
+				// Add a number column to show the id.
 	      Column<PIDto, Number> pointIdColum = 
 	      new Column<PIDto, Number>(new NumberCell()) {
 	         @Override
@@ -145,161 +165,125 @@ public class PIDirectory extends DecoratorPanel {
 	      pointIdColum.setSortable(true);
 	      pointCell.addColumn(pointIdColum, "ID");
 	      pointCell.setColumnWidth(pointIdColum, "37px");
-	   // Add a text column to show the publication string.
-	      TextColumn<PIDto> pointTextColum = 
-	      new TextColumn<PIDto>() {
-	         @Override
-	         public String getValue(PIDto object) {
-	            return object.getName();
-	         }
-	      };
-	      pointCell.addColumn(pointTextColum, "Name");
-	      // Add a selection model to handle user selection.
-	      final SingleSelectionModel<PIDto> selectionModel 
-	      = new SingleSelectionModel<PIDto>();
-	      pointCell.setSelectionModel(selectionModel);
-	      selectionModel.addSelectionChangeHandler(
-	      new SelectionChangeEvent.Handler() {
-	         public void onSelectionChange(SelectionChangeEvent event) {
-	        	 PIDto pi = selectionModel.getSelectedObject();
-	             selected = pi.getId();
-	        	 //publicationId = selected.getId();
+	      // Add a text column to show the publication string.
+	         TextColumn<PIDto> pointTextColum = 
+	         new TextColumn<PIDto>() {
+	            @Override
+	            public String getValue(PIDto object) {
+	               return object.getName();
 	            }
-	         }
-	      );
-	      
-	    final ListDataProvider<PIDto> dataProvider = new ListDataProvider<PIDto>();
-	    dataProvider.addDataDisplay(pointCell);
+	         };
+	         pointCell.addColumn(pointTextColum, "Name");
+	         pointCell.setSelectionModel(selectionModel);
+	         
+	         final Button btnRefresh = new Button("Refresh");
+	         viewPanel.add(btnRefresh, 0, 304);
+	         btnRefresh.addClickHandler(new ClickHandler() {
+	         	public void onClick(ClickEvent event) {
+	         		loadPIs();
+	         	}
+	         	}
+	         );
+	         dataProvider.addDataDisplay(pointCell);
+	         
+	         lblDescriptionData = new TextArea();
+	         viewPanel.add(lblDescriptionData, 494, 136);
+	         lblDescriptionData.setSize("220px", "97px");
+	         
+	         Button button = new Button("+1");
+	         viewPanel.add(button, 655, 249);
+	         button.setSize("31px", "30px");
+	         
+	         Button button_1 = new Button("-1");
+	         viewPanel.add(button_1, 692, 249);
+	         button_1.setSize("28px", "30px");
+	         
+	         Label label_1 = new Label("Rating:");
+	         label_1.setStyleName("h3");
+	         viewPanel.add(label_1, 494, 258);
+	         label_1.setSize("58px", "21px");
+	         
+	         Label label_2 = new Label("0");
+	         viewPanel.add(label_2, 558, 261);
+	         label_2.setSize("21px", "18px");
+	         
+	         Label label_3 = new Label("Vote:");
+	         label_3.setStyleName("h3");
+	         viewPanel.add(label_3, 606, 258);
+	         label_3.setSize("43px", "21px");
+	         
+	         Button button_2 = new Button("View PI");
+	         viewPanel.add(button_2, 410, 304);
+	         button_2.setSize("61px", "30px");
+	         
+	         Label label_9 = new Label("Name:");
+	         label_9.setStyleName("h3");
+	         viewPanel.add(label_9, 494, 28);
+	         label_9.setSize("62px", "21px");
+	         
+	         lblNameData = new Label("Name empty ");
+	         viewPanel.add(lblNameData, 494, 46);
+	         lblNameData.setSize("143px", "18px");
+	         
+	         Label label_11 = new Label("Location:");
+	         label_11.setStyleName("h3");
+	         viewPanel.add(label_11, 494, 70);
+	         label_11.setSize("85px", "21px");
+	         
+	         lblLocationData = new Label("Location empty");
+	         viewPanel.add(lblLocationData, 494, 90);
+	         lblLocationData.setSize("182px", "18px");
+	         
+	         Label label_13 = new Label("Description:");
+	         label_13.setStyleName("h3");
+	         viewPanel.add(label_13, 494, 114);
+	         label_13.setSize("105px", "21px");
+		
+		AbsolutePanel addPanel = new AbsolutePanel();
+		tabPanel.add(addPanel, "Add PI", false);
+		addPanel.setSize("750px", "350px");
+		
+		Label label_4 = new Label("To add a new Point of Intrest to this AP please fill the boxes bellow:");
+		label_4.setStyleName("gwt-DialogBox");
+		addPanel.add(label_4, 10, 37);
+		label_4.setSize("400px", "18px");
+		
+		Label label_5 = new Label("Add a New Point of Interest");
+		label_5.setStyleName("h3");
+		addPanel.add(label_5, 10, 10);
+		label_5.setSize("222px", "21px");
+		
+		Label label_6 = new Label("Name:");
+		addPanel.add(label_6, 46, 85);
+		label_6.setSize("39px", "18px");
+		
+		Label label_7 = new Label("Location:");
+		addPanel.add(label_7, 32, 137);
+		label_7.setSize("53px", "18px");
+		
+		Label label_8 = new Label("Description:");
+		addPanel.add(label_8, 297, 85);
+		label_8.setSize("69px", "18px");
+		
+		TextBox textBox = new TextBox();
+		addPanel.add(textBox, 89, 79);
+		textBox.setSize("171px", "34px");
+		
+		TextBox textBox_1 = new TextBox();
+		addPanel.add(textBox_1, 91, 127);
+		textBox_1.setSize("171px", "34px");
+		
+		TextArea textArea = new TextArea();
+		addPanel.add(textArea, 382, 74);
+		textArea.setSize("180px", "81px");
+		
+		Button button_3 = new Button("Add PI");
+		addPanel.add(button_3, 608, 125);
+		button_3.setSize("56px", "30px");
 		
 	    loadPIs();
-	    
-		final Button btnRefresh = new Button("Refresh");
-		btnRefresh.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				loadPIs();
-			}
-			}
-		);
-		
-		panel.add(btnRefresh);
-		
+	    viewPanel.setVisible(true);
 
-		Label lblName = new Label("Name:");
-		lblName.setStyleName("h3");
-		panel.add(lblName, 614, 59);
-		
-		lblNameData = new Label("Name empty ");
-		panel.add(lblNameData, 614, 83);
-		
-		Label lblLocation = new Label("Location:");
-		lblLocation.setStyleName("h3");
-		panel.add(lblLocation, 614, 118);
-		
-		lblLoactionData = new Label("Location empty");
-		panel.add(lblLoactionData, 614, 145);
-		
-		Label lblDescription = new Label("Description:");
-		lblDescription.setStyleName("h3");
-		panel.add(lblDescription, 614, 176);
-		
-		lblDescriptionData = new Label("Description empty");
-		panel.add(lblDescriptionData, 614, 204);
-		
-		Button btnPostive = new Button("+1");
-		panel.add(btnPostive, 663, 314);
-		
-		Button btnNegative = new Button("-1");
-		panel.add(btnNegative, 700, 314);
-		
-		Label lblRating = new Label("Rating:");
-		lblRating.setStyleName("h3");
-		panel.add(lblRating, 614, 246);
-		
-		lblRatingData = new Label("Rating empty");
-		panel.add(lblRatingData, 614, 272);
-		
-		Label lblVote = new Label("Vote:");
-		lblVote.setStyleName("h3");
-		panel.add(lblVote, 614, 314);
-		
-		Button btnViewPi = new Button("View PI");
-		btnViewPi.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				if(selected == -1)
-					return;
-				loadPI();
-			}
-		});
-		panel.add(btnViewPi, 532, 314);
-		
-		Label lblAddInfo = new Label("To add a new Point of Intrest to this AP please fill the boxes bellow:");
-		lblAddInfo.setStyleName("gwt-DialogBox");
-		panel.add(lblAddInfo, 0, 387);
-		
-		Label lblAddANew = new Label("Add a New Point of Interest");
-		lblAddANew.setStyleName("h3");
-		panel.add(lblAddANew, 0, 360);
-		
-		Label lblAddName = new Label("Name:");
-		panel.add(lblAddName, 36, 435);
-		
-		Label lblAddLocation = new Label("Location:");
-		panel.add(lblAddLocation, 22, 487);
-		
-		Label lblAddDescription = new Label("Description:");
-		panel.add(lblAddDescription, 287, 435);
-		
-		final TextBox boxName = new TextBox();
-		panel.add(boxName, 79, 429);
-		
-		final TextBox boxLocation = new TextBox();
-		panel.add(boxLocation, 81, 477);
-		
-		final TextArea boxDescription = new TextArea();
-		panel.add(boxDescription, 372, 424);
-		boxDescription.setSize("180px", "81px");
-		
-		Button btnAdd = new Button("Add PI");
-		btnAdd.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				
-				String name = boxName.getValue();
-				String location = boxLocation.getValue();
-				String description = boxDescription.getValue();
-				
-				if (ap < 0){
-					showError(AP_ID_ERROR);
-					return;
-				}
-				
-				if( location.equals("") || location==null){
-					showError(LOCATION_ERROR);
-					return;
-
-				}
-				
-				if( name.equals("") || name==null){
-					showError(NAME_ERROR);
-					return;
-
-				}
-				
-				if( description.equals("") || description==null){
-					showError(DESC_ERROR);
-					return;
-
-				}
-					
-				boxName.setValue(null);	
-				boxLocation.setValue(null);	
-				boxDescription.setValue(null);	
-				
-				addPI(ap, name, location, description);
-			}
-		});
-		panel.add(btnAdd, 598, 475);
-		
-		
 	}
 	
 	void showError(String reason){
@@ -338,7 +322,7 @@ public class PIDirectory extends DecoratorPanel {
 
 					public void onSuccess(PIDto dto) {
 						lblNameData.setText(dto.getName());
-						lblLoactionData.setText(dto.getLocation());
+						lblLocationData.setText(dto.getLocation());
 						lblDescriptionData.setText(dto.getDescription());
 						//lblRatingData.setText(dto.getPositive() - dto.getNegative());
 					}
@@ -347,6 +331,20 @@ public class PIDirectory extends DecoratorPanel {
 	
 	void addPI(int ap, String name, String location, String description){
 		
+		sonetServlet.createPI(ap, name, location, description, new AsyncCallback<Void>() {
+			public void onFailure(Throwable caught) {
+				showError(PI_CREATE_ERROR);
+				caught.printStackTrace();
+			}
+
+			public void onSuccess(Void v) {
+				dialogBox.setText("Added a new PI:");
+				serverResponseLabel.removeStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML(ADD_OK);
+				dialogBox.center();
+				closeButton.setFocus(true);
+			}
+		});
+		
 	}
-	
 }
