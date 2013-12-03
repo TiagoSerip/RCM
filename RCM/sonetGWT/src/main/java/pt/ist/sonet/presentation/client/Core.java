@@ -240,7 +240,7 @@ public class Core implements EntryPoint {
 			}
 		});
 		
-		chat = new Button("PRIVATE CHAT");
+		chat = new Button("Private Chat");
 		chat.setVisible(false);
 		chat.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
