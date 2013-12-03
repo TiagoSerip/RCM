@@ -4,11 +4,13 @@ import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.IpOutOfMeshException;
+import pt.ist.sonet.exception.PIIdDoesNotExistsException;
 import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.ListingDto;
+import pt.ist.sonet.service.dto.PIDto;
 import pt.ist.sonet.service.dto.PIListDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
@@ -41,4 +43,5 @@ public interface SoNetServlet extends RemoteService {
 	void registerAgentProfile(AgentDto dto) throws UsernameAlreadyExistsException;
 	int updateAgentIP(AgentDto dto) throws AgentUsernameDoesNotExistsException, IpOutOfMeshException;
 	PIListDto getPIsByAp(int apId) throws ApIdDoesNotExistsException;
+	PIDto getPIById(int id) throws PIIdDoesNotExistsException;
 }

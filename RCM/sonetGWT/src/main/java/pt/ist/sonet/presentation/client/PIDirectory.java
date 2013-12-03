@@ -50,6 +50,8 @@ public class PIDirectory extends DecoratorPanel {
 	private static final String NO_AGENTS = "There are no users near this AP.";
 	private static final String LIST_LBL = "These are the users around AP-";
 	private static final String INFO = "Pick an AP on the map below and see what users are in that area.";
+	private static final String PI_LOAD_ERROR = "Failed to load this PI information. Please, try again...";
+
 	
 	private final SoNetServletAsync sonetServlet = GWT.create(SoNetServlet.class);
 
@@ -59,7 +61,13 @@ public class PIDirectory extends DecoratorPanel {
 	private final AbsolutePanel panel;
 	final Label listLbl;
 	final CellTable<PIDto> pointCell;
-	final int selected = -1;
+	int selected = -1;
+	
+	
+	final Label lblNameData;
+	final Label lblLoactionData;
+	final Label lblDescriptionData;
+	final Label lblRatingData;
 	
 	// Create the popup dialog box
 	final DialogBox dialogBox = new DialogBox();
@@ -145,8 +153,9 @@ public class PIDirectory extends DecoratorPanel {
 	      selectionModel.addSelectionChangeHandler(
 	      new SelectionChangeEvent.Handler() {
 	         public void onSelectionChange(SelectionChangeEvent event) {
-	        	 PIDto selected = selectionModel.getSelectedObject();
-	             //publicationId = selected.getId();
+	        	 PIDto pi = selectionModel.getSelectedObject();
+	             selected = pi.getId();
+	        	 //publicationId = selected.getId();
 	            }
 	         }
 	      );
@@ -166,25 +175,26 @@ public class PIDirectory extends DecoratorPanel {
 		
 		panel.add(btnRefresh);
 		
+
 		Label lblName = new Label("Name:");
 		lblName.setStyleName("h3");
 		panel.add(lblName, 614, 59);
 		
-		Label lblNameData = new Label("Name empty ");
+		lblNameData = new Label("Name empty ");
 		panel.add(lblNameData, 614, 83);
 		
 		Label lblLocation = new Label("Location:");
 		lblLocation.setStyleName("h3");
 		panel.add(lblLocation, 614, 118);
 		
-		Label lblLoactionData = new Label("Location empty");
+		lblLoactionData = new Label("Location empty");
 		panel.add(lblLoactionData, 614, 145);
 		
 		Label lblDescription = new Label("Description:");
 		lblDescription.setStyleName("h3");
 		panel.add(lblDescription, 614, 176);
 		
-		Label lblDescriptionData = new Label("Description empty");
+		lblDescriptionData = new Label("Description empty");
 		panel.add(lblDescriptionData, 614, 204);
 		
 		Button btnPostive = new Button("+1");
@@ -197,12 +207,22 @@ public class PIDirectory extends DecoratorPanel {
 		lblRating.setStyleName("h3");
 		panel.add(lblRating, 614, 236);
 		
-		Label lblRatingData = new Label("Rating empty");
+		lblRatingData = new Label("Rating empty");
 		panel.add(lblRatingData, 614, 262);
 		
 		Label lblVote = new Label("Vote:");
 		lblVote.setStyleName("h3");
 		panel.add(lblVote, 614, 304);
+		
+		Button btnViewPi = new Button("View PI");
+		btnViewPi.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				if(selected == -1)
+					return;
+				loadPI();
+			}
+		});
+		panel.add(btnViewPi, 532, 314);
 
 		
 	}
@@ -227,20 +247,23 @@ public class PIDirectory extends DecoratorPanel {
 				});
 	}
 	
-	void loadPI(int id){
-		sonetServlet.getPIsByAp(ap, new AsyncCallback<PIListDto>() {
+	void loadPI(){
+		sonetServlet.getPIById(selected, new AsyncCallback<PIDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
 						dialogBox.setText("PI Directory error:");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML(AP_LOAD_ERROR+"\n(AP:"+ap+") | "+caught.getLocalizedMessage());
+						serverResponseLabel.setHTML(PI_LOAD_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
 						caught.printStackTrace();
 					}
 
-					public void onSuccess(PIListDto dto) {
-						pointCell.setRowData(dto.getlisting());
+					public void onSuccess(PIDto dto) {
+						lblNameData.setText(dto.getName());
+						lblLoactionData.setText(dto.getLocation());
+						lblDescriptionData.setText(dto.getDescription());
+						//lblRatingData.setText(dto.getPositive() - dto.getNegative());
 					}
 				});
 	}

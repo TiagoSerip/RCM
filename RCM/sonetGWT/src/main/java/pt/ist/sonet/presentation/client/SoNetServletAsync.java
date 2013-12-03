@@ -8,6 +8,7 @@ import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.ListingDto;
+import pt.ist.sonet.service.dto.PIDto;
 import pt.ist.sonet.service.dto.PIListDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
@@ -38,4 +39,5 @@ public interface SoNetServletAsync {
 	void registerAgentProfile(AgentDto dto, AsyncCallback<Void> asyncCallback) throws UsernameAlreadyExistsException;
 	void updateAgentIP(AgentDto dto, AsyncCallback<Integer> callback);
 	void getPIsByAp(int apId, AsyncCallback<PIListDto> callback);
+	void getPIById(int id, AsyncCallback<PIDto> callback);
 }

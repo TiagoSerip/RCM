@@ -10,6 +10,7 @@ import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.IpOutOfMeshException;
+import pt.ist.sonet.exception.PIIdDoesNotExistsException;
 import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.presentation.client.SoNetServlet;
 import pt.ist.sonet.service.AgentLoginService;
@@ -22,6 +23,7 @@ import pt.ist.sonet.service.GetAllPIFromAPService;
 import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.GetConversationService;
+import pt.ist.sonet.service.GetPIByIdService;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
 import pt.ist.sonet.service.PositiveVoteService;
@@ -35,6 +37,7 @@ import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.MessageDto;
+import pt.ist.sonet.service.dto.PIDto;
 import pt.ist.sonet.service.dto.PIListDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
@@ -377,6 +380,15 @@ public PIListDto getPIsByAp(int apId) throws ApIdDoesNotExistsException{
 	GetAllPIFromAPService service = new GetAllPIFromAPService(apId);
 	service.execute();
 	return service.getListing();
+	
+}
+
+@Override
+public PIDto getPIById(int id) throws PIIdDoesNotExistsException{
+	
+	GetPIByIdService service = new GetPIByIdService(id);
+	service.execute();
+	return service.getPI();
 	
 }
 
