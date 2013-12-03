@@ -25,7 +25,7 @@ public class SendPrivateMessageService extends SonetService {
 		if(receiver == null)
 			throw new AgentUsernameDoesNotExistsException(message.getReceiverUsername());
 //		try {
-			network.talkTo(message.getMessageId(), sender, receiver, message.getText());
+			network.talkTo(sender, receiver, message.getText());
 //		} catch (YouArentConnected e) {
 //			throw new CanNotSendMessageException();
 //		}		

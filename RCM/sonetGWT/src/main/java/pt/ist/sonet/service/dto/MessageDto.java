@@ -5,13 +5,11 @@ public class MessageDto {
 	private static final long serialVersionUID = 1L;
 	String senderUsername;
 	String receiverUsername;
-	int msgId;
 	String text;
 	
-	public MessageDto(int id, String senderUser, String receiverUser, String text){
+	public MessageDto(String senderUser, String receiverUser, String text){
 		this.senderUsername = senderUser;
 		this.receiverUsername = receiverUser;
-		this.msgId = id;
 		this.text = text;		
 	}
 	
@@ -34,13 +32,13 @@ public class MessageDto {
 		this.receiverUsername = receiver;
 	}
 
-	public int getMessageId() {
-		return msgId;
-	}
+//	public int getMessageId() {
+//		return msgId;
+//	}
 
-	public void setMessageId(int id) {
-		this.msgId = id;
-	}
+//	public void setMessageId(int id) {
+//		this.msgId = id;
+//	}
 
 	public String getText() {
 		return text;
