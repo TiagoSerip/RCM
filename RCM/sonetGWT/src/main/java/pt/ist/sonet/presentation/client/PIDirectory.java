@@ -31,6 +31,8 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TextArea;
 
 
 /**
@@ -51,6 +53,12 @@ public class PIDirectory extends DecoratorPanel {
 	private static final String LIST_LBL = "These are the users around AP-";
 	private static final String INFO = "Pick an AP on the map below and see what users are in that area.";
 	private static final String PI_LOAD_ERROR = "Failed to load this PI information. Please, try again...";
+	private static final String LOCATION_ERROR = "You must enter a location for the new PI.";
+	private static final String AP_ID_ERROR = "The AP that you are using doesn't allow adding new PI's. Sorry...";
+	private static final String NAME_ERROR = "You must enter a name for the new PI.";
+	private static final String DESC_ERROR = "You must enter a description for the new PI.";
+
+	
 
 	
 	private final SoNetServletAsync sonetServlet = GWT.create(SoNetServlet.class);
@@ -74,7 +82,7 @@ public class PIDirectory extends DecoratorPanel {
 	final Button closeButton = new Button("Close");
 	final HTML serverResponseLabel = new HTML();
 	
-	public PIDirectory(String user, int ap){
+	public PIDirectory(String user, final int ap){
 		
 		dialogBox.setText("Remote Procedure Call");
 		dialogBox.setAnimationEnabled(true);
@@ -114,7 +122,7 @@ public class PIDirectory extends DecoratorPanel {
 		panel.add(info);
 		
 		this.add(this.panel);
-		panel.setSize("100%", "100%");
+		panel.setSize("100%", "568px");
 		
 		listLbl = new Label("No AP selected.");
 		panel.add(listLbl);
@@ -198,21 +206,21 @@ public class PIDirectory extends DecoratorPanel {
 		panel.add(lblDescriptionData, 614, 204);
 		
 		Button btnPostive = new Button("+1");
-		panel.add(btnPostive, 663, 304);
+		panel.add(btnPostive, 663, 314);
 		
 		Button btnNegative = new Button("-1");
-		panel.add(btnNegative, 700, 304);
+		panel.add(btnNegative, 700, 314);
 		
 		Label lblRating = new Label("Rating:");
 		lblRating.setStyleName("h3");
-		panel.add(lblRating, 614, 236);
+		panel.add(lblRating, 614, 246);
 		
 		lblRatingData = new Label("Rating empty");
-		panel.add(lblRatingData, 614, 262);
+		panel.add(lblRatingData, 614, 272);
 		
 		Label lblVote = new Label("Vote:");
 		lblVote.setStyleName("h3");
-		panel.add(lblVote, 614, 304);
+		panel.add(lblVote, 614, 314);
 		
 		Button btnViewPi = new Button("View PI");
 		btnViewPi.addClickHandler(new ClickHandler() {
@@ -223,26 +231,100 @@ public class PIDirectory extends DecoratorPanel {
 			}
 		});
 		panel.add(btnViewPi, 532, 314);
+		
+		Label lblAddInfo = new Label("To add a new Point of Intrest to this AP please fill the boxes bellow:");
+		lblAddInfo.setStyleName("gwt-DialogBox");
+		panel.add(lblAddInfo, 0, 387);
+		
+		Label lblAddANew = new Label("Add a New Point of Interest");
+		lblAddANew.setStyleName("h3");
+		panel.add(lblAddANew, 0, 360);
+		
+		Label lblAddName = new Label("Name:");
+		panel.add(lblAddName, 36, 435);
+		
+		Label lblAddLocation = new Label("Location:");
+		panel.add(lblAddLocation, 22, 487);
+		
+		Label lblAddDescription = new Label("Description:");
+		panel.add(lblAddDescription, 287, 435);
+		
+		final TextBox boxName = new TextBox();
+		panel.add(boxName, 79, 429);
+		
+		final TextBox boxLocation = new TextBox();
+		panel.add(boxLocation, 81, 477);
+		
+		final TextArea boxDescription = new TextArea();
+		panel.add(boxDescription, 372, 424);
+		boxDescription.setSize("180px", "81px");
+		
+		Button btnAdd = new Button("Add PI");
+		btnAdd.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				
+				String name = boxName.getValue();
+				String location = boxLocation.getValue();
+				String description = boxDescription.getValue();
+				
+				if (ap < 0){
+					showError(AP_ID_ERROR);
+					return;
+				}
+				
+				if( location.equals("") || location==null){
+					showError(LOCATION_ERROR);
+					return;
 
+				}
+				
+				if( name.equals("") || name==null){
+					showError(NAME_ERROR);
+					return;
+
+				}
+				
+				if( description.equals("") || description==null){
+					showError(DESC_ERROR);
+					return;
+
+				}
+					
+				boxName.setValue(null);	
+				boxLocation.setValue(null);	
+				boxDescription.setValue(null);	
+				
+				addPI(ap, name, location, description);
+			}
+		});
+		panel.add(btnAdd, 598, 475);
+		
+		
+	}
+	
+	void showError(String reason){
+		
+		// Show the the error to the user
+		dialogBox.setText("Add new PI error:");
+		serverResponseLabel.addStyleName("serverResponseLabelError");
+		serverResponseLabel.setHTML(reason);
+		dialogBox.center();
+		closeButton.setFocus(true);
 		
 	}
 	
 	void loadPIs(){
 		listLbl.setText(LIST_LBL+ap+":");
-		//listBox.clear();
 		sonetServlet.getPIsByAp(ap, new AsyncCallback<PIListDto>() {
 					public void onFailure(Throwable caught) {
-						// Show the the error to the user
-						dialogBox.setText("PI Directory error:");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML(AP_LOAD_ERROR+"\n(AP:"+ap+") | "+caught.getLocalizedMessage());
-						dialogBox.center();
-						closeButton.setFocus(true);
+						
+						showError(AP_LOAD_ERROR+"\n(AP:"+ap+") | "+caught.getLocalizedMessage());
 						caught.printStackTrace();
 					}
 
 					public void onSuccess(PIListDto dto) {
 						pointCell.setRowData(dto.getlisting());
+						selected=-1;
 					}
 				});
 	}
@@ -250,12 +332,7 @@ public class PIDirectory extends DecoratorPanel {
 	void loadPI(){
 		sonetServlet.getPIById(selected, new AsyncCallback<PIDto>() {
 					public void onFailure(Throwable caught) {
-						// Show the the error to the user
-						dialogBox.setText("PI Directory error:");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML(PI_LOAD_ERROR);
-						dialogBox.center();
-						closeButton.setFocus(true);
+						showError(PI_LOAD_ERROR);
 						caught.printStackTrace();
 					}
 
@@ -267,4 +344,9 @@ public class PIDirectory extends DecoratorPanel {
 					}
 				});
 	}
+	
+	void addPI(int ap, String name, String location, String description){
+		
+	}
+	
 }
