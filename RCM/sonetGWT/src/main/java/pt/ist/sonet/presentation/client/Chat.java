@@ -35,6 +35,7 @@ public class Chat extends DecoratorPanel {
 	final Button closeButton = new Button("Close");
 	final HTML serverResponseLabel = new HTML();
 	private String selected = null;
+	private String messageToSend = null;
 	final ListBox listBox = new ListBox();
 	final TextArea sendWindow = new TextArea();
 	final Button sendButton = new Button("Send");
@@ -97,12 +98,13 @@ public class Chat extends DecoratorPanel {
 		listBox.setVisibleItemCount(10);	
 		
 		panel.add(selectButton, 353, 304);
+		selectButton.setSize("57", "30");
 		
 		panel.add(sendWindow, 0, 513);
 		sendWindow.setSize("314px", "40px");
 		
-		panel.add(sendButton, 340, 513);
-		sendButton.setSize("46px", "40px");
+		panel.add(sendButton, 329, 513);
+		sendButton.setSize("57px", "40px");
 		
 		panel.add(cellTable, 0, 348);
 		cellTable.setSize("386px", "159px");
@@ -115,13 +117,40 @@ public class Chat extends DecoratorPanel {
 		conversationWindow.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		cellTable.addColumn(conversationWindow, "Conversation");
 		
+		Button uptadeButton = new Button("Update");
+		panel.add(uptadeButton, 266, 304);
+		
+		loadAllAgents();
+		
+		//BOTAO UPDATE
+		uptadeButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				loadAllAgents();
+			}
+		});
+		
+		//BOTAO SELECT
 		selectButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if(listBox.getSelectedIndex()>-1){
+				if(listBox.getName() != null){
 					selectButton.setEnabled(false);
-					selected=listBox.getValue(listBox.getSelectedIndex());					
+					selected=listBox.getName();
+					loadConversation();
+					cellTable.setTitle("Conversation with "+selected);
 				}
 			}
+		});
+		
+		//BOTAO SEND
+		sendButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				if(!sendWindow.getText().isEmpty()) {
+					messageToSend = sendWindow.getText();
+					sendWindow.setValue(null);
+					sendMessage();
+				}
+			}
+			
 		});
 	}
 	
@@ -165,35 +194,32 @@ public class Chat extends DecoratorPanel {
 					}
 
 					public void onSuccess(StringListDto dto) {
-						cellTable.setTitle("Conversation with ");
 						cellTable.setRowData(dto.getlisting());
 						selectButton.setEnabled(true);
 					}
 				});
 	}
 	
-//	void sendMessage(){
-//		//listBox.clear();
-//		sonetServlet.sendPrivateMessage(user, selected, text, new AsyncCallback<StringListDto>() {
-//					public void onFailure(Throwable caught) {
-//						// Show the the error to the user
-//						dialogBox.setText("Loading error.");
-//						serverResponseLabel.addStyleName("serverResponseLabelError");
-//						serverResponseLabel.setHTML(SERVER_ERROR);
-//						dialogBox.center();
-//						closeButton.setFocus(true);
-//						selectButton.setEnabled(true);
-//
-//					}
-//
-//					public void onSuccess(StringListDto dto) {
-//						cellTable.setTitle("Conversation with ");
-//						cellTable.setRowData(dto.getlisting());
-//						selectButton.setEnabled(true);
-//					}
-//				});
-//	}
-		
+	void sendMessage(){
+		//listBox.clear();
+		sonetServlet.sendPrivateMessage(user, selected, messageToSend, new AsyncCallback<Void>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("Loading error.");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
+						closeButton.setFocus(true);
+						selectButton.setEnabled(true);
+
+					}
+
+					public void onSuccess(Void v) {
+						loadConversation();
+						selectButton.setEnabled(true);
+					}
+				});
+	}
 }
 
 
