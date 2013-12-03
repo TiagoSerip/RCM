@@ -353,8 +353,9 @@ public class SoNet extends SoNet_Base implements Serializable {
 	 * @param Agent receiver
 	 * @param String mensagem
 	 */	
-	public void talkTo(int id, Agent sender, Agent receiver, String text) {
+	public void talkTo(Agent sender, Agent receiver, String text) {
 		Message msg = new Message();
+		int id = generateMessageId();
 		msg.init(id, sender, receiver, text);
 		sender.addSentMessage(msg);
 		receiver.addReceivedMessage(msg);		

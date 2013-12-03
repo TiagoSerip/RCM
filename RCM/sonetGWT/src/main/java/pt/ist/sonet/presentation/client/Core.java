@@ -246,6 +246,7 @@ public class Core implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
 				refresh();
+				viewChat = new Chat(active);
 				RootContainer.add(viewChat);
 			}
 		});

@@ -134,7 +134,7 @@ public class PIDirectory extends DecoratorPanel {
 	      new TextColumn<PIDto>() {
 	         @Override
 	         public String getValue(PIDto object) {
-	            return object.getId()+" | "+object.getName();
+	            return object.getName();
 	         }
 	      };
 	      pointCell.addColumn(pointTextColum, "Name");
@@ -166,14 +166,68 @@ public class PIDirectory extends DecoratorPanel {
 		
 		panel.add(btnRefresh);
 		
-		FileUpload fileUpload = new FileUpload();
-		panel.add(fileUpload);
+		Label lblName = new Label("Name:");
+		lblName.setStyleName("h3");
+		panel.add(lblName, 614, 59);
+		
+		Label lblNameData = new Label("Name empty ");
+		panel.add(lblNameData, 614, 83);
+		
+		Label lblLocation = new Label("Location:");
+		lblLocation.setStyleName("h3");
+		panel.add(lblLocation, 614, 118);
+		
+		Label lblLoactionData = new Label("Location empty");
+		panel.add(lblLoactionData, 614, 145);
+		
+		Label lblDescription = new Label("Description:");
+		lblDescription.setStyleName("h3");
+		panel.add(lblDescription, 614, 176);
+		
+		Label lblDescriptionData = new Label("Description empty");
+		panel.add(lblDescriptionData, 614, 204);
+		
+		Button btnPostive = new Button("+1");
+		panel.add(btnPostive, 663, 304);
+		
+		Button btnNegative = new Button("-1");
+		panel.add(btnNegative, 700, 304);
+		
+		Label lblRating = new Label("Rating:");
+		lblRating.setStyleName("h3");
+		panel.add(lblRating, 614, 236);
+		
+		Label lblRatingData = new Label("Rating empty");
+		panel.add(lblRatingData, 614, 262);
+		
+		Label lblVote = new Label("Vote:");
+		lblVote.setStyleName("h3");
+		panel.add(lblVote, 614, 304);
+
 		
 	}
 	
 	void loadPIs(){
 		listLbl.setText(LIST_LBL+ap+":");
 		//listBox.clear();
+		sonetServlet.getPIsByAp(ap, new AsyncCallback<PIListDto>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("PI Directory error:");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(AP_LOAD_ERROR+"\n(AP:"+ap+") | "+caught.getLocalizedMessage());
+						dialogBox.center();
+						closeButton.setFocus(true);
+						caught.printStackTrace();
+					}
+
+					public void onSuccess(PIListDto dto) {
+						pointCell.setRowData(dto.getlisting());
+					}
+				});
+	}
+	
+	void loadPI(int id){
 		sonetServlet.getPIsByAp(ap, new AsyncCallback<PIListDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user

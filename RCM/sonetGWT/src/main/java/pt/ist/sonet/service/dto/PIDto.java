@@ -1,6 +1,8 @@
 package pt.ist.sonet.service.dto;
 
-public class PIDto {
+import java.io.Serializable;
+
+public class PIDto implements Serializable{
 
 	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
