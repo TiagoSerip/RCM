@@ -79,6 +79,9 @@ public class PIDirectory extends DecoratorPanel {
     final Label lblNameData;
     final TextArea lblDescriptionData;
 	
+    final SimplePager pointPager = new SimplePager();
+    final ListDataProvider<PIDto> dataProvider = new ListDataProvider<PIDto>();
+    
 	// Create the popup dialog box
 	final DialogBox dialogBox = new DialogBox();
 	final Button closeButton = new Button("Close");
@@ -136,8 +139,6 @@ public class PIDirectory extends DecoratorPanel {
 	            }
 	         }
 	      );
-	      
-	    final ListDataProvider<PIDto> dataProvider = new ListDataProvider<PIDto>();
 		
 		AbsolutePanel viewPanel = new AbsolutePanel();
 		tabPanel.add(viewPanel, "View PI's", false);
@@ -187,10 +188,11 @@ public class PIDirectory extends DecoratorPanel {
          );
          dataProvider.addDataDisplay(pointCell);
          
-         final SimplePager pointPagger = new SimplePager();
-         pointPagger.setDisplay(pointCell);
- 		 viewPanel.add(pointPagger, 163, 304);
+         SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);         
+         pointPager.setDisplay(pointCell);
+ 		 viewPanel.add(pointPager, 163, 304);
  		 pointCell.setPageSize(5);
+ 		 pointPager.setPageSize(5);
 
          
          lblDescriptionData = new TextArea();
@@ -235,7 +237,7 @@ public class PIDirectory extends DecoratorPanel {
          viewPanel.add(label_9, 494, 28);
          label_9.setSize("62px", "21px");
          
-         lblNameData = new Label("Name empty ");
+         lblNameData = new Label();
          viewPanel.add(lblNameData, 494, 46);
          lblNameData.setSize("143px", "18px");
          
@@ -244,7 +246,7 @@ public class PIDirectory extends DecoratorPanel {
          viewPanel.add(label_11, 494, 70);
          label_11.setSize("85px", "21px");
          
-         lblLocationData = new Label("Location empty");
+         lblLocationData = new Label();
          viewPanel.add(lblLocationData, 494, 90);
          lblLocationData.setSize("182px", "18px");
          
@@ -358,7 +360,9 @@ public class PIDirectory extends DecoratorPanel {
 					}
 
 					public void onSuccess(PIListDto dto) {
-						pointCell.setRowData(dto.getlisting());
+						//pointCell.setRowData(dto.getlisting());
+						dataProvider.setList(dto.getlisting());
+						pointPager.setPageSize(5);
 						selected=-1;
 					}
 				});
