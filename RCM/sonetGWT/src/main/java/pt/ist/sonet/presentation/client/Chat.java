@@ -98,26 +98,26 @@ public class Chat extends DecoratorPanel {
 		listGrid.setWidget(1, 0, listLbl);
 		
 		listGrid.setWidget(2, 0, listBox);
-		listBox.setWidth("245px");
+		listBox.setSize("245px", "200px");
 		listBox.setVisibleItemCount(10);	
 		
 		panel.add(selectButton, 194, 304);
 		selectButton.setSize("57", "30");
 		
-		panel.add(sendWindow, 284, 258);
+		panel.add(sendWindow, 284, 294);
 		sendWindow.setSize("314px", "40px");
 		
-		panel.add(sendButton, 614, 258);
+		panel.add(sendButton, 614, 294);
 		sendButton.setSize("57px", "40px");
 		
 		Button uptadeButton = new Button("Update");
 		panel.add(uptadeButton, 117, 304);
 		
-		panel.add(conversationWindow, 284, 53);
-		conversationWindow.setSize("387px", "199px");
+		panel.add(conversationWindow, 284, 82);
+		conversationWindow.setSize("387px", "203px");
 		conversationWindow.setVisibleItemCount(5);
 		
-		panel.add(lblConversation, 283, 35);
+		panel.add(lblConversation, 284, 62);
 		lblConversation.setSize("388px", "18px");
 		
 		loadAllAgents();
@@ -137,6 +137,7 @@ public class Chat extends DecoratorPanel {
 					selected=listBox.getItemText(listBox.getSelectedIndex());
 					lblConversation.setText("Conversation with "+selected);
 					lblConversation.setTitle("Conversation with "+selected);
+					conversationWindow.clear();
 					loadConversation();
 				}
 			}
@@ -223,6 +224,7 @@ public class Chat extends DecoratorPanel {
 					}
 
 					public void onSuccess(Void v) {
+						conversationWindow.clear();
 						loadConversation();
 						selectButton.setEnabled(true);
 					}

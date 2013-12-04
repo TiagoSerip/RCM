@@ -73,7 +73,7 @@ public class Agent extends Agent_Base implements Serializable{
 		}
 		
 		for(Message m : this.getReceivedMessageSet()){
-			if(m.getSender().equals(this))
+			if(m.getSender().equals(agent))
 				receivedMsg.add(m);		
 		}
 		
