@@ -13,6 +13,7 @@ import pt.ist.sonet.exception.IpOutOfMeshException;
 import pt.ist.sonet.exception.PIIdDoesNotExistsException;
 import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.presentation.client.SoNetServlet;
+import pt.ist.sonet.service.AddCommentService;
 import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.AgentsByApService;
 import pt.ist.sonet.service.ChangeAgentPasswordService;
@@ -36,6 +37,7 @@ import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.BooleanDto;
+import pt.ist.sonet.service.dto.CommentDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.MessageDto;
 import pt.ist.sonet.service.dto.PIDto;
@@ -234,9 +236,9 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	 * @return StringListDto
 	 * @throws ApIdDoesNotExistsException
 	 */
-	public StringListDto getPublicationComments(int pubId) throws ApIdDoesNotExistsException{
+	public StringListDto getAPComments(int apId) throws ApIdDoesNotExistsException{
 		StringListDto dto = new StringListDto();
-		GetApCommentsService service = new GetApCommentsService(pubId, dto);
+		GetApCommentsService service = new GetApCommentsService(apId, dto);
 		service.execute();
 		return dto;
 	}
@@ -258,8 +260,8 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	 * @throws OnVoteLimitException
 	 * @throws AgentsCantVoteInTheirOwnPublicationsException
 	 */
-	public void positiveVote(String user, int pubId) throws AlreadyVotedException{
-		PositiveVoteService service = new PositiveVoteService(user, pubId);
+	public void positiveVote(String user, int apId) throws AlreadyVotedException{
+		PositiveVoteService service = new PositiveVoteService(user, apId);
 		service.execute();
 	}
 	
@@ -272,8 +274,8 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	 * @throws OnVoteLimitException
 	 * @throws AgentsCantVoteInTheirOwnPublicationsException
 	 */
-	public void negativeVote(String user, int pubId) throws AlreadyVotedException{
-		NegativeVoteService service = new NegativeVoteService(user, pubId);
+	public void negativeVote(String user, int apId) throws AlreadyVotedException{
+		NegativeVoteService service = new NegativeVoteService(user, apId);
 		service.execute();
 	}
 
@@ -302,15 +304,18 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	public void commentAp(String username, int apId, String text)
 			throws AgentUsernameDoesNotExistsException,
 			ApIdDoesNotExistsException {
-		// TODO Auto-generated method stub
+		
+		new AddCommentService(new CommentDto(username, apId, text)).execute();
 		
 	}
 
 	@Override
 	public StringListDto getApComments(int apId)
 			throws ApIdDoesNotExistsException {
-		// TODO Auto-generated method stub
-		return null;
+		StringListDto dto = new StringListDto();
+		GetApCommentsService service = new GetApCommentsService(apId, dto);
+		service.execute();
+		return dto;
 	}
 
 

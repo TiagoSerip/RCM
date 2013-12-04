@@ -38,7 +38,7 @@ public class RegisterApService extends SonetService {
 	public void dispatch() throws SoNetException, ApIdAlreadyExistsException {
 		
 		SoNet network = FenixFramework.getRoot();
-		
+
 			AP ap = network.createAP(dto.getId(), dto.getSubnet(), dto.getRssi());
 			network.addAp(ap);
 		

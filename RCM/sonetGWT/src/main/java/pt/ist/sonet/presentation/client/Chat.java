@@ -1,9 +1,12 @@
 package pt.ist.sonet.presentation.client;
 
+
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import pt.ist.sonet.service.dto.StringListDto;
 
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -18,8 +21,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
-import java.awt.event.ActionEvent;
-import javax.swing.Timer;
 
 public class Chat extends DecoratorPanel {	
 	
@@ -47,13 +48,10 @@ public class Chat extends DecoratorPanel {
 	private final AbsolutePanel panel;
 	final Label listLbl;
 	final Label lblConversation = new Label("Conversation");
+	
+	private Timer t;
 
 	int delay = 3000; //milliseconds
-	ActionListener taskPerformer = new ActionListener() {
-		public void actionPerformed(ActionEvent evt) {
-			loadConversation();		
-		}
-	};
 	
 	public Chat(String user) {
 						
@@ -145,10 +143,19 @@ public class Chat extends DecoratorPanel {
 					lblConversation.setTitle("Conversation with "+selected);
 					conversationWindow.clear();
 					loadConversation();
-					new Timer(delay, taskPerformer).start();
+					t = new Timer(){
+						@Override
+					      public void run() {
+					        loadConversation();
+					      }
+					};
+					t.schedule(delay);
 				}
+					
 			}
 		});
+		
+
 		
 		//BOTAO SEND
 		sendButton.addClickHandler(new ClickHandler() {
@@ -189,7 +196,7 @@ public class Chat extends DecoratorPanel {
 	}
 	
 	void loadConversation(){
-		//listBox.clear();
+		conversationWindow.clear();
 		sonetServlet.getConversation(user, selected, new AsyncCallback<StringListDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
@@ -203,6 +210,7 @@ public class Chat extends DecoratorPanel {
 					}
 
 					public void onSuccess(StringListDto dto) {
+						t.schedule(delay);
 						if(dto.getlisting().isEmpty()) {
 							conversationWindow.addItem(NO_CONVERSATION);
 							selectButton.setEnabled(true);

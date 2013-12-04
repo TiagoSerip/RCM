@@ -27,6 +27,7 @@ public class ApDto implements Serializable{
 		this.positive = positive;
 		this.negative = negative;
 		this.subnet = subnet;
+		this.rssi=rssi;
 	}
 	public ApDto() {
 		

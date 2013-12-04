@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.util.TimerTask;
 
 import javax.swing.Timer;
 
@@ -41,7 +40,7 @@ public class SoNetApp {
 	public static void main(String[] args) {
 		System.out.println("Starting...");
 		FenixFramework.initialize(new Config() {{
-			dbAlias = "//192.168.103.1:3306/sonetdb"; 
+			dbAlias = "//127.0.0.1:3306/sonetdb"; 
 			dbUsername = "sonet";
 			dbPassword = "s0n3t";
 			domainModelPath="src/main/dml/sonet.dml";

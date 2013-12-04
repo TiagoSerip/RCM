@@ -329,7 +329,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 	 * @param Publication pub - publicacao na qual se vai votar
 	 */
 	public void negVote(Agent voter, AP ap) {
-		ap.positiveVote(voter);
+		ap.negativeVote(voter);
 	}
 
 	/**

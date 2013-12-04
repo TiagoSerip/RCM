@@ -97,6 +97,7 @@ public class Core implements EntryPoint {
 	
 	private static final String HOMEIP = "192.168.1.105";
 	private static final String TAGUSIP = "192.168.103.1";	
+	private static final String GUEST = "192.168.103.1";	
 	
 	private static final String LOGIN = "LOGIN";
 	private static final String PROFILE= "MY PROFILE";
@@ -110,6 +111,8 @@ public class Core implements EntryPoint {
 	private Button chat;
 	private Button map;
 	private Button streaming;
+	private Button btnView;
+
 
 	final RootPanel RootContainer = RootPanel.get("content");
 	final RootPanel RootHeader = RootPanel.get("header");
@@ -256,7 +259,8 @@ public class Core implements EntryPoint {
 		streaming.addClickHandler(new ClickHandler() {
 		  public void onClick(ClickEvent event) {
 			  Window.alert("Use 'rcm' as password.");
-		    Window.Location.assign("http://"+HOMEIP+":23424/mediabrowser/");
+		    Window.Location.assign("http://"+GUEST+":23424/mediabrowser/");
+		    //Window.Location.assign("http://"+HOMEIP+":23424/mediabrowser/");
 			//Window.Location.assign("http://"+TAGUSIP+":23424/mediabrowser/");
 
 		  }
@@ -270,11 +274,22 @@ public class Core implements EntryPoint {
 				RootContainer.add(new PIDirectory(active, ap));
 			}
 		});
+		
+		btnView = new Button("VIEW AP");
+		btnView.setVisible(false);
+		btnView.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootContainer.clear();
+				refresh();
+				RootContainer.add(new ViewAP(active, ap));
+			}
+		});
 
 		
 		verticalPanel.add(btnRegister);
 		verticalPanel.add(btnProfile);
 		verticalPanel.add(map);
+		verticalPanel.add(btnView);
 		verticalPanel.add(btnDirectory);
 		verticalPanel.add(streaming);
 		verticalPanel.add(chat);
@@ -328,6 +343,7 @@ public class Core implements EntryPoint {
 						streaming.setVisible(true);
 						btnDirectory.setVisible(true);
 						chat.setVisible(true);
+						btnView.setVisible(true);
 						RootContainer.clear();
 						RootContainer.add(profilePanel);
 					}
@@ -360,6 +376,8 @@ public class Core implements EntryPoint {
 				chat.setVisible(false);
 				RootContainer.clear();
 				btnDirectory.setVisible(false);
+				btnView.setVisible(false);
+
 				
 			}
 		}

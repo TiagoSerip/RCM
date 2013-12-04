@@ -74,7 +74,6 @@ public class SoNetSetup {
 			int i;
 			for(i=0; i<8; i++){
 				createAP(rede, i, "192.168.10"+i+".", rssi[i], 0, 0);
-				
 			}
 	}
 	
@@ -172,6 +171,10 @@ public class SoNetSetup {
 		}
 		catch (ApIdDoesNotExistsException e){
 			System.out.println("AP-'"+e.getid()+"' doesn't exists.");
+			return;
+		}
+		catch (PINameAlreadyExistsException e){
+			System.out.println("PI: "+e.getConflictingUsername()+"' already exists.");
 			return;
 		}
 	}

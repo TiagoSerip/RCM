@@ -300,7 +300,7 @@ public class Profile extends DecoratorPanel {
 					// Show the RPC error message to the user
 					dialogBox.setText("Determine IP Failure");
 					serverResponseLabel.addStyleName("serverResponseLabelError");
-					serverResponseLabel.setHTML(IP_ERROR);
+					serverResponseLabel.setHTML(IP_ERROR + ip);
 					dialogBox.center();
 					closeButton.setFocus(true);
 					
@@ -323,6 +323,7 @@ public class Profile extends DecoratorPanel {
 				
 				ipBox.setEnabled(true);
 				rssiBox.setEnabled(true);
+				caught.printStackTrace();
 			}
 		});
 		
