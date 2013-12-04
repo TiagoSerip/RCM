@@ -36,6 +36,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 
 
 /**
@@ -62,6 +63,7 @@ public class PIDirectory extends DecoratorPanel {
 	private static final String DESC_ERROR = "You must enter a description for the new PI.";
 	private static final String ADD_OK = "You have sucessfully created a new PI on this AP.";
 	private static final String PI_CREATE_ERROR = "Failed to create a new PI. Try again...";
+	private static final String LINK_ERROR = "You must enter a link for the new PI.";
 
 	
 	
@@ -81,6 +83,8 @@ public class PIDirectory extends DecoratorPanel {
 	
     final SimplePager pointPager = new SimplePager();
     final ListDataProvider<PIDto> dataProvider = new ListDataProvider<PIDto>();
+    
+    HTML linkLink;
     
 	// Create the popup dialog box
 	final DialogBox dialogBox = new DialogBox();
@@ -200,25 +204,25 @@ public class PIDirectory extends DecoratorPanel {
          lblDescriptionData.setSize("220px", "97px");
          
          Button button = new Button("+1");
-         viewPanel.add(button, 655, 249);
+         viewPanel.add(button, 655, 301);
          button.setSize("31px", "30px");
          
          Button button_1 = new Button("-1");
-         viewPanel.add(button_1, 692, 249);
+         viewPanel.add(button_1, 692, 301);
          button_1.setSize("28px", "30px");
          
          Label label_1 = new Label("Rating:");
          label_1.setStyleName("h3");
-         viewPanel.add(label_1, 494, 258);
+         viewPanel.add(label_1, 494, 310);
          label_1.setSize("58px", "21px");
          
          Label label_2 = new Label("0");
-         viewPanel.add(label_2, 558, 261);
+         viewPanel.add(label_2, 558, 313);
          label_2.setSize("21px", "18px");
          
          Label label_3 = new Label("Vote:");
          label_3.setStyleName("h3");
-         viewPanel.add(label_3, 606, 258);
+         viewPanel.add(label_3, 606, 310);
          label_3.setSize("43px", "21px");
          
          Button btnViewPi = new Button("View PI");
@@ -254,6 +258,13 @@ public class PIDirectory extends DecoratorPanel {
          label_13.setStyleName("h3");
          viewPanel.add(label_13, 494, 114);
          label_13.setSize("105px", "21px");
+         
+         Label lblLink = new Label("Link:");
+         lblLink.setStyleName("h3");
+         viewPanel.add(lblLink, 494, 243);
+         
+         linkLink = new HTML();
+         viewPanel.add(linkLink, 494, 270);
 		
 		AbsolutePanel addPanel = new AbsolutePanel();
 		tabPanel.add(addPanel, "Add PI", false);
@@ -291,7 +302,13 @@ public class PIDirectory extends DecoratorPanel {
 		
 		final TextArea boxDescription = new TextArea();
 		addPanel.add(boxDescription, 382, 74);
-		boxDescription.setSize("180px", "81px");
+		boxDescription.setSize("281px", "93px");
+		
+		Label lblLink_1 = new Label("Link:");
+		addPanel.add(lblLink_1, 57, 183);
+		
+		final TextBox linkBox = new TextBox();
+		addPanel.add(linkBox, 89, 179);
 		
 		Button btnAdd = new Button("Add PI");
 		btnAdd.addClickHandler(new ClickHandler() {
@@ -300,6 +317,7 @@ public class PIDirectory extends DecoratorPanel {
 				String name = boxName.getValue();
 				String location = boxLocation.getValue();
 				String description = boxDescription.getValue();
+				String link = linkBox.getValue();
 				
 				if (ap < 0){
 					showError(AP_ID_ERROR);
@@ -323,17 +341,26 @@ public class PIDirectory extends DecoratorPanel {
 					return;
 
 				}
+				
+				if( link.equals("") || link==null){
+					showError(LINK_ERROR);
+					return;
+
+				}
 					
 				boxName.setValue(null);	
 				boxLocation.setValue(null);	
-				boxDescription.setValue(null);	
+				boxDescription.setValue(null);
+				linkBox.setValue(null);
 				
-				addPI(ap, name, location, description);
+				addPI(ap, name, location, description, link);
 			}
 		});
 
-		addPanel.add(btnAdd, 608, 125);
+		addPanel.add(btnAdd, 607, 183);
 		btnAdd.setSize("56px", "30px");
+		
+
 		
 	    loadPIs();
 	    viewPanel.setVisible(true);
@@ -379,14 +406,22 @@ public class PIDirectory extends DecoratorPanel {
 						lblNameData.setText(dto.getName());
 						lblLocationData.setText(dto.getLocation());
 						lblDescriptionData.setText(dto.getDescription());
-						//lblRatingData.setText(dto.getPositive() - dto.getNegative());
+						
+						String mask1 = "\"<a href=\"";
+						String link = dto.getLink();
+						String mask2 = "\" target=\"_blank\">";
+						String name = link;
+						String mask3 = "</a>\"";
+						
+						linkLink.setHTML(mask1+link+mask2+name+mask3);
+						//lblRatingData.setText(dto.getPositive() - dto.getNegative());								
 					}
 				});
 	}
 	
-	void addPI(int ap, String name, String location, String description){
+	void addPI(int ap, String name, String location, String description, String link){
 		
-		sonetServlet.createPI(ap, name, location, description, new AsyncCallback<Void>() {
+		sonetServlet.createPI(ap, name, location, description, link, new AsyncCallback<Void>() {
 			public void onFailure(Throwable caught) {
 				showError(PI_CREATE_ERROR);
 				caught.printStackTrace();

@@ -13,11 +13,12 @@ public class PI extends PI_Base {
 	 * @param location
 	 * @param description
 	 */
-    public void init(int id, String name, String location, String description, AP ap) {
+    public void init(int id, String name, String location, String description, String link, AP ap) {
     	setId(id);
     	setName(name);
     	setLocation(location);
     	setDescription(description);
+    	setLink(link);
     	setAp(ap);
     }
     

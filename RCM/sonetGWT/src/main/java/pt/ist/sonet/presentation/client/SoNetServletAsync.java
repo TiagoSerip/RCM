@@ -41,5 +41,5 @@ public interface SoNetServletAsync {
 	void updateAgentIP(AgentDto dto, AsyncCallback<Integer> callback);
 	void getPIsByAp(int apId, AsyncCallback<PIListDto> callback);
 	void getPIById(int id, AsyncCallback<PIDto> callback);
-	void createPI(int ap, String name, String location, String description, AsyncCallback<Void> callback);
+	void createPI(int ap, String name, String location, String description, String link, AsyncCallback<Void> callback);
 }

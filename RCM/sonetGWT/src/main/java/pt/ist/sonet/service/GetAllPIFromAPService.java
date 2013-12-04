@@ -38,7 +38,7 @@ public class GetAllPIFromAPService extends SonetService {
 		if(ap == null)
 			throw new ApIdDoesNotExistsException(apID);
 		for(PI pi : sonet.getAllPIFromAP(ap)){
-			listDto.addTolisting(new PIDto(pi.getId(), pi.getName(), pi.getLocation(), pi.getDescription()));
+			listDto.addTolisting(new PIDto(pi.getId(), pi.getName(), pi.getLocation(), pi.getDescription(), pi.getLink()));
 		}
 	}
 		

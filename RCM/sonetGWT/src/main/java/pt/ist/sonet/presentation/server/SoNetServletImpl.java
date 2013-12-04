@@ -399,8 +399,8 @@ public PIDto getPIById(int id) throws PIIdDoesNotExistsException{
 	
 }
 
-public void createPI(int ap, String name, String location, String description) throws ApIdDoesNotExistsException{
-	RegisterPIService service = new RegisterPIService(new PIDto(-1, name, location, description), ap);
+public void createPI(int ap, String name, String location, String description, String link) throws ApIdDoesNotExistsException{
+	RegisterPIService service = new RegisterPIService(new PIDto(-1, name, location, description, link), ap);
 	service.execute();
 }
 

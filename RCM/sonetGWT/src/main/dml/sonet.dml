@@ -27,6 +27,7 @@ class PI{
 	String name;
 	String description;
 	String location;
+	String link;
 }
 
 class Comment{

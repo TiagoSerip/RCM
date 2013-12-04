@@ -184,7 +184,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return getPIByName(name) != null;
 	}
 	
-	public PI createPI(String name, String location, String description, AP ap) 
+	public PI createPI(String name, String location, String description, String link, AP ap) 
 			throws PINameAlreadyExistsException, PIIdAlreadyExistsException {
 		
 		if(getPIByName(name)!=null)
@@ -192,7 +192,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 		
 		PI pi = new PI();
 		int id = this.generatePIId();
-		pi.init(id, name, location, description, ap);
+		pi.init(id, name, location, description, link, ap);
 		ap.addPI(pi);
 		
 		return pi;		

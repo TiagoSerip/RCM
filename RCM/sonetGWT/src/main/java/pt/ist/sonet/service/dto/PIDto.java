@@ -10,12 +10,14 @@ public class PIDto implements Serializable{
 	String name;
 	int piID;
 	String description;
+	String link;
 	
-	public PIDto(int id, String name, String location, String description){
+	public PIDto(int id, String name, String location, String description, String link){
 		this.location = location;
 		this.name = name;
 		this.description = description;
 		this.piID = id;
+		this.link = link;
 	}
 	
 	//for serialization
@@ -51,6 +53,14 @@ public class PIDto implements Serializable{
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 	
 }
