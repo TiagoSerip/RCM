@@ -1,5 +1,7 @@
 package pt.ist.sonet.presentation.client;
 
+import java.awt.event.ActionListener;
+
 import pt.ist.sonet.service.dto.StringListDto;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -16,9 +18,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import java.awt.event.ActionEvent;
+import javax.swing.Timer;
 
 public class Chat extends DecoratorPanel {	
 	
@@ -47,7 +48,12 @@ public class Chat extends DecoratorPanel {
 	final Label listLbl;
 	final Label lblConversation = new Label("Conversation");
 
-
+	int delay = 3000; //milliseconds
+	ActionListener taskPerformer = new ActionListener() {
+		public void actionPerformed(ActionEvent evt) {
+			loadConversation();		
+		}
+	};
 	
 	public Chat(String user) {
 						
@@ -139,6 +145,7 @@ public class Chat extends DecoratorPanel {
 					lblConversation.setTitle("Conversation with "+selected);
 					conversationWindow.clear();
 					loadConversation();
+					new Timer(delay, taskPerformer).start();
 				}
 			}
 		});
