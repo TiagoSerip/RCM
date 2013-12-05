@@ -112,6 +112,8 @@ public class Core implements EntryPoint {
 	private Button map;
 	private Button streaming;
 	private Button btnView;
+	private Button btnRepo;
+
 
 
 	final RootPanel RootContainer = RootPanel.get("content");
@@ -284,6 +286,16 @@ public class Core implements EntryPoint {
 				RootContainer.add(new ViewAP(active, ap));
 			}
 		});
+		
+		btnRepo = new Button("REPOSITORY");
+		btnRepo.setVisible(false);
+		btnRepo.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootContainer.clear();
+				refresh();
+				RootContainer.add(new Repository(active, ap));
+			}
+		});
 
 		
 		verticalPanel.add(btnRegister);
@@ -293,6 +305,7 @@ public class Core implements EntryPoint {
 		verticalPanel.add(btnDirectory);
 		verticalPanel.add(streaming);
 		verticalPanel.add(chat);
+		verticalPanel.add(btnRepo);
 		
 
 
@@ -344,6 +357,7 @@ public class Core implements EntryPoint {
 						btnDirectory.setVisible(true);
 						chat.setVisible(true);
 						btnView.setVisible(true);
+						btnRepo.setVisible(true);
 						RootContainer.clear();
 						RootContainer.add(profilePanel);
 					}
@@ -377,6 +391,7 @@ public class Core implements EntryPoint {
 				RootContainer.clear();
 				btnDirectory.setVisible(false);
 				btnView.setVisible(false);
+				btnRepo.setVisible(false);
 
 				
 			}

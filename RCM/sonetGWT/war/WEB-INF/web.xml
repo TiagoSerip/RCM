@@ -10,10 +10,18 @@
     <servlet-name>SoNetServlet</servlet-name>
     <servlet-class>pt.ist.sonet.presentation.server.SoNetServletImpl</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>uploadServlet</servlet-name>
+    <servlet-class>pt.ist.sonet.presentation.server.FileUploadServlet</servlet-class>
+  </servlet>
   
   <servlet-mapping>
     <servlet-name>SoNetServlet</servlet-name>
     <url-pattern>/sonetgwt/sonet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>uploadServlet</servlet-name>
+    <url-pattern>/sonetgwt/upload</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

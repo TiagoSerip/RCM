@@ -281,11 +281,11 @@ public class PIDirectory extends DecoratorPanel {
 		label_5.setSize("222px", "21px");
 		
 		Label label_6 = new Label("Name:");
-		addPanel.add(label_6, 46, 85);
+		addPanel.add(label_6, 46, 88);
 		label_6.setSize("39px", "18px");
 		
 		Label label_7 = new Label("Location:");
-		addPanel.add(label_7, 32, 137);
+		addPanel.add(label_7, 32, 127);
 		label_7.setSize("53px", "18px");
 		
 		Label label_8 = new Label("Description:");
@@ -293,11 +293,11 @@ public class PIDirectory extends DecoratorPanel {
 		label_8.setSize("69px", "18px");
 		
 		final TextBox boxName = new TextBox();
-		addPanel.add(boxName, 89, 79);
+		addPanel.add(boxName, 91, 81);
 		boxName.setSize("171px", "34px");
 		
 		final TextBox boxLocation = new TextBox();
-		addPanel.add(boxLocation, 91, 127);
+		addPanel.add(boxLocation, 91, 121);
 		boxLocation.setSize("171px", "34px");
 		
 		final TextArea boxDescription = new TextArea();
@@ -305,10 +305,11 @@ public class PIDirectory extends DecoratorPanel {
 		boxDescription.setSize("281px", "93px");
 		
 		Label lblLink_1 = new Label("Link:");
-		addPanel.add(lblLink_1, 57, 183);
+		addPanel.add(lblLink_1, 57, 171);
 		
 		final TextBox linkBox = new TextBox();
-		addPanel.add(linkBox, 89, 179);
+		linkBox.setText("http://");
+		addPanel.add(linkBox, 91, 163);
 		
 		Button btnAdd = new Button("Add PI");
 		btnAdd.addClickHandler(new ClickHandler() {
