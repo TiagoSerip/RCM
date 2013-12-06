@@ -62,7 +62,7 @@ public class ViewAP extends DecoratorPanel {
 	final NumberLabel<Integer> numberLabel;
 	private Timer t;
 
-	int delay = 3000; //milliseconds
+	int delay = 5000; //milliseconds
 	
 	// Create the popup dialog box
 	final DialogBox dialogBox = new DialogBox();
@@ -185,7 +185,7 @@ public class ViewAP extends DecoratorPanel {
 		lblVote.setStyleName("h3");
 		panel.add(lblVote, 477, 176);
 		
-		Button btnRefreshUsers = new Button("Refresh Users");
+		Button btnRefreshUsers = new Button("Refresh AP Information");
 		btnRefreshUsers.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				loadAgents();
@@ -193,17 +193,19 @@ public class ViewAP extends DecoratorPanel {
 		});
 		panel.add(btnRefreshUsers, 477, 244);
 		
+		loadRating();
+		loadAgents();
+		
 		t = new Timer(){
 			@Override
 		      public void run() {
 		        loadChat();
-		        loadRating();
-		        loadAgents();
+//		        loadRating();
+//		        loadAgents();
 		        this.schedule(delay);
 		      }
 		};
 		t.run();
-		
 		
 	}
 	
@@ -328,5 +330,9 @@ public class ViewAP extends DecoratorPanel {
 				
 			}
 		});
+	}
+	
+	public void finish(){
+		t.cancel();
 	}
 }

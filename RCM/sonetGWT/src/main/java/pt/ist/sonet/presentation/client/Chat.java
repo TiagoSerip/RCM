@@ -51,7 +51,7 @@ public class Chat extends DecoratorPanel {
 	
 	private Timer t;
 
-	int delay = 3000; //milliseconds
+	int delay = 5000; //milliseconds
 	
 	public Chat(String user) {
 						
@@ -244,6 +244,10 @@ public class Chat extends DecoratorPanel {
 						selectButton.setEnabled(true);
 					}
 				});
+	}
+	
+	public void finish(){
+		t.cancel();
 	}
 }
 
