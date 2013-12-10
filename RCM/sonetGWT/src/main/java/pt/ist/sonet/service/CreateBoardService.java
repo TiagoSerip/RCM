@@ -6,30 +6,31 @@ import pt.ist.sonet.domain.Board;
 import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
-import pt.ist.sonet.service.dto.BoardDto;
 
 public class CreateBoardService extends SonetService{
 
-		private BoardDto dto;
-		private int boardId;
+		private String hostUser;
+		private String guestUser;
 		private Board board;
+		private int boardId;
 		
-		public CreateBoardService(BoardDto boardDto) {
-			dto = boardDto;
+		public CreateBoardService(String host, String guest) {
+			this.hostUser = host;
+			this.guestUser = guest;
 		}	
 		
 		@Override
 		public void dispatch() throws SoNetException, AgentUsernameDoesNotExistsException {
 			
 			SoNet network = FenixFramework.getRoot();
-			Agent player1 = network.getAgentByUsername(dto.getPlayer1Username());
-			if(player1 == null)
-				throw new AgentUsernameDoesNotExistsException(dto.getPlayer1Username());
-			Agent player2 = network.getAgentByUsername(dto.getPlayer2Username());
-			if(player2 == null)
-				throw new AgentUsernameDoesNotExistsException(dto.getPlayer2Username());
+			Agent host = network.getAgentByUsername(hostUser);
+			if(host == null)
+				throw new AgentUsernameDoesNotExistsException(hostUser);
+			Agent guest = network.getAgentByUsername(guestUser);
+			if(guest == null)
+				throw new AgentUsernameDoesNotExistsException(guestUser);
 			
-			board = network.createBoard(player1, player2);
+			board = network.createBoard(host, guest);
 			boardId = board.getId();
 		}
 		

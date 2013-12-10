@@ -6,10 +6,10 @@ public class Board extends Board_Base {
 	
     public  Board() {}
     
-	public void init(int id, Agent player1, Agent player2, Agent[][] matrix ) {
+	public void init(int id, Agent host, Agent guest, Agent[][] matrix ) {
 		setId(id);
-		setPlayer1(player1);
-		setPlayer2(player2);
+		setHost(host);
+		setGuest(guest);
 		this.matrix = matrix;
 	}
 	

@@ -13,10 +13,8 @@ public class GetWinnerService extends SonetService{
 
 	private AgentDto dto;
 	private int boardId;
-	private String playerUser;
 	
-	public GetWinnerService(int id, String user) {
-		this.playerUser = user;
+	public GetWinnerService(int id) {
 		boardId = id;
 	}	
 	
@@ -24,10 +22,7 @@ public class GetWinnerService extends SonetService{
 	public void dispatch() throws SoNetException, AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
 		
 		SoNet network = FenixFramework.getRoot();
-		Agent player = network.getAgentByUsername(playerUser);
-		if(player == null)
-			throw new AgentUsernameDoesNotExistsException(playerUser);
-		Board board = player.getBoardById(boardId);
+		Board board = network.getBoardById(boardId);
 		if(board == null)
 			throw new BoardIdDoesNotExistsException(boardId);
 		Agent winner = network.getWinner(board);

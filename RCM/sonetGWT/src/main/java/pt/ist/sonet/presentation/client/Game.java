@@ -316,7 +316,7 @@ public class Game extends DecoratorPanel {
 	}
 	
 	void checkWinner(){
-		sonetServlet.checkWinner(boardId, user, new AsyncCallback<Boolean>() {
+		sonetServlet.checkWinner(boardId, new AsyncCallback<Boolean>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
 						dialogBox.setText("Loading error.");
@@ -336,7 +336,7 @@ public class Game extends DecoratorPanel {
 	}
 	
 	void getWinner(){
-		sonetServlet.getWinner(boardId, user, new AsyncCallback<String>() {
+		sonetServlet.getWinner(boardId, new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
 						dialogBox.setText("Loading error.");

@@ -41,14 +41,12 @@ import pt.ist.sonet.service.UpdateAgentIpService;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
-import pt.ist.sonet.service.dto.BoardDto;
 import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.CommentDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.MessageDto;
 import pt.ist.sonet.service.dto.PIDto;
 import pt.ist.sonet.service.dto.PIListDto;
-import pt.ist.sonet.service.dto.PlayDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -260,15 +258,13 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	
 	@Override
 	public void play(int boardId, String playerUser, int[] jogada) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
-		PlayDto dto = new PlayDto(boardId, playerUser, jogada);
-		PlayService service = new PlayService(dto);
+		PlayService service = new PlayService(boardId, playerUser, jogada);
 		service.execute();
 	}
 	
 	@Override
-	public Integer createBoard(String player1, String player2) throws AgentUsernameDoesNotExistsException {
-		BoardDto dto = new BoardDto(player1, player2);
-		CreateBoardService service = new CreateBoardService(dto);
+	public Integer createBoard(String host, String guest) throws AgentUsernameDoesNotExistsException {
+		CreateBoardService service = new CreateBoardService(host, guest);
 		service.execute();
 		int boardId = service.getNewBoardId();
 		Integer id = new Integer(boardId);
@@ -276,16 +272,16 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	}
 	
 	@Override
-	public boolean checkWinner(int boardId, String playerUser) throws AgentUsernameDoesNotExistsException {
+	public boolean checkWinner(int boardId) throws AgentUsernameDoesNotExistsException {
 		BooleanDto dto = new BooleanDto();
-		CheckWinnerService service = new CheckWinnerService(boardId, dto, playerUser);
+		CheckWinnerService service = new CheckWinnerService(boardId, dto);
 		service.execute();
 		return dto.getValue();
 	}
 	
 	@Override
-	public String getWinner(int boardId, String playerUser) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
-		GetWinnerService service = new GetWinnerService(boardId, playerUser);
+	public String getWinner(int boardId) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
+		GetWinnerService service = new GetWinnerService(boardId);
 		service.execute();
 		String winner = service.getWinner().getUsername();
 		return winner;

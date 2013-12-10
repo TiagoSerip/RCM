@@ -15,7 +15,6 @@ import pt.ist.sonet.service.dto.PIDto;
 import pt.ist.sonet.service.dto.PIListDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -44,9 +43,9 @@ public interface SoNetServlet extends RemoteService {
 	void updateAgentProfile(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
 	void changeAgentPassword(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
 	String getAgentIP();
-	String getWinner(int boardId, String playerUser) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
+	String getWinner(int boardId) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	Integer loadRSSIMacOS();
-	boolean checkWinner(int boardId, String playerUser) throws AgentUsernameDoesNotExistsException;
+	boolean checkWinner(int boardId) throws AgentUsernameDoesNotExistsException;
 	void registerAgentProfile(AgentDto dto) throws UsernameAlreadyExistsException;
 	int updateAgentIP(AgentDto dto) throws AgentUsernameDoesNotExistsException, IpOutOfMeshException;
 	PIListDto getPIsByAp(int apId) throws ApIdDoesNotExistsException;

@@ -114,13 +114,14 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return agent;
 	}
 	
-	public Board createBoard(Agent player1, Agent player2) {
+	public Board createBoard(Agent host, Agent guest) {
 		
 		int id = generateBoardId();
 		Agent[][] matrix = {{null, null, null},{null, null, null},{null, null, null}};
 
 		Board board = new Board();
-		board.init(id, player1, player2, matrix);
+		board.init(id, host, guest, matrix);
+		this.addBoard(board);
 		return board;
 	}
 	
@@ -133,6 +134,14 @@ public class SoNet extends SoNet_Base implements Serializable {
 		board.setMatrix(m);
 		
 		return board;
+	}
+	
+	public Board getBoardById(int id) {
+		for(Board b : this.getBoardSet()) {
+			if(b.getId()==id)
+				return b;
+		}
+		return null;
 	}
 	
 	public boolean boardIsFull(Board board) {

@@ -54,6 +54,14 @@ relation SonetHasAgents{
 	}
 }
 
+relation SonetHasBoards{
+	SoNet playsRole sonet{
+		multiplicity 1..1;
+	}
+	Board playsRole board{
+		multiplicity 0..*;
+	}
+}
 
 relation SonetHasAPs{
 	SoNet playsRole sonet{
@@ -119,19 +127,19 @@ relation MessagesHasReceiver{
 }
 	
 relation BoardHasPlayer1{
-	Board playsRole boardPlayer1{
+	Board playsRole boardHost{
 		multiplicity 0..*;
 	}
-	Agent playsRole player1{
+	Agent playsRole host{
 		multiplicity 1..1;
 	}
 }	
 
 relation BoardHasPlayer2{
-	Board playsRole boardPlayer2{
+	Board playsRole boardGuest{
 		multiplicity 0..*;
 	}
-	Agent playsRole player2{
+	Agent playsRole guest{
 		multiplicity 1..1;
 	}
 }	
