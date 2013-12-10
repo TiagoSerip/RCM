@@ -2,6 +2,9 @@ package pt.ist.sonet.presentation.client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import pt.ist.sonet.domain.Agent;
+import pt.ist.sonet.service.dto.BoardDto;
 import pt.ist.sonet.service.dto.StringListDto;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -46,16 +49,16 @@ public class Game extends DecoratorPanel {
 	private int[] jogada20 = {2,0};
 	private int[] jogada21 = {2,1};
 	private int[] jogada22 = {2,2};
-	private String messageToSend = null;
 	private int boardId = -1;
 	final ListBox listBox = new ListBox();
 	ListBox conversationWindow = new ListBox();		
 	Label lblGame = new Label("Game");
 	final TextArea sendWindow = new TextArea();
-	final Button sendButton = new Button("Send");
 	final Button selectButton = new Button("Select");
 	private String user = null; //active user
 	private final AbsolutePanel panel;
+	private String winner = null;
+	private boolean hasWinner = false;
 	Button uptadeButton = new Button("Update");
 	final Label listLbl;
 	Button button11 = new Button(" ");
@@ -68,14 +71,14 @@ public class Game extends DecoratorPanel {
 	Button button32 = new Button(" ");
 	Button button33 = new Button(" ");
 	Button gameOverButton = new Button("Game Over");
-	private String username = null;
-
-	
+	private String username = null;	
 	//popups do jogo
 	final DialogBox popUp = new DialogBox();
 	final Button okButton = new Button("OK");
 	final HTML gameResponse = new HTML();
-
+	private Timer t;
+	int delay = 500; //milliseconds
+	
 	
 	public Game(String user) {
 		username = user;
@@ -193,7 +196,14 @@ public class Game extends DecoratorPanel {
 					selectButton.setEnabled(false);
 					selected=listBox.getItemText(listBox.getSelectedIndex());
 					lblGame.setTitle("You're playing against "+selected);
-					newBoard();
+					newBoard(); /////////////////////////////////
+					t = new Timer(){
+						@Override
+					     public void run() {
+					        updateBoard();
+					     }
+					};
+					t.schedule(delay);
 				}					
 			}
 		});
@@ -201,6 +211,7 @@ public class Game extends DecoratorPanel {
 		gameOverButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				////////////////////////////
+				
 			}
 		});
 		
@@ -210,7 +221,13 @@ public class Game extends DecoratorPanel {
 				play();
 				button11.setText(username);
 				button11.setEnabled(false);
-				////////////////////////////
+				checkWinner();
+				if(hasWinner) {
+					//////////////
+					removeBoard();
+				}
+				getWinner(); ////////
+				
 			}
 		});
 		
@@ -330,6 +347,7 @@ public class Game extends DecoratorPanel {
 
 					public void onSuccess(Boolean b) {
 						////////////////////////////
+						hasWinner = b;
 
 					}
 				});
@@ -347,6 +365,24 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(String b) {
+						////////////////////////////
+
+					}
+				});
+	}
+	
+	void removeBoard(){
+		sonetServlet.removeBoard(boardId, new AsyncCallback<Void>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("Loading error.");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+
+					public void onSuccess(Void v) {
 						////////////////////////////
 
 					}
@@ -378,8 +414,7 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(Integer i) {
-						conversationWindow.clear();
-						selectButton.setEnabled(false);
+						selectButton.setEnabled(false); ///////////////
 						button11.setEnabled(true);
 						button12.setEnabled(true);
 						button13.setEnabled(true);
@@ -391,6 +426,60 @@ public class Game extends DecoratorPanel {
 						button33.setEnabled(true);
 						gameOverButton.setEnabled(true);
 						boardId = i.intValue();
+					}
+				});
+	}
+	
+	void updateBoard(){
+		sonetServlet.updateBoard(boardId, new AsyncCallback<BoardDto>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("Loading error.");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+
+					public void onSuccess(BoardDto dto) {
+						Agent[][] matrix = dto.getBoard();
+						if(matrix[0][0] != null) {
+							button11.setText(matrix[0][0].getUsername());
+							button11.setEnabled(false);
+						}
+						if(matrix[0][1] != null) {
+							button12.setText(matrix[0][1].getUsername());
+							button12.setEnabled(false);
+						}
+						if(matrix[0][2] != null) {
+							button13.setText(matrix[0][2].getUsername());
+							button13.setEnabled(false);
+						}
+						if(matrix[1][0] != null) {
+							button21.setText(matrix[1][0].getUsername());
+							button21.setEnabled(false);
+						}
+						if(matrix[1][1] != null) {
+							button22.setText(matrix[1][1].getUsername());
+							button22.setEnabled(false);
+						}
+						if(matrix[1][2] != null) {
+							button23.setText(matrix[1][2].getUsername());
+							button23.setEnabled(false);
+						}
+						if(matrix[2][0] != null) {
+							button31.setText(matrix[2][0].getUsername());
+							button31.setEnabled(false);
+						}
+						if(matrix[2][1] != null) {
+							button32.setText(matrix[2][1].getUsername());
+							button32.setEnabled(false);
+						}
+						if(matrix[2][2] != null) {
+							button33.setText(matrix[2][2].getUsername());
+							button33.setEnabled(false);
+						}
+						
 					}
 				});
 	}

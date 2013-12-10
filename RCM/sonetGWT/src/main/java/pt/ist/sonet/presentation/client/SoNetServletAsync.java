@@ -8,6 +8,7 @@ import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
+import pt.ist.sonet.service.dto.BoardDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.PIDto;
 import pt.ist.sonet.service.dto.PIListDto;
@@ -44,6 +45,8 @@ public interface SoNetServletAsync {
 	void getPIsByAp(int apId, AsyncCallback<PIListDto> callback);
 	void getWinner(int boardId, AsyncCallback<String> callback) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	void getPIById(int id, AsyncCallback<PIDto> callback);
+	void removeBoard(int boardId, AsyncCallback<Void> callback) throws BoardIdDoesNotExistsException;
+	void updateBoard(int boardId, AsyncCallback<BoardDto> callback) throws BoardIdDoesNotExistsException;
 	void createBoard(String player1, String player2, AsyncCallback<Integer> callback) throws AgentUsernameDoesNotExistsException;
 	void play(int boardId, String player, int[] jogada, AsyncCallback<Void> callback) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	void createPI(int ap, String name, String location, String description, String link, AsyncCallback<Void> callback);

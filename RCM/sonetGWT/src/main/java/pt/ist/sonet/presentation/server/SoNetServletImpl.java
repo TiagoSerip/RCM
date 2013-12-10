@@ -28,6 +28,7 @@ import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.GetConversationService;
 import pt.ist.sonet.service.GetPIByIdService;
+import pt.ist.sonet.service.GetUpdatedBoardService;
 import pt.ist.sonet.service.GetWinnerService;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
@@ -35,12 +36,14 @@ import pt.ist.sonet.service.PlayService;
 import pt.ist.sonet.service.PositiveVoteService;
 import pt.ist.sonet.service.RegisterAgentService;
 import pt.ist.sonet.service.RegisterPIService;
+import pt.ist.sonet.service.RemoveBoardService;
 import pt.ist.sonet.service.SendPrivateMessageService;
 import pt.ist.sonet.service.UpdateAgentInfoService;
 import pt.ist.sonet.service.UpdateAgentIpService;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
+import pt.ist.sonet.service.dto.BoardDto;
 import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.CommentDto;
 import pt.ist.sonet.service.dto.ListingDto;
@@ -263,6 +266,13 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	}
 	
 	@Override
+	public BoardDto updateBoard(int boardId) throws BoardIdDoesNotExistsException {
+		GetUpdatedBoardService service = new GetUpdatedBoardService(boardId);
+		service.execute();
+		return service.getUpdatedBoard();
+	}
+	
+	@Override
 	public Integer createBoard(String host, String guest) throws AgentUsernameDoesNotExistsException {
 		CreateBoardService service = new CreateBoardService(host, guest);
 		service.execute();
@@ -285,6 +295,12 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		service.execute();
 		String winner = service.getWinner().getUsername();
 		return winner;
+	}
+	
+	@Override
+	public void removeBoard(int boardId) throws BoardIdDoesNotExistsException {
+		RemoveBoardService service = new RemoveBoardService(boardId);
+		service.execute();
 	}
 	
 	/**
