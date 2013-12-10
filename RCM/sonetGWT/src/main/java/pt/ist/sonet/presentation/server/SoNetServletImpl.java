@@ -9,6 +9,7 @@ import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
+import pt.ist.sonet.exception.BoardIdDoesNotExistsException;
 import pt.ist.sonet.exception.IpOutOfMeshException;
 import pt.ist.sonet.exception.PIIdDoesNotExistsException;
 import pt.ist.sonet.exception.UsernameAlreadyExistsException;
@@ -17,6 +18,8 @@ import pt.ist.sonet.service.AddCommentService;
 import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.AgentsByApService;
 import pt.ist.sonet.service.ChangeAgentPasswordService;
+import pt.ist.sonet.service.CheckWinnerService;
+import pt.ist.sonet.service.CreateBoardService;
 import pt.ist.sonet.service.GetAgentByUsernameService;
 import pt.ist.sonet.service.GetAllApService;
 import pt.ist.sonet.service.GetAllOtherAgentsService;
@@ -25,8 +28,10 @@ import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.GetConversationService;
 import pt.ist.sonet.service.GetPIByIdService;
+import pt.ist.sonet.service.GetWinnerService;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
+import pt.ist.sonet.service.PlayService;
 import pt.ist.sonet.service.PositiveVoteService;
 import pt.ist.sonet.service.RegisterAgentService;
 import pt.ist.sonet.service.RegisterPIService;
@@ -36,12 +41,14 @@ import pt.ist.sonet.service.UpdateAgentIpService;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
+import pt.ist.sonet.service.dto.BoardDto;
 import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.CommentDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.MessageDto;
 import pt.ist.sonet.service.dto.PIDto;
 import pt.ist.sonet.service.dto.PIListDto;
+import pt.ist.sonet.service.dto.PlayDto;
 import pt.ist.sonet.service.dto.StringListDto;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -249,6 +256,39 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		GetConversationService service = new GetConversationService(user, otherGuy, dto);
 		service.execute();
 		return dto;
+	}
+	
+	@Override
+	public void play(int boardId, String playerUser, int[] jogada) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
+		PlayDto dto = new PlayDto(boardId, playerUser, jogada);
+		PlayService service = new PlayService(dto);
+		service.execute();
+	}
+	
+	@Override
+	public Integer createBoard(String player1, String player2) throws AgentUsernameDoesNotExistsException {
+		BoardDto dto = new BoardDto(player1, player2);
+		CreateBoardService service = new CreateBoardService(dto);
+		service.execute();
+		int boardId = service.getNewBoardId();
+		Integer id = new Integer(boardId);
+		return id;
+	}
+	
+	@Override
+	public boolean checkWinner(int boardId, String playerUser) throws AgentUsernameDoesNotExistsException {
+		BooleanDto dto = new BooleanDto();
+		CheckWinnerService service = new CheckWinnerService(boardId, dto, playerUser);
+		service.execute();
+		return dto.getValue();
+	}
+	
+	@Override
+	public String getWinner(int boardId, String playerUser) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
+		GetWinnerService service = new GetWinnerService(boardId, playerUser);
+		service.execute();
+		String winner = service.getWinner().getUsername();
+		return winner;
 	}
 	
 	/**

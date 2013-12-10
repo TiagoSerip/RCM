@@ -32,6 +32,12 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return id;
 	}
 	
+	public int generateBoardId(){
+		int id = this.getBoardId();
+		this.setBoardId(id+1);
+		return id;
+	}
+	
 	public int generateMessageId() {
 		int id = this.getMessageId();
 		this.setMessageId(id+1);
@@ -106,6 +112,75 @@ public class SoNet extends SoNet_Base implements Serializable {
 		Agent agent = new Agent();
 		agent.init(user, pass, name, acesspoint, rssi, ip);
 		return agent;
+	}
+	
+	public Board createBoard(Agent player1, Agent player2) {
+		
+		int id = generateBoardId();
+		Agent[][] matrix = {{null, null, null},{null, null, null},{null, null, null}};
+
+		Board board = new Board();
+		board.init(id, player1, player2, matrix);
+		return board;
+	}
+	
+	public Board play(Board board, Agent player, int[] jogada) {
+		int row = jogada[1];
+		int column = jogada[2];
+		
+		Agent[][] m = board.getMatrix();
+		m[row][column] = player;
+		board.setMatrix(m);
+		
+		return board;
+	}
+	
+	public boolean boardIsFull(Board board) {
+		Agent[][] m = board.getMatrix();
+		for(int i=0; i < 3; i++) {
+			for(int j=0; j < 3; j++) {
+				if (m[i][j] == null) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean checkWinner(Board board) {
+		Agent[][] m = board.getMatrix();
+		
+		return	(m[0][0] != null && m[0][0]==m[0][1] && m[0][0]==m[0][2]) ||
+				(m[1][0] != null && m[1][0]==m[1][1] && m[1][0]==m[1][2]) ||
+				(m[2][0] != null && m[2][0]==m[2][1] && m[2][0]==m[2][2]) ||
+				(m[0][0] != null && m[0][0]==m[1][0] && m[0][0]==m[2][0]) ||
+				(m[0][1] != null && m[0][1]==m[1][1] && m[0][1]==m[2][1]) ||
+				(m[0][2] != null && m[0][2]==m[1][2] && m[0][2]==m[2][2]) ||
+				(m[0][0] != null && m[0][0]==m[1][1] && m[0][0]==m[2][2]) ||
+				(m[0][2] != null && m[0][2]==m[1][1] && m[0][2]==m[2][0]);
+	}
+	
+	public Agent getWinner(Board board) {
+		Agent[][] m = board.getMatrix();
+		
+		if(m[0][0] != null && m[0][0]==m[0][1] && m[0][0]==m[0][2]){ 
+			return m[0][0];}
+		if(m[1][0] != null && m[1][0]==m[1][1] && m[1][0]==m[1][2]){ 
+			return m[1][0];}
+		if(m[2][0] != null && m[2][0]==m[2][1] && m[2][0]==m[2][2]){
+			return m[2][0];}
+		if(m[0][0] != null && m[0][0]==m[1][0] && m[0][0]==m[2][0]){ 
+			return m[0][0];}
+		if(m[0][1] != null && m[0][1]==m[1][1] && m[0][1]==m[2][1]){ 
+			return m[0][1];}
+		if(m[0][2] != null && m[0][2]==m[1][2] && m[0][2]==m[2][2]){ 
+			return m[0][2];}
+		if(m[0][0] != null && m[0][0]==m[1][1] && m[0][0]==m[2][2]){ 
+			return m[0][0];}
+		if(m[0][2] != null && m[0][2]==m[1][1] && m[0][2]==m[2][0]){
+			return m[0][2];}
+		
+		return null;
 	}
 
 	@Override
