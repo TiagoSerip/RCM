@@ -52,4 +52,6 @@ public interface SoNetServletAsync {
 	void createBoard(String player1, String player2, AsyncCallback<Integer> callback) throws AgentUsernameDoesNotExistsException;
 	void play(int boardId, String player, int[] jogada, AsyncCallback<Void> callback) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	void createPI(int ap, String name, String location, String description, String link, AsyncCallback<Void> callback);
+	void positiveVotePI(String user, int piId, AsyncCallback<Void> callback);
+	void negativeVotePI(String user, int piId, AsyncCallback<Void> callback);
 }

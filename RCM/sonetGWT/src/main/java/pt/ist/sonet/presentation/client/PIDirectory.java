@@ -52,7 +52,6 @@ public class PIDirectory extends DecoratorPanel {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 	private static final String NO_USER_LOGIN = "No user logged in.";
-	private static final String AP_LOAD_ERROR = "Failed to load this AP's users. Please, check your connection and try again.";
 	private static final String NO_AGENTS = "There are no users near this AP.";
 	private static final String LIST_LBL = "These are the Points of Interest from AP-";
 	private static final String INFO = "Pick an AP on the map below and see what users are in that area.";
@@ -64,7 +63,8 @@ public class PIDirectory extends DecoratorPanel {
 	private static final String ADD_OK = "You have sucessfully created a new PI on this AP.";
 	private static final String PI_CREATE_ERROR = "Failed to create a new PI. Try again...";
 	private static final String LINK_ERROR = "You must enter a link for the new PI.";
-
+	private static final String VOTE_FAIL = "Failed to cast your vote. Try again...";
+	private static final String RATING_FAIL = "Failed to load the PI's rating. Try again...";
 	
 	
 	private final SoNetServletAsync sonetServlet = GWT.create(SoNetServlet.class);
@@ -80,6 +80,7 @@ public class PIDirectory extends DecoratorPanel {
     final Label lblLocationData;
     final Label lblNameData;
     final TextArea lblDescriptionData;
+    final Label lblRating;
 	
     final SimplePager pointPager = new SimplePager();
     final ListDataProvider<PIDto> dataProvider = new ListDataProvider<PIDto>();
@@ -148,7 +149,7 @@ public class PIDirectory extends DecoratorPanel {
 		tabPanel.add(viewPanel, "View PI's", false);
 		viewPanel.setSize("750px", "350px");
 		
-		Label info = new Label("Pick a Point of Interest in the box bellow and press 'View' to see more information.");
+		Label info = new Label("Pick a Point of Interest in the box bellow and press 'View PI' to see more information.");
 		viewPanel.add(info);
 		
 		listLbl = new Label("No AP selected.");
@@ -206,19 +207,29 @@ public class PIDirectory extends DecoratorPanel {
          Button button = new Button("+1");
          viewPanel.add(button, 655, 301);
          button.setSize("31px", "30px");
+         button.addClickHandler(new ClickHandler() {
+   			public void onClick(ClickEvent event) {
+   				positiveVote();
+   			}
+   		});
          
          Button button_1 = new Button("-1");
          viewPanel.add(button_1, 692, 301);
          button_1.setSize("28px", "30px");
+         button_1.addClickHandler(new ClickHandler() {
+  			public void onClick(ClickEvent event) {
+  				negativeVote();
+  			}
+  		});
          
          Label label_1 = new Label("Rating:");
          label_1.setStyleName("h3");
          viewPanel.add(label_1, 494, 310);
          label_1.setSize("58px", "21px");
          
-         Label label_2 = new Label("0");
-         viewPanel.add(label_2, 558, 313);
-         label_2.setSize("21px", "18px");
+         lblRating = new Label("0");
+         viewPanel.add(lblRating, 558, 313);
+         lblRating.setSize("21px", "18px");
          
          Label label_3 = new Label("Vote:");
          label_3.setStyleName("h3");
@@ -383,7 +394,7 @@ public class PIDirectory extends DecoratorPanel {
 		sonetServlet.getPIsByAp(ap, new AsyncCallback<PIListDto>() {
 					public void onFailure(Throwable caught) {
 						
-						showError(AP_LOAD_ERROR+"\n(AP:"+ap+") | "+caught.getLocalizedMessage());
+						showError(PI_LOAD_ERROR+"\n(AP:"+ap+") | "+caught.getLocalizedMessage());
 						caught.printStackTrace();
 					}
 
@@ -415,7 +426,7 @@ public class PIDirectory extends DecoratorPanel {
 						String mask3 = "</a>\"";
 						
 						linkLink.setHTML(mask1+link+mask2+name+mask3);
-						//lblRatingData.setText(dto.getPositive() - dto.getNegative());								
+						lblRating.setText(""+(dto.getPos() - dto.getNeg()));								
 					}
 				});
 	}
@@ -438,4 +449,60 @@ public class PIDirectory extends DecoratorPanel {
 		});
 		
 	}
+	
+	void positiveVote(){
+		
+		sonetServlet.positiveVotePI(user, selected, new AsyncCallback<Void>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("PI's Rating Error:");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(VOTE_FAIL);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+
+					public void onSuccess(Void v) {
+						loadRating();
+					}
+				});
+	}
+	
+	void negativeVote(){
+		
+		sonetServlet.negativeVotePI(user, selected, new AsyncCallback<Void>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("PI's Rating Error:");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(VOTE_FAIL);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+
+					public void onSuccess(Void v) {
+						loadRating();
+					}
+				});
+	}
+	
+	void loadRating(){
+		sonetServlet.getPIById(selected, new AsyncCallback<PIDto>() {
+			public void onFailure(Throwable caught) {
+				// Show the the error to the user
+				dialogBox.setText("PI's Rating Error:");
+				serverResponseLabel.addStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML(RATING_FAIL);
+				dialogBox.center();
+				closeButton.setFocus(true);
+			}
+
+			public void onSuccess(PIDto dto) {
+				int res=dto.getPos()-dto.getNeg();
+				lblRating.setText(""+res);
+				
+			}
+		});
+	}
+	
 }

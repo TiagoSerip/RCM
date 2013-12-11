@@ -56,4 +56,6 @@ public interface SoNetServlet extends RemoteService {
 	PIListDto getPIsByAp(int apId) throws ApIdDoesNotExistsException;
 	PIDto getPIById(int id) throws PIIdDoesNotExistsException;
 	public void createPI(int ap, String name, String location, String description, String link) throws ApIdDoesNotExistsException;
+	void positiveVotePI(String user, int piId) throws AlreadyVotedException;
+	void negativeVotePI(String user, int piId) throws AlreadyVotedException;
 }

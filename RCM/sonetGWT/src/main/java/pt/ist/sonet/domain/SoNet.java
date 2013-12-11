@@ -443,6 +443,26 @@ public class SoNet extends SoNet_Base implements Serializable {
 	public void negVote(Agent voter, AP ap) {
 		ap.negativeVote(voter);
 	}
+	
+	/**
+	 * Adiciona, se possivel, um voto positivo a uma publicacao
+	 * 
+	 * @param Agent voter - agente que vota na publicacao
+	 * @param Publication pub - publicacao na qual se vai votar
+	 */
+	public void posVotePI(Agent voter, PI pi) {
+		pi.positiveVote(voter);
+	}
+
+	/**
+	 * Adiciona, se possivel, um voto negativo a uma publicacao
+	 * 
+	 * @param Agent voter - agente que vota na publicacao
+	 * @param Publication pub - publicacao na qual se vai votar
+	 */
+	public void negVotePI(Agent voter, PI pi) {
+		pi.negativeVote(voter);
+	}
 
 	/**
 	 * Comenta, se possivel, uma publicacao

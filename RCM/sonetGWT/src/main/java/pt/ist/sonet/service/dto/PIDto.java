@@ -11,13 +11,18 @@ public class PIDto implements Serializable{
 	int piID;
 	String description;
 	String link;
+	int pos;
+	int neg;
 	
-	public PIDto(int id, String name, String location, String description, String link){
+	public PIDto(int id, String name, String location, String description, String link, int pos, int neg){
 		this.location = location;
 		this.name = name;
 		this.description = description;
 		this.piID = id;
 		this.link = link;
+		this.pos=pos;
+		this.neg=neg;
+		
 	}
 	
 	//for serialization
@@ -61,6 +66,22 @@ public class PIDto implements Serializable{
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public int getPos() {
+		return pos;
+	}
+
+	public void setPos(int pos) {
+		this.pos = pos;
+	}
+
+	public int getNeg() {
+		return neg;
+	}
+
+	public void setNeg(int neg) {
+		this.neg = neg;
 	}
 	
 }

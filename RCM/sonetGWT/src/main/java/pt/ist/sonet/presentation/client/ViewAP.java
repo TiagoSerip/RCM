@@ -189,6 +189,7 @@ public class ViewAP extends DecoratorPanel {
 		btnRefreshUsers.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				loadAgents();
+				loadRating();
 			}
 		});
 		panel.add(btnRefreshUsers, 477, 244);

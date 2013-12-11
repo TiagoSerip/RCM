@@ -42,6 +42,8 @@ import pt.ist.sonet.service.RemoveBoardService;
 import pt.ist.sonet.service.SendPrivateMessageService;
 import pt.ist.sonet.service.UpdateAgentInfoService;
 import pt.ist.sonet.service.UpdateAgentIpService;
+import pt.ist.sonet.service.VoteNegativePIService;
+import pt.ist.sonet.service.VotePositivePIService;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
@@ -461,7 +463,18 @@ public PIDto getPIById(int id) throws PIIdDoesNotExistsException{
 }
 
 public void createPI(int ap, String name, String location, String description, String link) throws ApIdDoesNotExistsException{
-	RegisterPIService service = new RegisterPIService(new PIDto(-1, name, location, description, link), ap);
+	RegisterPIService service = new RegisterPIService(new PIDto(-1, name, location, description, link, 0, 0), ap);
+	service.execute();
+}
+
+
+public void positiveVotePI(String user, int piId) throws AlreadyVotedException{
+	VotePositivePIService service = new VotePositivePIService(user, piId);
+	service.execute();
+}
+
+public void negativeVotePI(String user, int piId) throws AlreadyVotedException{
+	VoteNegativePIService service = new VoteNegativePIService(user, piId);
 	service.execute();
 }
 

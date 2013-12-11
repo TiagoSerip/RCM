@@ -33,6 +33,8 @@ class PI{
 	String description;
 	String location;
 	String link;
+	int positive;
+	int negative;
 }
 
 class Comment{

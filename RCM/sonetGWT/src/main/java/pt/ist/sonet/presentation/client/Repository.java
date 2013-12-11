@@ -43,7 +43,7 @@ private static final String SERVER_ERROR = "An error occurred while "
 private static final String HOMEIP = "http://192.168.1.105/rcm";
 private static final String TAGUSIP = "http://192.168.102.1/rcm";
 
-private static final String INUSE = TAGUSIP;
+private static String INUSE;
 
 
 
@@ -63,8 +63,8 @@ private static final String INUSE = TAGUSIP;
 	final Button closeButton = new Button("Close");
 	final HTML serverResponseLabel = new HTML();
 	
-	public Repository(String user, final int ap){
-		
+	public Repository(String user, final int ap, final String serverIP){
+		INUSE = serverIP;
 		dialogBox.setText("Remote Procedure Call");
 		dialogBox.setAnimationEnabled(true);
 		// We can set the id of a widget by accessing its Element
@@ -137,7 +137,7 @@ private static final String INUSE = TAGUSIP;
 		addPanel.add(lblBrowseFileRepository, 10, 10);
 		lblBrowseFileRepository.setSize("222px", "21px");
 		
-		final Frame frame = new Frame(INUSE);
+		final Frame frame = new Frame("http://"+INUSE+"/rcm");
 		addPanel.add(frame, 10, 61);
 		frame.setSize("745px", "377px");
 		

@@ -165,7 +165,7 @@ public class SoNetSetup {
 	public static void createPIAP8(SoNet rede){
 		
 		try{
-			PIDto dto = new PIDto(-1, "Limbo","Dentro do AP", "Teste RCM", "http://www.ist.pt");
+			PIDto dto = new PIDto(-1, "Limbo","Dentro do AP", "Teste RCM", "http://www.ist.pt", 0, 0);
 			new RegisterPIService(dto, 8).execute();
 			System.out.println("Created PI on AP-8.");
 		}

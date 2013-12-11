@@ -20,6 +20,19 @@ public class PI extends PI_Base {
     	setDescription(description);
     	setLink(link);
     	setAp(ap);
+    	setPositive(0);
+    	setNegative(0);
+    }
+    
+    public void positiveVote(Agent a){
+    	int vote = getPositive();
+    	setPositive(vote+1);
+    }
+    
+    
+    public void negativeVote(Agent a){
+    	int vote = getNegative();
+    	setNegative(vote+1);
     }
     
 //    public String toString() {

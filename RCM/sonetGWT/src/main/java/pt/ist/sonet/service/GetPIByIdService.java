@@ -51,7 +51,7 @@ public class GetPIByIdService extends SonetService{
 		if(pi == null)
 			throw new PIIdDoesNotExistsException(piId);
 		
-		dto = new PIDto(pi.getId(), pi.getName(), pi.getLocation(), pi.getDescription(), pi.getLink());
+		dto = new PIDto(pi.getId(), pi.getName(), pi.getLocation(), pi.getDescription(), pi.getLink(), pi.getPositive(), pi.getNegative());
 
 	}
 	

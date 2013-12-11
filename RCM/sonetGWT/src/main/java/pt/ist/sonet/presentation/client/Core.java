@@ -97,7 +97,8 @@ public class Core implements EntryPoint {
 	
 	private static final String HOMEIP = "192.168.1.105";
 	private static final String TAGUSIP = "192.168.103.1";	
-	private static final String GUEST = "192.168.103.1";	
+	private static final String GUEST = "192.168.103.1";
+	private static final String INUSE = HOMEIP; //Set the Server IP in use.
 	
 	private static final String LOGIN = "LOGIN";
 	private static final String PROFILE= "MY PROFILE";
@@ -124,6 +125,16 @@ public class Core implements EntryPoint {
 	private Map viewMap;
 	private Chat viewChat;
 	private Game gameTab;
+	private ViewAP viewAP;
+	
+	private void finishAll(){
+		try{
+			viewChat.finish();
+			viewAP.finish();
+		}catch (Exception e){
+			
+		}
+	}
 
 	/**
 	 * Create a remote service proxy to talk to the server-side SoNetServlet.
@@ -209,8 +220,10 @@ public class Core implements EntryPoint {
 		map.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
+				finishAll();
 				refresh();
-				RootContainer.add(new Map(active, ap));
+				viewMap = new Map(active, ap);
+				RootContainer.add(viewMap);
 			}
 		});
 		
@@ -233,6 +246,7 @@ public class Core implements EntryPoint {
 		btnProfile.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
+				finishAll();
 				refresh();
 				profilePanel.loadProfileData();
 				RootContainer.add(profilePanel);
@@ -252,6 +266,7 @@ public class Core implements EntryPoint {
 		chat.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
+				finishAll();
 				refresh();
 				viewChat = new Chat(active);
 				RootContainer.add(viewChat);
@@ -263,6 +278,7 @@ public class Core implements EntryPoint {
 		game.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
+				finishAll();
 				refresh();
 				gameTab = new Game(active);
 				RootContainer.add(gameTab);
@@ -273,10 +289,9 @@ public class Core implements EntryPoint {
 		streaming.setVisible(false);
 		streaming.addClickHandler(new ClickHandler() {
 		  public void onClick(ClickEvent event) {
+				finishAll();
 			  Window.alert("Use 'rcm' as password.");
-		    Window.Location.assign("http://"+GUEST+":23424/mediabrowser/");
-		    //Window.Location.assign("http://"+HOMEIP+":23424/mediabrowser/");
-			//Window.Location.assign("http://"+TAGUSIP+":23424/mediabrowser/");
+			  Window.Location.assign("http://"+INUSE+":23424/mediabrowser/");
 
 		  }
 		});
@@ -285,6 +300,7 @@ public class Core implements EntryPoint {
 		btnDirectory.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
+				finishAll();
 				refresh();
 				RootContainer.add(new PIDirectory(active, ap));
 			}
@@ -295,6 +311,7 @@ public class Core implements EntryPoint {
 		btnView.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
+				finishAll();
 				refresh();
 				RootContainer.add(new ViewAP(active, ap));
 			}
@@ -305,8 +322,9 @@ public class Core implements EntryPoint {
 		btnRepo.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				RootContainer.clear();
+				finishAll();
 				refresh();
-				RootContainer.add(new Repository(active, ap));
+				RootContainer.add(new Repository(active, ap, INUSE));
 			}
 		});
 
@@ -390,6 +408,7 @@ public class Core implements EntryPoint {
 
 			}
 			else{
+				finishAll();
 				username.setVisible(true);
 				password.setVisible(true);
 				lblPassword.setVisible(true);
