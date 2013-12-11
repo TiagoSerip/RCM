@@ -1,14 +1,14 @@
 package pt.ist.sonet.service.dto;
 
-import pt.ist.sonet.domain.Agent;
+import java.io.Serializable;
 
-public class BoardDto {
+public class BoardDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	int boardId;
-	Agent[][] matrix;
+	String[][] matrix = {{null, null, null},{null, null, null},{null, null, null}};
 
-	public BoardDto(int id, Agent[][] tabuleiro){
+	public BoardDto(int id, String[][] tabuleiro){
 		this.boardId = id;
 		this.matrix = tabuleiro;
 	}
@@ -16,11 +16,11 @@ public class BoardDto {
 	//for serialization
 	public BoardDto(){}
 
-	public Agent[][] getBoard() {
+	public String[][] getBoard() {
 		return matrix;
 	}
 
-	public void setBoard(Agent[][] tabuleiro) {
+	public void setBoard(String[][] tabuleiro) {
 		this.matrix = tabuleiro;
 	}
 

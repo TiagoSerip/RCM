@@ -9,6 +9,7 @@ import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
+import pt.ist.sonet.exception.BoardDoesNotExistsException;
 import pt.ist.sonet.exception.BoardIdDoesNotExistsException;
 import pt.ist.sonet.exception.IpOutOfMeshException;
 import pt.ist.sonet.exception.PIIdDoesNotExistsException;
@@ -26,6 +27,7 @@ import pt.ist.sonet.service.GetAllOtherAgentsService;
 import pt.ist.sonet.service.GetAllPIFromAPService;
 import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
+import pt.ist.sonet.service.GetBoardByUsersService;
 import pt.ist.sonet.service.GetConversationService;
 import pt.ist.sonet.service.GetPIByIdService;
 import pt.ist.sonet.service.GetUpdatedBoardService;
@@ -270,6 +272,13 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		GetUpdatedBoardService service = new GetUpdatedBoardService(boardId);
 		service.execute();
 		return service.getUpdatedBoard();
+	}
+	
+	@Override
+	public BoardDto getBoard(String player1User, String player2User) throws AgentUsernameDoesNotExistsException, BoardDoesNotExistsException {
+		GetBoardByUsersService service = new GetBoardByUsersService(player1User, player2User);
+		service.execute();
+		return service.getBoard();
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package pt.ist.sonet.presentation.client;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
+import pt.ist.sonet.exception.BoardDoesNotExistsException;
 import pt.ist.sonet.exception.BoardIdDoesNotExistsException;
 import pt.ist.sonet.exception.IpOutOfMeshException;
 import pt.ist.sonet.exception.PIIdDoesNotExistsException;
@@ -47,6 +48,7 @@ public interface SoNetServlet extends RemoteService {
 	BoardDto updateBoard(int boardId) throws BoardIdDoesNotExistsException;
 	String getWinner(int boardId) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	Integer loadRSSIMacOS();
+	BoardDto getBoard(String user1, String user2) throws AgentUsernameDoesNotExistsException, BoardDoesNotExistsException;
 	void removeBoard(int boardId) throws BoardIdDoesNotExistsException;
 	boolean checkWinner(int boardId) throws BoardIdDoesNotExistsException;
 	void registerAgentProfile(AgentDto dto) throws UsernameAlreadyExistsException;

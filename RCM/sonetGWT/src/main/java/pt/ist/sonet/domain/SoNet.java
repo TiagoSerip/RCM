@@ -139,6 +139,31 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return board;
 	}
 	
+	public Board getBoardByUsers(Agent player1, Agent player2) {
+		
+		List<Board> games = new ArrayList<Board>();
+		Board aux = new Board();
+		
+		for(Board b : this.getBoardSet()) {
+			if(b.getGuest()==player1 && b.getHost()==player2) {
+				games.add(b);
+			}
+			if(b.getGuest()==player2 && b.getHost()==player1) {
+				games.add(b);
+			}
+		}
+		
+		if(games.isEmpty())
+			return null;
+		
+		aux=games.get(0);
+		for(Board b : games) {
+			if(b.getId() > aux.getId())
+				aux = b;
+		}
+		return aux;		
+	}
+	
 	public Board getBoardById(int id) {
 		for(Board b : this.getBoardSet()) {
 			if(b.getId()==id)

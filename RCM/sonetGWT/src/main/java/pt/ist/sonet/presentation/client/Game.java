@@ -61,6 +61,7 @@ public class Game extends DecoratorPanel {
 	private boolean hasWinner = false;
 	Button uptadeButton = new Button("Update");
 	final Label listLbl;
+	String[][] matrix = {{null, null, null},{null, null, null},{null, null, null}};
 	Button button11 = new Button(" ");
 	Button button12 = new Button(" ");
 	Button button13 = new Button(" ");
@@ -179,6 +180,17 @@ public class Game extends DecoratorPanel {
 		
 		panel.add(lblGame, 335, 35);
 		lblGame.setSize("287px", "18px");
+		
+		button11.setEnabled(false);
+		button12.setEnabled(false);
+		button13.setEnabled(false);
+		button21.setEnabled(false);
+		button22.setEnabled(false);
+		button23.setEnabled(false);
+		button31.setEnabled(false);
+		button32.setEnabled(false);
+		button33.setEnabled(false);
+		gameOverButton.setEnabled(false);
 		
 		loadAllAgents();
 		
@@ -442,41 +454,41 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(BoardDto dto) {
-						Agent[][] matrix = dto.getBoard();
+						matrix = dto.getBoard();
 						if(matrix[0][0] != null) {
-							button11.setText(matrix[0][0].getUsername());
+							button11.setText(matrix[0][0]);
 							button11.setEnabled(false);
 						}
 						if(matrix[0][1] != null) {
-							button12.setText(matrix[0][1].getUsername());
+							button12.setText(matrix[0][1]);
 							button12.setEnabled(false);
 						}
 						if(matrix[0][2] != null) {
-							button13.setText(matrix[0][2].getUsername());
+							button13.setText(matrix[0][2]);
 							button13.setEnabled(false);
 						}
 						if(matrix[1][0] != null) {
-							button21.setText(matrix[1][0].getUsername());
+							button21.setText(matrix[1][0]);
 							button21.setEnabled(false);
 						}
 						if(matrix[1][1] != null) {
-							button22.setText(matrix[1][1].getUsername());
+							button22.setText(matrix[1][1]);
 							button22.setEnabled(false);
 						}
 						if(matrix[1][2] != null) {
-							button23.setText(matrix[1][2].getUsername());
+							button23.setText(matrix[1][2]);
 							button23.setEnabled(false);
 						}
 						if(matrix[2][0] != null) {
-							button31.setText(matrix[2][0].getUsername());
+							button31.setText(matrix[2][0]);
 							button31.setEnabled(false);
 						}
 						if(matrix[2][1] != null) {
-							button32.setText(matrix[2][1].getUsername());
+							button32.setText(matrix[2][1]);
 							button32.setEnabled(false);
 						}
 						if(matrix[2][2] != null) {
-							button33.setText(matrix[2][2].getUsername());
+							button33.setText(matrix[2][2]);
 							button33.setEnabled(false);
 						}
 						

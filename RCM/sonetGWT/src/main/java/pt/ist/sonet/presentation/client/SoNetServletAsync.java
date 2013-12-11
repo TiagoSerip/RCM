@@ -3,6 +3,7 @@ package pt.ist.sonet.presentation.client;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
+import pt.ist.sonet.exception.BoardDoesNotExistsException;
 import pt.ist.sonet.exception.BoardIdDoesNotExistsException;
 import pt.ist.sonet.exception.UsernameAlreadyExistsException;
 import pt.ist.sonet.service.dto.AgentDto;
@@ -45,6 +46,7 @@ public interface SoNetServletAsync {
 	void getPIsByAp(int apId, AsyncCallback<PIListDto> callback);
 	void getWinner(int boardId, AsyncCallback<String> callback) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	void getPIById(int id, AsyncCallback<PIDto> callback);
+	void getBoard(String user1, String user2, AsyncCallback<BoardDto> callback) throws AgentUsernameDoesNotExistsException, BoardDoesNotExistsException;
 	void removeBoard(int boardId, AsyncCallback<Void> callback) throws BoardIdDoesNotExistsException;
 	void updateBoard(int boardId, AsyncCallback<BoardDto> callback) throws BoardIdDoesNotExistsException;
 	void createBoard(String player1, String player2, AsyncCallback<Integer> callback) throws AgentUsernameDoesNotExistsException;
