@@ -7,6 +7,7 @@ import pt.ist.sonet.service.dto.AgentDto;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -53,6 +54,10 @@ public class Profile extends DecoratorPanel {
 	final IntegerBox apBox = new IntegerBox();
 	final TextBox ipBox = new TextBox();
 	final IntegerBox rssiBox = new IntegerBox();
+	
+	private Timer t;
+
+	int delay = 1000; //milliseconds
 	
 	public Profile(final String user, int ap){
 		setSize("100%", "100%");
@@ -104,9 +109,15 @@ public class Profile extends DecoratorPanel {
 		apBox.setSize("171", "34");
 		
 		//Load the profile data from the FF
-		loadProfileData();
-		
 		loadAgentIp();
+		loadProfileData();
+		t = new Timer(){
+			@Override
+		      public void run() {
+				loadProfileData();
+		      }
+		};
+		t.schedule(delay);
 		
 		Button btnSave = new Button("Save");
 		btnSave.addClickHandler(new ClickHandler() {
@@ -327,6 +338,10 @@ public class Profile extends DecoratorPanel {
 			}
 		});
 		
+	}
+	
+	public void finish(){
+		t.cancel();
 	}
 	
 }

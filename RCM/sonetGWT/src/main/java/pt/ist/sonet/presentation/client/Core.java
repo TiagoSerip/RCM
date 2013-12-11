@@ -129,6 +129,7 @@ public class Core implements EntryPoint {
 	
 	private void finishAll(){
 		try{
+			profilePanel.finish();
 			viewChat.finish();
 			viewAP.finish();
 		}catch (Exception e){

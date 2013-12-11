@@ -32,6 +32,7 @@ public class SoNetApp {
 	static String username;
 	static String password;
 	static SoNet rede;
+	static String SERVERIP = "127.0.0.1";
 	
 	/**
 	 * Executa a SoNet e efectua os testes pedidos no enunciado.
@@ -40,7 +41,7 @@ public class SoNetApp {
 	public static void main(String[] args) {
 		System.out.println("Starting...");
 		FenixFramework.initialize(new Config() {{
-			dbAlias = "//127.0.0.1:3306/sonetdb"; 
+			dbAlias = "//"+SERVERIP+":3306/sonetdb"; 
 			dbUsername = "sonet";
 			dbPassword = "s0n3t";
 			domainModelPath="src/main/dml/sonet.dml";
@@ -259,6 +260,8 @@ public class SoNetApp {
 			System.out.println("RSSI: "+rssi);
 		}catch(Exception  e){
 			System.out.println("Failed to push your RSSI to server. Please check your connection.");
+			rede=startSoNet();
+
 		}
 	}
 
@@ -276,12 +279,13 @@ public class SoNetApp {
 			System.out.println("RSSI: "+rssi);
 		}catch(Exception  e){
 			System.out.println("Failed to push your RSSI to server. Please check your connection.");
+			rede=startSoNet();
 		}
 	}
 	
 	public static void openWebApp(){
 		 try {
-			  URI url = new URI("http://192.168.1.105:8080/rcm");
+			  URI url = new URI("http://"+SERVERIP+":8080/rcm");
 				Desktop.getDesktop().browse(url);
 			} catch (Exception e) {
 				System.out.println("Failed to open the app web page.");
