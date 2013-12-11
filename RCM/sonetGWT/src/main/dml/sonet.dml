@@ -4,6 +4,7 @@ package pt.ist.sonet.domain;
 class SoNet{
 	int PIId;
 	int MessageId;
+	int BoardId;
 }
 
 class Agent{
@@ -12,6 +13,10 @@ class Agent{
 	String password;
 	int rssi;
 	String ip;
+}
+
+class Board{
+	int id;
 }
 
 class AP{
@@ -49,6 +54,14 @@ relation SonetHasAgents{
 	}
 }
 
+relation SonetHasBoards{
+	SoNet playsRole sonet{
+		multiplicity 1..1;
+	}
+	Board playsRole board{
+		multiplicity 0..*;
+	}
+}
 
 relation SonetHasAPs{
 	SoNet playsRole sonet{
@@ -109,6 +122,24 @@ relation MessagesHasReceiver{
 		multiplicity 0..*;
 	}
 	Agent playsRole receiver{
+		multiplicity 1..1;
+	}
+}
+	
+relation BoardHasPlayer1{
+	Board playsRole boardHost{
+		multiplicity 0..*;
+	}
+	Agent playsRole host{
+		multiplicity 1..1;
+	}
+}	
+
+relation BoardHasPlayer2{
+	Board playsRole boardGuest{
+		multiplicity 0..*;
+	}
+	Agent playsRole guest{
 		multiplicity 1..1;
 	}
 }	

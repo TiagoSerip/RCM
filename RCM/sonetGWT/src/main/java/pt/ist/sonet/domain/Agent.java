@@ -3,8 +3,6 @@ package pt.ist.sonet.domain;
 import java.io.Serializable;
 import java.util.*;
 
-import pt.ist.sonet.exception.*;
-
 /**
  * Classe Agent que herda de Agent_Base
  */
@@ -60,7 +58,7 @@ public class Agent extends Agent_Base implements Serializable{
 	public void sendMessage(Message msg){
 		this.addSentMessage(msg);
 	}
-
+	
 	public List<Message> getLastConversationWithSomeone(Agent agent) {
 		List<Message> sentMsg = new ArrayList<Message>();
 		List<Message> receivedMsg = new ArrayList<Message>();

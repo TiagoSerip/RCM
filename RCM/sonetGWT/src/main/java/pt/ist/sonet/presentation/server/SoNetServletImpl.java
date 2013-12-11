@@ -9,6 +9,8 @@ import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.AlreadyVotedException;
 import pt.ist.sonet.exception.ApIdDoesNotExistsException;
+import pt.ist.sonet.exception.BoardDoesNotExistsException;
+import pt.ist.sonet.exception.BoardIdDoesNotExistsException;
 import pt.ist.sonet.exception.IpOutOfMeshException;
 import pt.ist.sonet.exception.PIIdDoesNotExistsException;
 import pt.ist.sonet.exception.UsernameAlreadyExistsException;
@@ -17,25 +19,33 @@ import pt.ist.sonet.service.AddCommentService;
 import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.AgentsByApService;
 import pt.ist.sonet.service.ChangeAgentPasswordService;
+import pt.ist.sonet.service.CheckWinnerService;
+import pt.ist.sonet.service.CreateBoardService;
 import pt.ist.sonet.service.GetAgentByUsernameService;
 import pt.ist.sonet.service.GetAllApService;
 import pt.ist.sonet.service.GetAllOtherAgentsService;
 import pt.ist.sonet.service.GetAllPIFromAPService;
 import pt.ist.sonet.service.GetApByIdService;
 import pt.ist.sonet.service.GetApCommentsService;
+import pt.ist.sonet.service.GetBoardByUsersService;
 import pt.ist.sonet.service.GetConversationService;
 import pt.ist.sonet.service.GetPIByIdService;
+import pt.ist.sonet.service.GetUpdatedBoardService;
+import pt.ist.sonet.service.GetWinnerService;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
+import pt.ist.sonet.service.PlayService;
 import pt.ist.sonet.service.PositiveVoteService;
 import pt.ist.sonet.service.RegisterAgentService;
 import pt.ist.sonet.service.RegisterPIService;
+import pt.ist.sonet.service.RemoveBoardService;
 import pt.ist.sonet.service.SendPrivateMessageService;
 import pt.ist.sonet.service.UpdateAgentInfoService;
 import pt.ist.sonet.service.UpdateAgentIpService;
 import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
+import pt.ist.sonet.service.dto.BoardDto;
 import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.CommentDto;
 import pt.ist.sonet.service.dto.ListingDto;
@@ -249,6 +259,57 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		GetConversationService service = new GetConversationService(user, otherGuy, dto);
 		service.execute();
 		return dto;
+	}
+	
+	@Override
+	public void play(int boardId, String playerUser, int[] jogada) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
+		PlayService service = new PlayService(boardId, playerUser, jogada);
+		service.execute();
+	}
+	
+	@Override
+	public BoardDto updateBoard(int boardId) throws BoardIdDoesNotExistsException {
+		GetUpdatedBoardService service = new GetUpdatedBoardService(boardId);
+		service.execute();
+		return service.getUpdatedBoard();
+	}
+	
+	@Override
+	public BoardDto getBoard(String player1User, String player2User) throws AgentUsernameDoesNotExistsException, BoardDoesNotExistsException {
+		GetBoardByUsersService service = new GetBoardByUsersService(player1User, player2User);
+		service.execute();
+		return service.getBoard();
+	}
+	
+	@Override
+	public Integer createBoard(String host, String guest) throws AgentUsernameDoesNotExistsException {
+		CreateBoardService service = new CreateBoardService(host, guest);
+		service.execute();
+		int boardId = service.getNewBoardId();
+		Integer id = new Integer(boardId);
+		return id;
+	}
+	
+	@Override
+	public boolean checkWinner(int boardId) throws AgentUsernameDoesNotExistsException {
+		BooleanDto dto = new BooleanDto();
+		CheckWinnerService service = new CheckWinnerService(boardId, dto);
+		service.execute();
+		return dto.getValue();
+	}
+	
+	@Override
+	public String getWinner(int boardId) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
+		GetWinnerService service = new GetWinnerService(boardId);
+		service.execute();
+		String winner = service.getWinner().getUsername();
+		return winner;
+	}
+	
+	@Override
+	public void removeBoard(int boardId) throws BoardIdDoesNotExistsException {
+		RemoveBoardService service = new RemoveBoardService(boardId);
+		service.execute();
 	}
 	
 	/**
