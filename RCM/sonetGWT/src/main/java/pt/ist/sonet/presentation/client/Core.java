@@ -113,6 +113,7 @@ public class Core implements EntryPoint {
 	private Button streaming;
 	private Button btnView;
 	private Button btnRepo;
+	private Button game;
 
 
 
@@ -122,6 +123,7 @@ public class Core implements EntryPoint {
 	private Profile profilePanel;
 	private Map viewMap;
 	private Chat viewChat;
+	private Game gameTab;
 
 	/**
 	 * Create a remote service proxy to talk to the server-side SoNetServlet.
@@ -256,6 +258,17 @@ public class Core implements EntryPoint {
 			}
 		});
 		
+		game = new Button("TIC TAC TOE");
+		game.setVisible(false);
+		game.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootContainer.clear();
+				refresh();
+				gameTab = new Game(active);
+				RootContainer.add(gameTab);
+			}
+		});
+		
 		streaming = new Button("STREAMING");
 		streaming.setVisible(false);
 		streaming.addClickHandler(new ClickHandler() {
@@ -306,6 +319,7 @@ public class Core implements EntryPoint {
 		verticalPanel.add(streaming);
 		verticalPanel.add(chat);
 		verticalPanel.add(btnRepo);
+		verticalPanel.add(game);
 		
 
 
@@ -356,6 +370,7 @@ public class Core implements EntryPoint {
 						streaming.setVisible(true);
 						btnDirectory.setVisible(true);
 						chat.setVisible(true);
+						game.setVisible(true);
 						btnView.setVisible(true);
 						btnRepo.setVisible(true);
 						RootContainer.clear();
@@ -388,6 +403,7 @@ public class Core implements EntryPoint {
 				map.setVisible(false);
 				streaming.setVisible(false);
 				chat.setVisible(false);
+				game.setVisible(false);
 				RootContainer.clear();
 				btnDirectory.setVisible(false);
 				btnView.setVisible(false);

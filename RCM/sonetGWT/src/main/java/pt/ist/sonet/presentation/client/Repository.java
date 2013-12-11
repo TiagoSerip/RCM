@@ -41,9 +41,9 @@ private static final String SERVER_ERROR = "An error occurred while "
             + "connection and try again.";
 
 private static final String HOMEIP = "http://192.168.1.105/rcm";
-private static final String TAGUSIP = "http://192.168.103.1/rcm";
+private static final String TAGUSIP = "http://192.168.102.1/rcm";
 
-private static final String INUSE = HOMEIP;
+private static final String INUSE = TAGUSIP;
 
 
 
@@ -91,15 +91,6 @@ private static final String INUSE = HOMEIP;
 		this.ap = ap;
 		this.panel = new AbsolutePanel();
 		
-		// Create a FormPanel and point it at a service.
-        final FormPanel form = new FormPanel();
-        form.setAction(UPLOAD_ACTION_URL);
-
-        // Because we're going to add a FileUpload widget, we'll need to set the
-        // form to use the POST method, and multipart MIME encoding.
-        form.setEncoding(FormPanel.ENCODING_MULTIPART);
-        form.setMethod(FormPanel.METHOD_POST);
-		
 		final Label title = new Label("File Repository");
 		title.setStyleName("h1");
 		panel.add(title);
@@ -109,69 +100,32 @@ private static final String INUSE = HOMEIP;
 		
 		TabPanel tabPanel = new TabPanel();
 		panel.add(tabPanel, 0, 68);
-		tabPanel.setSize("761px", "390px");
+		tabPanel.setSize("783px", "492px");
 				
 		this.add(this.panel);
 		panel.setSize("793px", "568px");
 		
 		AbsolutePanel viewPanel = new AbsolutePanel();
-		form.add(viewPanel);
-		tabPanel.add(form, "Upload", false);
-		viewPanel.setSize("750px", "244px");
+		tabPanel.add(viewPanel, "Upload", false);
+		viewPanel.setSize("769px", "447px");
 		
 		Label info = new Label("Choose a file from your computer to upload to the server's repository.");
 		viewPanel.add(info, 10, 37);
-		
-		// Create a TextBox, giving it a name so that it will be submitted.
-        final TextBox tb = new TextBox();
-        tb.setName("textBoxFormElement");
-        viewPanel.add(tb, 79, 85);
-        
-     // Create a FileUpload widget.
-        FileUpload upload = new FileUpload();
-        upload.setName("uploadFormElement");
-        viewPanel.add(upload, 10, 156);
-
-        // Add a 'submit' button.
-        viewPanel.add(new Button("Submit", new ClickHandler() {
-                public void onClick(ClickEvent event) {
-                        form.submit();
-                }
-        }), 309, 148);
-        
-        Label lblFileName = new Label("File Name:");
-        viewPanel.add(lblFileName, 10, 91);
-        
-        Label lblUploadFileTo = new Label("Upload File to the Repository");
-        lblUploadFileTo.setStyleName("h3");
-        viewPanel.add(lblUploadFileTo, 10, 10);
-        lblUploadFileTo.setSize("309px", "21px");
-
-        // Add an event handler to the form.
-        form.addSubmitHandler(new FormPanel.SubmitHandler() {
-                public void onSubmit(SubmitEvent event) {
-                        // This event is fired just before the form is submitted. We can
-                        // take this opportunity to perform validation.
-                        if (tb.getText().length() == 0) {
-                                Window.alert("The text box must not be empty");
-                                event.cancel();
-                        }
-                }
-        });
-
-        form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
-                public void onSubmitComplete(SubmitCompleteEvent event) {
-                        // When the form submission is successfully completed, this
-                        // event is fired. Assuming the service returned a response of type
-                        // text/html, we can get the result text here (see the FormPanel
-                        // documentation for further explanation).
-                        showMessage(event.getResults());
-                }
-        });
+                
+                Label lblUploadFileTo = new Label("Upload File to the Repository");
+                lblUploadFileTo.setStyleName("h3");
+                viewPanel.add(lblUploadFileTo, 10, 10);
+                lblUploadFileTo.setSize("309px", "21px");
+                
+                Frame frame_1 = new Frame("./upload.html");
+                viewPanel.add(frame_1, 10, 61);
+                frame_1.setSize("745px", "372px");
+                
+	    viewPanel.setVisible(true);
 		
 		AbsolutePanel addPanel = new AbsolutePanel();
 		tabPanel.add(addPanel, "Browse", false);
-		addPanel.setSize("750px", "433px");
+		addPanel.setSize("769px", "452px");
 		
 		Label lblToAddA = new Label("Here you can browse and download files from the file repository.");
 		lblToAddA.setStyleName("gwt-DialogBox");
@@ -184,8 +138,8 @@ private static final String INUSE = HOMEIP;
 		lblBrowseFileRepository.setSize("222px", "21px");
 		
 		final Frame frame = new Frame(INUSE);
-		addPanel.add(frame, 10, 77);
-		frame.setSize("726px", "342px");
+		addPanel.add(frame, 10, 61);
+		frame.setSize("745px", "377px");
 		
 		Button btnRefresh = new Button("Refresh");
 		btnRefresh.addClickHandler(new ClickHandler() {
@@ -193,9 +147,7 @@ private static final String INUSE = HOMEIP;
 				frame.setUrl(INUSE);
 			}
 		});
-		addPanel.add(btnRefresh, 678, 37);
-		
-	    viewPanel.setVisible(true);
+		addPanel.add(btnRefresh, 697, 25);
 	}
 	
 	void showError(String reason){
@@ -204,17 +156,6 @@ private static final String INUSE = HOMEIP;
 		dialogBox.setText("Repository Error:");
 		serverResponseLabel.addStyleName("serverResponseLabelError");
 		serverResponseLabel.setHTML(reason);
-		dialogBox.center();
-		closeButton.setFocus(true);
-		
-	}
-	
-	void showMessage(String message){
-		
-		// Show the the error to the user
-		dialogBox.setText("Repository:");
-		serverResponseLabel.removeStyleName("serverResponseLabelError");
-		serverResponseLabel.setHTML(message);
 		dialogBox.center();
 		closeButton.setFocus(true);
 		
