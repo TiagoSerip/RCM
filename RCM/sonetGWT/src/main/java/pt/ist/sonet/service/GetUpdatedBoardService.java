@@ -12,7 +12,6 @@ public class GetUpdatedBoardService extends SonetService{
 	
 	private BoardDto boardDto;
 	private int boardId;
-	private String[][] matrix = {{null, null, null},{null, null, null},{null, null, null}};
 	
 	public GetUpdatedBoardService(int boardId) {
 		this.boardId = boardId;	
@@ -26,13 +25,7 @@ public class GetUpdatedBoardService extends SonetService{
 		if(board == null)
 			throw new BoardIdDoesNotExistsException(boardId);
 		
-		for(int i=0; i<3; i++) {
-			for(int j=0;j<3; j++){
-				matrix[i][j]=board.getMatrix()[i][j].getUsername();
-			}
-		}
-		
-		boardDto = new BoardDto(board.getId(), matrix);
+		boardDto = new BoardDto(board.getId(), board.getMatrix());
 	}
 	
 	public BoardDto getUpdatedBoard(){

@@ -1,16 +1,14 @@
 package pt.ist.sonet.exception;
 
-import pt.ist.sonet.domain.Agent;
-
 public class InvalidPositionException extends SoNetException {
 	
 	private static final long serialVersionUID = 1L;
 	
 	int row;
 	int column;
-	Agent whoPlayedHere;
+	String whoPlayedHere;
 	
-	public InvalidPositionException(int linha, int coluna, Agent quemJogou){
+	public InvalidPositionException(int linha, int coluna, String quemJogou){
 		this.row = linha;
 		this.column = coluna;
 		this.whoPlayedHere = quemJogou;		
@@ -19,7 +17,7 @@ public class InvalidPositionException extends SoNetException {
 	InvalidPositionException(){}
 	
 	public String toString() {
-		return whoPlayedHere.getUsername()+" already played in position [" + row + "," + column + "].";
+		return whoPlayedHere+" already played in position [" + row + "," + column + "].";
 	}
 
 

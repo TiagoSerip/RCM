@@ -13,7 +13,6 @@ public class GetBoardByUsersService extends SonetService{
 	
 	private String player1User;
 	private String player2User;
-	private String[][] matrix = {{null, null, null},{null, null, null},{null, null, null}};
 	private BoardDto boardDto;
 	
 	public GetBoardByUsersService(String player1User, String player2User) {
@@ -37,13 +36,7 @@ public class GetBoardByUsersService extends SonetService{
 		if(board == null)
 			throw new BoardDoesNotExistsException(player1User, player2User);
 		
-		for(int i=0; i<3; i++) {
-			for(int j=0;j<3; j++){
-				matrix[i][j]=board.getMatrix()[i][j].getUsername();
-			}
-		}
-		
-		boardDto = new BoardDto(board.getId(), matrix);
+		boardDto = new BoardDto(board.getId(), board.getMatrix());
 	}
 	
 	public BoardDto getBoard(){

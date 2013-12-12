@@ -25,9 +25,9 @@ public class GetWinnerService extends SonetService{
 		Board board = network.getBoardById(boardId);
 		if(board == null)
 			throw new BoardIdDoesNotExistsException(boardId);
-		Agent winner = network.getWinner(board);
+		Agent winner = network.getAgentByUsername(network.getWinner(board));
 		if(winner == null)
-			throw new AgentUsernameDoesNotExistsException(network.getWinner(board).getUsername());
+			throw new AgentUsernameDoesNotExistsException(network.getWinner(board));
 		
 		dto = new AgentDto(winner.getUsername(), winner.getPassword(), winner.getName(), 
 				winner.getAp().getId(), winner.getRssi(), winner.getIp());

@@ -114,13 +114,10 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return agent;
 	}
 	
-	public Board createBoard(Agent host, Agent guest) {
-		
+	public Board createBoard(Agent host, Agent guest) {		
 		int id = generateBoardId();
-		Agent[][] matrix = {{null, null, null},{null, null, null},{null, null, null}};
-
 		Board board = new Board();
-		board.init(id, host, guest, matrix);
+		board.init(id, host, guest);
 		this.addBoard(board);
 		return board;
 	}
@@ -129,13 +126,12 @@ public class SoNet extends SoNet_Base implements Serializable {
 		int row = jogada[1];
 		int column = jogada[2];
 		
-		Agent[][] m = board.getMatrix();
+		String[][] m = board.getMatrix();
 		if(m[row][column] != null)
 			throw new InvalidPositionException(row, column, m[row][column]);			
 			
-		m[row][column] = player;
-		board.setMatrix(m);
-		
+		board.setMatrixPosition(jogada, player.getUsername());
+		board.setTurn(player.getUsername());
 		return board;
 	}
 	
@@ -173,7 +169,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 	}
 	
 	public boolean boardIsFull(Board board) {
-		Agent[][] m = board.getMatrix();
+		String[][] m = board.getMatrix();
 		for(int i=0; i < 3; i++) {
 			for(int j=0; j < 3; j++) {
 				if (m[i][j] == null) {
@@ -185,7 +181,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 	}
 	
 	public boolean checkWinner(Board board) {
-		Agent[][] m = board.getMatrix();
+		String[][] m = board.getMatrix();
 		
 		return	(m[0][0] != null && m[0][0]==m[0][1] && m[0][0]==m[0][2]) ||
 				(m[1][0] != null && m[1][0]==m[1][1] && m[1][0]==m[1][2]) ||
@@ -197,8 +193,8 @@ public class SoNet extends SoNet_Base implements Serializable {
 				(m[0][2] != null && m[0][2]==m[1][1] && m[0][2]==m[2][0]);
 	}
 	
-	public Agent getWinner(Board board) {
-		Agent[][] m = board.getMatrix();
+	public String getWinner(Board board) {
+		String[][] m = board.getMatrix();
 		
 		if(m[0][0] != null && m[0][0]==m[0][1] && m[0][0]==m[0][2]){ 
 			return m[0][0];}

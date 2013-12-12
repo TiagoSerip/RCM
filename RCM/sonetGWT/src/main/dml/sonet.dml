@@ -17,6 +17,16 @@ class Agent{
 
 class Board{
 	int id;
+	String pos00;
+	String pos01;
+	String pos02;
+	String pos10;
+	String pos11;
+	String pos12;
+	String pos20;
+	String pos21;
+	String pos22;
+	String turn;
 }
 
 class AP{

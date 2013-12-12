@@ -30,6 +30,7 @@ import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.GetBoardByUsersService;
 import pt.ist.sonet.service.GetConversationService;
 import pt.ist.sonet.service.GetPIByIdService;
+import pt.ist.sonet.service.GetPreviouslyPlayerService;
 import pt.ist.sonet.service.GetUpdatedBoardService;
 import pt.ist.sonet.service.GetWinnerService;
 import pt.ist.sonet.service.ListAllService;
@@ -261,6 +262,13 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		GetConversationService service = new GetConversationService(user, otherGuy, dto);
 		service.execute();
 		return dto;
+	}
+	
+	@Override
+	public String getPreviouslyPlayer(int boardId) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
+		GetPreviouslyPlayerService service = new GetPreviouslyPlayerService(boardId);
+		service.execute();
+		return service.getPreviously().getUsername();
 	}
 	
 	@Override

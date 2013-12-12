@@ -37,6 +37,7 @@ public interface SoNetServlet extends RemoteService {
 	void negativeVote(String user, int pubId) throws AlreadyVotedException;
 	StringListDto getAllOtherAgents(String user) throws AgentUsernameDoesNotExistsException;
 	ApListDto getApList(); 
+	String getPreviouslyPlayer(int boardId) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	void play(int boardId, String player, int[] jogada) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	Integer createBoard(String player1, String player2) throws AgentUsernameDoesNotExistsException;
 	void sendPrivateMessage(String user, String otherGuy, String text) throws AgentUsernameDoesNotExistsException;
