@@ -401,7 +401,7 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(Boolean b) {
-						hasWinner = b;
+						hasWinner = b.booleanValue();
 					}
 				});
 	}
@@ -420,7 +420,7 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(Boolean b) {
-						boardIsFull = b;
+						boardIsFull = b.booleanValue();
 					}
 				});
 	}
@@ -648,38 +648,74 @@ public class Game extends DecoratorPanel {
 							button11.setText(dto.getlisting().get(0));
 							button11.setEnabled(false);
 						}
+						else {
+							button11.setText("");
+							button11.setEnabled(true);
+						}							
 						if(dto.getlisting().get(1) != null) {
 							button12.setText(dto.getlisting().get(1));
 							button12.setEnabled(false);
 						}
+						else {
+							button12.setText("");
+							button12.setEnabled(true);
+						}							
 						if(dto.getlisting().get(2) != null) {
 							button13.setText(dto.getlisting().get(2));
 							button13.setEnabled(false);
 						}
+						else {
+							button13.setText("");
+							button13.setEnabled(true);
+						}	
 						if(dto.getlisting().get(3) != null) {
 							button21.setText(dto.getlisting().get(3));
 							button21.setEnabled(false);
 						}
+						else {
+							button21.setText("");
+							button21.setEnabled(true);
+						}	
 						if(dto.getlisting().get(4) != null) {
 							button22.setText(dto.getlisting().get(4));
 							button22.setEnabled(false);
 						}
+						else {
+							button22.setText("");
+							button22.setEnabled(true);
+						}	
 						if(dto.getlisting().get(5) != null) {
 							button23.setText(dto.getlisting().get(5));
 							button23.setEnabled(false);
 						}
+						else {
+							button23.setText("");
+							button23.setEnabled(true);
+						}	
 						if(dto.getlisting().get(6) != null) {
 							button31.setText(dto.getlisting().get(6));
 							button31.setEnabled(false);
 						}
+						else {
+							button31.setText("");
+							button31.setEnabled(true);
+						}	
 						if(dto.getlisting().get(7) != null) {
 							button32.setText(dto.getlisting().get(7));
 							button32.setEnabled(false);
 						}
+						else {
+							button32.setText("");
+							button32.setEnabled(true);
+						}	
 						if(dto.getlisting().get(8) != null) {
 							button33.setText(dto.getlisting().get(8));
 							button33.setEnabled(false);
 						}
+						else {
+							button33.setText("");
+							button33.setEnabled(true);
+						}	
 						
 					}
 				});

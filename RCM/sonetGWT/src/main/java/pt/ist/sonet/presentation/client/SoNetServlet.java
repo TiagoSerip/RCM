@@ -54,7 +54,7 @@ public interface SoNetServlet extends RemoteService {
 	Integer loadRSSIMacOS();
 	BoardDto getBoard(String user1, String user2) throws AgentUsernameDoesNotExistsException, BoardDoesNotExistsException;
 	void removeBoard(int boardId) throws BoardIdDoesNotExistsException;
-	boolean checkWinner(int boardId) throws BoardIdDoesNotExistsException;
+	Boolean checkWinner(int boardId) throws BoardIdDoesNotExistsException;
 	void registerAgentProfile(AgentDto dto) throws UsernameAlreadyExistsException;
 	int updateAgentIP(AgentDto dto) throws AgentUsernameDoesNotExistsException, IpOutOfMeshException;
 	PIListDto getPIsByAp(int apId) throws ApIdDoesNotExistsException;

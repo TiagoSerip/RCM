@@ -123,19 +123,29 @@ public class SoNet extends SoNet_Base implements Serializable {
 	}
 	
 	public Board play(Board board, Agent player, int[] jogada) throws InvalidPositionException {
-//		int row = jogada[1];
-//		int column = jogada[2];
+		int row = jogada[1];
+		int column = jogada[2];
 		
-//		String[] m = board.getVector();
-//		if(m[row][column] != null)
-//			throw new InvalidPositionException(row, column, m[row][column]);			
+		String[] v = board.getVector();
+		String[][] m = {{null, null, null},{null, null, null},{null, null, null}};
+		m[0][0]=v[0];
+		m[0][1]=v[1];
+		m[0][2]=v[2];
+		m[1][0]=v[3];
+		m[1][1]=v[4];
+		m[1][2]=v[5];
+		m[2][0]=v[6];
+		m[2][1]=v[7];
+		m[2][2]=v[9];
+		if(m[row][column] != null)
+			throw new InvalidPositionException(row, column, m[row][column]);			
 			
 		board.setMatrixPosition(jogada, player.getUsername());
 		
 		if(player.equals(board.getGuest()))
 			board.setTurn(board.getHost().getUsername());
 		if(player.equals(board.getHost()))
-			board.setTurn(board.getHost().getUsername());		
+			board.setTurn(board.getGuest().getUsername());		
 		
 		return board;
 	}

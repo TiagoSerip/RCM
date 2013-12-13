@@ -308,7 +308,7 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	}
 	
 	@Override
-	public boolean checkWinner(int boardId) throws AgentUsernameDoesNotExistsException {
+	public Boolean checkWinner(int boardId) throws AgentUsernameDoesNotExistsException {
 		BooleanDto dto = new BooleanDto();
 		CheckWinnerService service = new CheckWinnerService(boardId, dto);
 		service.execute();
