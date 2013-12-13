@@ -36,7 +36,7 @@ public class GetBoardByUsersService extends SonetService{
 		if(board == null)
 			throw new BoardDoesNotExistsException(player1User, player2User);
 		
-		boardDto = new BoardDto(board.getId(), board.getMatrix());
+		boardDto = new BoardDto(board.getId(), board.getMatrixLine1(), board.getMatrixLine2(), board.getMatrixLine3());
 	}
 	
 	public BoardDto getBoard(){
