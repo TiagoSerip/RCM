@@ -123,11 +123,10 @@ public class SoNet extends SoNet_Base implements Serializable {
 	}
 	
 	public Board play(Board board, Agent player, int[] jogada) throws InvalidPositionException {
-		int row = jogada[1];
-		int column = jogada[2];
-		
+		int row = jogada[0];
+		int column = jogada[1];
 		String[] v = board.getVector();
-		String[][] m = {{null, null, null},{null, null, null},{null, null, null}};
+		String[][] m = new String[3][3];
 		m[0][0]=v[0];
 		m[0][1]=v[1];
 		m[0][2]=v[2];
@@ -136,17 +135,15 @@ public class SoNet extends SoNet_Base implements Serializable {
 		m[1][2]=v[5];
 		m[2][0]=v[6];
 		m[2][1]=v[7];
-		m[2][2]=v[9];
+		m[2][2]=v[8];
 		if(m[row][column] != null)
 			throw new InvalidPositionException(row, column, m[row][column]);			
-			
 		board.setMatrixPosition(jogada, player.getUsername());
 		
 		if(player.equals(board.getGuest()))
 			board.setTurn(board.getHost().getUsername());
 		if(player.equals(board.getHost()))
 			board.setTurn(board.getGuest().getUsername());		
-		
 		return board;
 	}
 	
@@ -172,7 +169,14 @@ public class SoNet extends SoNet_Base implements Serializable {
 			if(b.getId() > aux.getId())
 				aux = b;
 		}
-		return aux;		
+
+		if(this.getWinner(aux)!=null)
+			return null;
+		
+		if(!this.boardIsFull(aux))
+			return aux;
+		
+		return null;
 	}
 	
 	public Board getBoardById(int id) {
@@ -195,7 +199,8 @@ public class SoNet extends SoNet_Base implements Serializable {
 	
 	public boolean checkWinner(Board board) {
 		String[] v = board.getVector();
-		String[][] m = {{null, null, null},{null, null, null},{null, null, null}};
+		//String[][] m = {{null, null, null},{null, null, null},{null, null, null}};
+		String[][] m = new String[3][3];
 		m[0][0]=v[0];
 		m[0][1]=v[1];
 		m[0][2]=v[2];
@@ -204,9 +209,10 @@ public class SoNet extends SoNet_Base implements Serializable {
 		m[1][2]=v[5];
 		m[2][0]=v[6];
 		m[2][1]=v[7];
-		m[2][2]=v[9];
+		m[2][2]=v[8];
 		
-		return	(m[0][0] != null && m[0][0]==m[0][1] && m[0][0]==m[0][2]) ||
+		boolean res;
+		res =	(m[0][0] != null && m[0][0]==m[0][1] && m[0][0]==m[0][2]) ||
 				(m[1][0] != null && m[1][0]==m[1][1] && m[1][0]==m[1][2]) ||
 				(m[2][0] != null && m[2][0]==m[2][1] && m[2][0]==m[2][2]) ||
 				(m[0][0] != null && m[0][0]==m[1][0] && m[0][0]==m[2][0]) ||
@@ -214,6 +220,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 				(m[0][2] != null && m[0][2]==m[1][2] && m[0][2]==m[2][2]) ||
 				(m[0][0] != null && m[0][0]==m[1][1] && m[0][0]==m[2][2]) ||
 				(m[0][2] != null && m[0][2]==m[1][1] && m[0][2]==m[2][0]);
+		return res;
 	}
 	
 	public String getWinner(Board board) {
@@ -227,7 +234,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 		m[1][2]=v[5];
 		m[2][0]=v[6];
 		m[2][1]=v[7];
-		m[2][2]=v[9];
+		m[2][2]=v[8];
 		
 		if(m[0][0] != null && m[0][0]==m[0][1] && m[0][0]==m[0][2]){ 
 			return m[0][0];}

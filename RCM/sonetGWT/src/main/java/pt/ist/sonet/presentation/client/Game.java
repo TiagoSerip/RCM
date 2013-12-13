@@ -79,7 +79,7 @@ public class Game extends DecoratorPanel {
 	final Button okButton = new Button("OK");
 	final HTML gameResponse = new HTML();
 	private Timer t;
-	int delay = 500; //milliseconds
+	int delay = 3000; //milliseconds
 	
 	
 	public Game(String user) {
@@ -219,7 +219,7 @@ public class Game extends DecoratorPanel {
 				if(listBox.getItemText(listBox.getSelectedIndex()) != null){
 					selectButton.setEnabled(false);
 					selected=listBox.getItemText(listBox.getSelectedIndex());
-					lblGame.setTitle("You're playing against "+selected);
+					lblGame.setText("You're playing against "+selected);
 					winner = null;
 					hasWinner = false;
 					boardId = -1;
@@ -245,12 +245,11 @@ public class Game extends DecoratorPanel {
 		
 		button11.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				System.out.println("clicou no 11");
 				jogada = jogada00;
 				play();
 				button11.setText(username);
 				button11.setEnabled(false);
-				buttonAction();
+				//buttonAction();
 			}
 		});
 		
@@ -260,7 +259,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button12.setText(username);
 				button12.setEnabled(false);
-				buttonAction();			
+				//buttonAction();			
 			}
 		});
 		
@@ -270,7 +269,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button13.setText(username);
 				button13.setEnabled(false);
-				buttonAction();			
+				//buttonAction();			
 			}
 		});
 		
@@ -280,7 +279,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button21.setText(username);
 				button21.setEnabled(false);
-				buttonAction();			
+				//buttonAction();			
 			}
 		});
 		
@@ -290,7 +289,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button22.setText(username);
 				button22.setEnabled(false);
-				buttonAction();			
+				//buttonAction();			
 			}
 		});
 		
@@ -300,7 +299,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button23.setText(username);
 				button23.setEnabled(false);
-				buttonAction();			
+				//buttonAction();			
 			}
 		});
 		
@@ -310,7 +309,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button31.setText(username);
 				button31.setEnabled(false);
-				buttonAction();
+				//buttonAction();
 			}
 		});
 		
@@ -320,7 +319,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button32.setText(username);
 				button32.setEnabled(false);
-				buttonAction();
+				//buttonAction();
 			}
 		});
 		
@@ -330,45 +329,15 @@ public class Game extends DecoratorPanel {
 				play();
 				button33.setText(username);
 				button33.setEnabled(false);
-				buttonAction();
+				//buttonAction();
 			}
 		});
 	}
 	
-	void buttonAction() {
-		checkWinner();
-		if(hasWinner) {
-			getWinner();
-			if(winner.equals(username)) {
-				dialogBox.setText("Congratulations!");
-				serverResponseLabel.removeStyleName("serverResponseLabelError");
-				serverResponseLabel.setHTML("Congratulations!! You won!");
-				dialogBox.center();
-				closeButton.setFocus(true);
-			}
-			else {
-				dialogBox.setText("=(");
-				serverResponseLabel.removeStyleName("serverResponseLabelError");
-				serverResponseLabel.setHTML("You lost...");
-				dialogBox.center();
-				closeButton.setFocus(true);
-			}
-			removeBoard();
-		}
-		else {
-			boardIsFull();
-			if(boardIsFull) {
-				dialogBox.setText("Draw.");
-				serverResponseLabel.removeStyleName("serverResponseLabelError");
-				serverResponseLabel.setHTML("The game ended with a draw.");
-				dialogBox.center();
-				closeButton.setFocus(true);
-				removeBoard();
-			}
-		}
-	}
 	
 	void play(){
+//			if (!turn.equals(username))
+//				return;
 		sonetServlet.play(boardId, username, jogada, new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
@@ -381,7 +350,8 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(Void v) {
-						System.out.println("Jogou:"+boardId+username);
+						turn=selected;
+						checkWinner();
 					}
 				});
 	}
@@ -402,6 +372,12 @@ public class Game extends DecoratorPanel {
 
 					public void onSuccess(Boolean b) {
 						hasWinner = b.booleanValue();
+							if(hasWinner) {
+								getWinner();
+							}
+							else {
+								boardIsFull();
+							}
 					}
 				});
 	}
@@ -421,6 +397,14 @@ public class Game extends DecoratorPanel {
 
 					public void onSuccess(Boolean b) {
 						boardIsFull = b.booleanValue();
+						if(boardIsFull) {
+							dialogBox.setText("Draw.");
+							serverResponseLabel.removeStyleName("serverResponseLabelError");
+							serverResponseLabel.setHTML("The game ended with a draw.");
+							dialogBox.center();
+							closeButton.setFocus(true);
+							removeBoard();
+						}
 					}
 				});
 	}
@@ -441,6 +425,21 @@ public class Game extends DecoratorPanel {
 
 					public void onSuccess(String w) {
 						winner = w;
+						if(winner.equals(username)) {
+							dialogBox.setText("Congratulations!");
+							serverResponseLabel.removeStyleName("serverResponseLabelError");
+							serverResponseLabel.setHTML("Congratulations!! You won!");
+							dialogBox.center();
+							closeButton.setFocus(true);
+						}
+						else {
+							dialogBox.setText("=(");
+							serverResponseLabel.removeStyleName("serverResponseLabelError");
+							serverResponseLabel.setHTML("You lost...");
+							dialogBox.center();
+							closeButton.setFocus(true);
+						}
+						removeBoard();
 					}
 				});
 	}
@@ -462,9 +461,9 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(String t) {
-						System.out.println("Vez do: "+t);
 						turn = t;
-						updateBoard(); //////////
+						updateBoard();
+						
 					}
 				});
 	}
@@ -485,15 +484,57 @@ public class Game extends DecoratorPanel {
 					public void onSuccess(BoardDto dto) {
 						if(dto.getBoardId() > -1) {
 							boardId = dto.getBoardId();
-							System.out.println(boardId);
 							gameOverButton.setEnabled(true);
 							updateBoard();
 							startTimer();
-
 						}
 
 					}
 				});
+	}
+	
+	void setTurn(){
+		if(turn.equals(username)) {
+			if(dtoLocal.getlisting().get(0) == null) {
+				button11.setEnabled(true);
+			}
+			if(dtoLocal.getlisting().get(1) == null) {
+				button12.setEnabled(true);
+			}
+			if(dtoLocal.getlisting().get(2) == null) {
+				button13.setEnabled(true);
+			}
+			if(dtoLocal.getlisting().get(3) == null) {
+				button21.setEnabled(true);
+			}
+			if(dtoLocal.getlisting().get(4) == null) {
+				button22.setEnabled(true);
+			}
+			if(dtoLocal.getlisting().get(5) == null) {
+				button23.setEnabled(true);
+			}
+			if(dtoLocal.getlisting().get(6) == null) {
+				button31.setEnabled(true);
+			}
+			if(dtoLocal.getlisting().get(7) == null) {
+				button32.setEnabled(true);
+			}
+			if(dtoLocal.getlisting().get(8) == null) {
+				button33.setEnabled(true);
+			}
+        }
+        else {
+
+			button11.setEnabled(false);
+			button12.setEnabled(false);
+			button13.setEnabled(false);
+			button21.setEnabled(false);
+			button22.setEnabled(false);
+			button23.setEnabled(false);
+			button31.setEnabled(false);
+			button32.setEnabled(false);
+			button33.setEnabled(false);
+        }
 	}
 	
 	void hasBoard(){
@@ -512,12 +553,9 @@ public class Game extends DecoratorPanel {
 					public void onSuccess(BooleanDto b) {
 							haveBoard = b.getValue().booleanValue();
 							if(haveBoard) {
-								System.out.println("have true");
 								getBoard();
 							}
 							else {
-								System.out.println("have false");
-
 								newBoard();	
 							}
 					}
@@ -560,6 +598,14 @@ public class Game extends DecoratorPanel {
 						button32.setText("");
 						button33.setText("");
 						gameOverButton.setEnabled(false);
+						winner = null;
+						hasWinner = false;
+						boardId = -1;
+						haveBoard = false;
+						boardIsFull = false;
+						dtoLocal = null;
+						lblGame.setText("No Game.");
+						stopTimer();
 					}
 				});
 	}
@@ -576,26 +622,7 @@ public class Game extends DecoratorPanel {
 						dialogBox.center();
 						closeButton.setFocus(true);
 						selectButton.setEnabled(true);
-//						button11.setEnabled(false);
-//						button12.setEnabled(false);
-//						button13.setEnabled(false);
-//						button21.setEnabled(false);
-//						button22.setEnabled(false);
-//						button23.setEnabled(false);
-//						button31.setEnabled(false);
-//						button32.setEnabled(false);
-//						button33.setEnabled(false);
-//						button11.setText("");
-//						button12.setText("");
-//						button13.setText("");
-//						button21.setText("");
-//						button22.setText("");
-//						button23.setText("");
-//						button31.setText("");
-//						button32.setText("");
-//						button33.setText("");
-//						gameOverButton.setEnabled(false);
-						caught.printStackTrace();
+
 
 						
 					}
@@ -715,8 +742,9 @@ public class Game extends DecoratorPanel {
 						else {
 							button33.setText("");
 							button33.setEnabled(true);
-						}	
-						
+						}
+						setTurn();
+						checkWinner();
 					}
 				});
 	}
@@ -754,51 +782,15 @@ public class Game extends DecoratorPanel {
 		t = new Timer(){
 			@Override
 		     public void run() {
-		     //   updateBoard();
 		        getTurn();
-		        if(turn == username) {
-					if(dtoLocal.getlisting().get(0) == null) {
-						button11.setEnabled(true);
-					}
-					if(dtoLocal.getlisting().get(1) == null) {
-						button12.setEnabled(true);
-					}
-					if(dtoLocal.getlisting().get(2) == null) {
-						button13.setEnabled(true);
-					}
-					if(dtoLocal.getlisting().get(3) == null) {
-						button21.setEnabled(true);
-					}
-					if(dtoLocal.getlisting().get(4) == null) {
-						button22.setEnabled(true);
-					}
-					if(dtoLocal.getlisting().get(5) == null) {
-						button23.setEnabled(true);
-					}
-					if(dtoLocal.getlisting().get(6) == null) {
-						button31.setEnabled(true);
-					}
-					if(dtoLocal.getlisting().get(7) == null) {
-						button32.setEnabled(true);
-					}
-					if(dtoLocal.getlisting().get(8) == null) {
-						button33.setEnabled(true);
-					}
-		        }
-		        else {
-					button11.setEnabled(false);
-					button12.setEnabled(false);
-					button13.setEnabled(false);
-					button21.setEnabled(false);
-					button22.setEnabled(false);
-					button23.setEnabled(false);
-					button31.setEnabled(false);
-					button32.setEnabled(false);
-					button33.setEnabled(false);
-		        }
-		     }
+		        t.schedule(delay); 
+			}
 		};
-		t.schedule(delay);
+		
 		t.run();
+	}
+	
+	public void stopTimer(){
+		t.cancel();
 	}
 }

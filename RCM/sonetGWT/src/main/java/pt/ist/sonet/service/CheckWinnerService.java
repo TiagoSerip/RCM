@@ -25,8 +25,8 @@ public class CheckWinnerService extends SonetService{
 		if(board == null) {
 			throw new BoardIdDoesNotExistsException(boardId);
 		}
-		
-		if(network.checkWinner(board))
+		boolean res = network.checkWinner(board);
+		if(res)
 			dto.setValue(true);
 		else
 			dto.setValue(false);

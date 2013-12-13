@@ -26,9 +26,7 @@ public class GetUpdatedBoardService extends SonetService{
 		Board board = network.getBoardById(boardId);
 		if(board == null)
 			throw new BoardIdDoesNotExistsException(boardId);
-		//boardDto = new BoardDto(board.getId(), board.getVector());
 		stringDto = board.getArray();
-		System.out.println("Terminou servico");
 	}
 	
 	public BoardDto getUpdatedBoard(){

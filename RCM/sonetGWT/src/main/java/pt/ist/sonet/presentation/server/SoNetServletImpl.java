@@ -284,7 +284,6 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		GetUpdatedBoardService service = new GetUpdatedBoardService(boardId);
 		service.execute();
 		//return service.getUpdatedBoard();
-		System.out.println("executou");
 		return service.getBoard();
 
 	}
@@ -341,8 +340,8 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	
 	@Override
 	public void removeBoard(int boardId) throws BoardIdDoesNotExistsException {
-		RemoveBoardService service = new RemoveBoardService(boardId);
-		service.execute();
+//		RemoveBoardService service = new RemoveBoardService(boardId);
+//		service.execute();
 	}
 	
 	/**

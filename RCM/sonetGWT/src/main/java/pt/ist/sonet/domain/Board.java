@@ -60,7 +60,9 @@ public class Board extends Board_Base {
 //	}
 	
 	public String[] getVector() {
-		String[] vector = {null, null, null, null, null, null, null, null, null};
+		//String[] vector = {null, null, null, null, null, null, null, null, null};
+		String[] vector = new String[9];
+
 		vector[0] = getPos00();
 		vector[1] = getPos01();
 		vector[2] = getPos02();
@@ -85,7 +87,7 @@ public class Board extends Board_Base {
 		v[6] = getPos20();
 		v[7] = getPos21();
 		v[8] = getPos22();
-		for(int i=0; i<8 ;i++)
+		for(int i=0; i<9 ;i++)
 			dto.addTolisting(v[i]);
 			
 		return dto;
