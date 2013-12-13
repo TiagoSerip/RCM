@@ -1,5 +1,7 @@
 package pt.ist.sonet.domain;
 
+import pt.ist.sonet.service.dto.StringListDto;
+
 public class Board extends Board_Base {
     
 //	public String[][] matrix;
@@ -71,21 +73,21 @@ public class Board extends Board_Base {
 		return vector;
 	}
     
-//	public StringListDto getArray(){
-//		StringListDto dto = new StringListDto();
-//		String[] v = new String[9];
-//		v[0] = getPos00();
-//		v[1] = getPos01();
-//		v[2] = getPos02();
-//		v[3] = getPos10();
-//		v[4] = getPos11();
-//		v[5] = getPos12();
-//		v[6] = getPos20();
-//		v[7] = getPos21();
-//		v[8] = getPos22();
-//		for(int i=0; i<8 ;i++)
-//			dto.addTolisting(v[i]);
-//			
-//		return dto;
-//	}
+	public StringListDto getArray(){
+		StringListDto dto = new StringListDto();
+		String[] v = new String[9];
+		v[0] = getPos00();
+		v[1] = getPos01();
+		v[2] = getPos02();
+		v[3] = getPos10();
+		v[4] = getPos11();
+		v[5] = getPos12();
+		v[6] = getPos20();
+		v[7] = getPos21();
+		v[8] = getPos22();
+		for(int i=0; i<8 ;i++)
+			dto.addTolisting(v[i]);
+			
+		return dto;
+	}
 }
