@@ -3,6 +3,8 @@ package pt.ist.sonet.presentation.client;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.apache.ojb.jdo.jdoql.ThisExpression;
+
 import pt.ist.sonet.domain.Agent;
 import pt.ist.sonet.service.dto.BoardDto;
 import pt.ist.sonet.service.dto.StringListDto;
@@ -49,19 +51,24 @@ public class Game extends DecoratorPanel {
 	private int[] jogada20 = {2,0};
 	private int[] jogada21 = {2,1};
 	private int[] jogada22 = {2,2};
-	private int boardId = -1;
 	final ListBox listBox = new ListBox();
 	ListBox conversationWindow = new ListBox();		
 	Label lblGame = new Label("Game");
 	final TextArea sendWindow = new TextArea();
 	final Button selectButton = new Button("Select");
-	private String user = null; //active user
-	private final AbsolutePanel panel;
+	
+	private String username = null;
+	private String turn = null;
 	private String winner = null;
 	private boolean hasWinner = false;
+	private int boardId = -1;
+	private boolean haveBoard = false;
+	private boolean boardIsFull = false;
+	String[][] matrix = {{null, null, null},{null, null, null},{null, null, null}};
+
+	private final AbsolutePanel panel;
 	Button uptadeButton = new Button("Update");
 	final Label listLbl;
-	String[][] matrix = {{null, null, null},{null, null, null},{null, null, null}};
 	Button button11 = new Button(" ");
 	Button button12 = new Button(" ");
 	Button button13 = new Button(" ");
@@ -72,7 +79,6 @@ public class Game extends DecoratorPanel {
 	Button button32 = new Button(" ");
 	Button button33 = new Button(" ");
 	Button gameOverButton = new Button("Game Over");
-	private String username = null;	
 	//popups do jogo
 	final DialogBox popUp = new DialogBox();
 	final Button okButton = new Button("OK");
@@ -82,7 +88,9 @@ public class Game extends DecoratorPanel {
 	
 	
 	public Game(String user) {
-		username = user;
+		
+		boardId = -1;
+		
 		dialogBox.setText("Remote Procedure Call");
 		dialogBox.setAnimationEnabled(true);
 		// We can set the id of a widget by accessing its Element
@@ -105,7 +113,7 @@ public class Game extends DecoratorPanel {
 		setStyleName("center");
 		setSize("100%", "100%");
 		
-		this.user = user;
+		this.username = user;
 		this.panel = new AbsolutePanel();
 		
 		final Label title = new Label("TIC TAC TOE");
@@ -181,6 +189,16 @@ public class Game extends DecoratorPanel {
 		panel.add(lblGame, 335, 35);
 		lblGame.setSize("287px", "18px");
 		
+		button11.setText("");
+		button12.setText("");
+		button13.setText("");
+		button21.setText("");
+		button22.setText("");
+		button23.setText("");
+		button31.setText("");
+		button32.setText("");
+		button33.setText("");
+		gameOverButton.setEnabled(false);
 		button11.setEnabled(false);
 		button12.setEnabled(false);
 		button13.setEnabled(false);
@@ -190,7 +208,6 @@ public class Game extends DecoratorPanel {
 		button31.setEnabled(false);
 		button32.setEnabled(false);
 		button33.setEnabled(false);
-		gameOverButton.setEnabled(false);
 		
 		loadAllAgents();
 		
@@ -208,11 +225,65 @@ public class Game extends DecoratorPanel {
 					selectButton.setEnabled(false);
 					selected=listBox.getItemText(listBox.getSelectedIndex());
 					lblGame.setTitle("You're playing against "+selected);
-					newBoard(); /////////////////////////////////
+					winner = null;
+					hasWinner = false;
+					boardId = -1;
+					haveBoard = false;
+					boardIsFull = false;
+					String[][] cenas = {{null, null, null},{null, null, null},{null, null, null}};
+					matrix = cenas;
+					getBoard();
+					if(haveBoard) {
+						updateBoard();
+					}
+					else {
+						newBoard();	
+					}
 					t = new Timer(){
 						@Override
 					     public void run() {
 					        updateBoard();
+					        getTurn();
+					        if(turn == username) {
+								if(matrix[0][0] == null) {
+									button11.setEnabled(true);
+								}
+								if(matrix[0][1] == null) {
+									button12.setEnabled(true);
+								}
+								if(matrix[0][2] == null) {
+									button13.setEnabled(true);
+								}
+								if(matrix[1][0] == null) {
+									button21.setEnabled(true);
+								}
+								if(matrix[1][1] == null) {
+									button22.setEnabled(true);
+								}
+								if(matrix[1][2] == null) {
+									button23.setEnabled(true);
+								}
+								if(matrix[2][0] == null) {
+									button31.setEnabled(true);
+								}
+								if(matrix[2][1] == null) {
+									button32.setEnabled(true);
+								}
+								if(matrix[2][2] == null) {
+									button33.setEnabled(true);
+								}
+					        }
+					        else {
+								button11.setEnabled(false);
+								button12.setEnabled(false);
+								button13.setEnabled(false);
+								button21.setEnabled(false);
+								button22.setEnabled(false);
+								button23.setEnabled(false);
+								button31.setEnabled(false);
+								button32.setEnabled(false);
+								button33.setEnabled(false);
+					        }
 					     }
 					};
 					t.schedule(delay);
@@ -222,8 +293,12 @@ public class Game extends DecoratorPanel {
 		
 		gameOverButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				////////////////////////////
-				
+				dialogBox.setText("Game Over.");
+				serverResponseLabel.removeStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML("The game ended with a draw.");
+				dialogBox.center();
+				closeButton.setFocus(true);
+				removeBoard();				
 			}
 		});
 		
@@ -233,13 +308,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button11.setText(username);
 				button11.setEnabled(false);
-				checkWinner();
-				if(hasWinner) {
-					//////////////
-					removeBoard();
-				}
-				getWinner(); ////////
-				
+				buttonAction();
 			}
 		});
 		
@@ -249,7 +318,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button12.setText(username);
 				button12.setEnabled(false);
-				////////////////////////////
+				buttonAction();			
 			}
 		});
 		
@@ -259,7 +328,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button13.setText(username);
 				button13.setEnabled(false);
-				////////////////////////////
+				buttonAction();			
 			}
 		});
 		
@@ -269,7 +338,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button21.setText(username);
 				button21.setEnabled(false);
-				////////////////////////////
+				buttonAction();			
 			}
 		});
 		
@@ -279,7 +348,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button22.setText(username);
 				button22.setEnabled(false);
-				////////////////////////////
+				buttonAction();			
 			}
 		});
 		
@@ -289,7 +358,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button23.setText(username);
 				button23.setEnabled(false);
-				////////////////////////////
+				buttonAction();			
 			}
 		});
 		
@@ -299,7 +368,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button31.setText(username);
 				button31.setEnabled(false);
-				////////////////////////////
+				buttonAction();
 			}
 		});
 		
@@ -309,7 +378,7 @@ public class Game extends DecoratorPanel {
 				play();
 				button32.setText(username);
 				button32.setEnabled(false);
-				////////////////////////////
+				buttonAction();
 			}
 		});
 		
@@ -319,13 +388,46 @@ public class Game extends DecoratorPanel {
 				play();
 				button33.setText(username);
 				button33.setEnabled(false);
-				////////////////////////////
+				buttonAction();
 			}
 		});
 	}
 	
+	void buttonAction() {
+		checkWinner();
+		if(hasWinner) {
+			getWinner();
+			if(winner.equals(username)) {
+				dialogBox.setText("Congratulations!");
+				serverResponseLabel.removeStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML("Congratulations!! You won!");
+				dialogBox.center();
+				closeButton.setFocus(true);
+			}
+			else {
+				dialogBox.setText("=(");
+				serverResponseLabel.removeStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML("You lost...");
+				dialogBox.center();
+				closeButton.setFocus(true);
+			}
+			removeBoard();
+		}
+		else {
+			boardIsFull();
+			if(boardIsFull) {
+				dialogBox.setText("Draw.");
+				serverResponseLabel.removeStyleName("serverResponseLabelError");
+				serverResponseLabel.setHTML("The game ended with a draw.");
+				dialogBox.center();
+				closeButton.setFocus(true);
+				removeBoard();
+			}
+		}
+	}
+	
 	void play(){
-		sonetServlet.play(boardId, user, jogada, new AsyncCallback<Void>() {
+		sonetServlet.play(boardId, username, jogada, new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
 						dialogBox.setText("Loading error.");
@@ -333,17 +435,14 @@ public class Game extends DecoratorPanel {
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
-						
-
 					}
 
 					public void onSuccess(Void v) {
-						////////////////////////////
-
 					}
 				});
 	}
 	
+	//ACABADO
 	void checkWinner(){
 		sonetServlet.checkWinner(boardId, new AsyncCallback<Boolean>() {
 					public void onFailure(Throwable caught) {
@@ -353,18 +452,32 @@ public class Game extends DecoratorPanel {
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
-												
-
 					}
 
 					public void onSuccess(Boolean b) {
-						////////////////////////////
 						hasWinner = b;
-
 					}
 				});
 	}
 	
+	void boardIsFull(){
+		sonetServlet.boardIsFull(boardId, new AsyncCallback<Boolean>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("Loading error.");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+
+					public void onSuccess(Boolean b) {
+						boardIsFull = b;
+					}
+				});
+	}
+	
+	//ACABADO
 	void getWinner(){
 		sonetServlet.getWinner(boardId, new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
@@ -376,8 +489,49 @@ public class Game extends DecoratorPanel {
 						closeButton.setFocus(true);
 					}
 
-					public void onSuccess(String b) {
-						////////////////////////////
+					public void onSuccess(String w) {
+						winner = w;
+					}
+				});
+	}
+	
+	//FALTA ACTIVAR E DESACTIVAR BOTOES CONSOANTE O TURNO
+	
+	//ACABADO
+	void getTurn(){
+		sonetServlet.getTurn(boardId, new AsyncCallback<String>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("Loading error.");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+
+					public void onSuccess(String t) {
+						turn = t;
+					}
+				});
+	}
+	
+	void getBoard(){
+		sonetServlet.getBoard(username, selected, new AsyncCallback<BoardDto>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("Loading error.");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+
+					public void onSuccess(BoardDto dto) {
+						if(dto.getBoardId() > -1) {
+							boardId = dto.getBoardId();
+							gameOverButton.setEnabled(true);
+							haveBoard = true;
+						}
 
 					}
 				});
@@ -395,8 +549,26 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(Void v) {
-						////////////////////////////
-
+						selectButton.setEnabled(true);
+						button11.setEnabled(false);
+						button12.setEnabled(false);
+						button13.setEnabled(false);
+						button21.setEnabled(false);
+						button22.setEnabled(false);
+						button23.setEnabled(false);
+						button31.setEnabled(false);
+						button32.setEnabled(false);
+						button33.setEnabled(false);
+						button11.setText("");
+						button12.setText("");
+						button13.setText("");
+						button21.setText("");
+						button22.setText("");
+						button23.setText("");
+						button31.setText("");
+						button32.setText("");
+						button33.setText("");
+						gameOverButton.setEnabled(false);
 					}
 				});
 	}
@@ -404,7 +576,7 @@ public class Game extends DecoratorPanel {
 	
 	
 	void newBoard(){
-		sonetServlet.createBoard(user, selected, new AsyncCallback<Integer>() {
+		sonetServlet.createBoard(username, selected, new AsyncCallback<Integer>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
 						dialogBox.setText("Loading error.");
@@ -422,6 +594,16 @@ public class Game extends DecoratorPanel {
 						button31.setEnabled(false);
 						button32.setEnabled(false);
 						button33.setEnabled(false);
+						button11.setText("");
+						button12.setText("");
+						button13.setText("");
+						button21.setText("");
+						button22.setText("");
+						button23.setText("");
+						button31.setText("");
+						button32.setText("");
+						button33.setText("");
+						gameOverButton.setEnabled(false);
 						
 					}
 
@@ -436,6 +618,15 @@ public class Game extends DecoratorPanel {
 						button31.setEnabled(true);
 						button32.setEnabled(true);
 						button33.setEnabled(true);
+						button11.setText("");
+						button12.setText("");
+						button13.setText("");
+						button21.setText("");
+						button22.setText("");
+						button23.setText("");
+						button31.setText("");
+						button32.setText("");
+						button33.setText("");
 						gameOverButton.setEnabled(true);
 						boardId = i.intValue();
 					}
@@ -496,10 +687,12 @@ public class Game extends DecoratorPanel {
 				});
 	}
 	
+	
+	//ACABADO
 	void loadAllAgents(){
 		listLbl.setText(LIST_LBL);
 		listBox.clear();
-		sonetServlet.getAllOtherAgents(user, new AsyncCallback<StringListDto>() {
+		sonetServlet.getAllOtherAgents(username, new AsyncCallback<StringListDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
 						dialogBox.setText("Loading Error.");

@@ -33,12 +33,13 @@ public interface SoNetServletAsync {
 	void viewAp(int pubId, AsyncCallback<ApDto> asyncCallback)throws ApIdDoesNotExistsException;
 	void init(String serverType, AsyncCallback<String> callback);
 	void getAgent(String user, AsyncCallback<AgentDto> callback);
-	void getPreviouslyPlayer(int boardId, AsyncCallback<String> callback) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
+	void getTurn(int boardId, AsyncCallback<String> callback) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	void getAllOtherAgents(String user, AsyncCallback<StringListDto> callback) throws AgentUsernameDoesNotExistsException;
 	void updateAgentProfile(AgentDto dto, AsyncCallback<Void> callback);
 	void changeAgentPassword(AgentDto dto, AsyncCallback<Void> callback);
 	void getConversation(String user, String otherGuy, AsyncCallback<StringListDto> callback) throws AgentUsernameDoesNotExistsException;
 	void getAgentIP(AsyncCallback<String> callback);
+	void boardIsFull(int boardId, AsyncCallback<Boolean> callback) throws BoardIdDoesNotExistsException;
 	void sendPrivateMessage(String user, String otherGuy, String text, AsyncCallback<Void> callback) throws AgentUsernameDoesNotExistsException;
 	void loadRSSIMacOS(AsyncCallback<Integer> callback);
 	void checkWinner(int boardId, AsyncCallback<Boolean> callback) throws AgentUsernameDoesNotExistsException;

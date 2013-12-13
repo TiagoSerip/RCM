@@ -30,9 +30,10 @@ import pt.ist.sonet.service.GetApCommentsService;
 import pt.ist.sonet.service.GetBoardByUsersService;
 import pt.ist.sonet.service.GetConversationService;
 import pt.ist.sonet.service.GetPIByIdService;
-import pt.ist.sonet.service.GetPreviouslyPlayerService;
+import pt.ist.sonet.service.GetTurnService;
 import pt.ist.sonet.service.GetUpdatedBoardService;
 import pt.ist.sonet.service.GetWinnerService;
+import pt.ist.sonet.service.IsBoardFullService;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.NegativeVoteService;
 import pt.ist.sonet.service.PlayService;
@@ -265,10 +266,10 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	}
 	
 	@Override
-	public String getPreviouslyPlayer(int boardId) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
-		GetPreviouslyPlayerService service = new GetPreviouslyPlayerService(boardId);
+	public String getTurn(int boardId) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException {
+		GetTurnService service = new GetTurnService(boardId);
 		service.execute();
-		return service.getPreviously().getUsername();
+		return service.getTurn().getUsername();
 	}
 	
 	@Override
@@ -304,6 +305,14 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	public boolean checkWinner(int boardId) throws AgentUsernameDoesNotExistsException {
 		BooleanDto dto = new BooleanDto();
 		CheckWinnerService service = new CheckWinnerService(boardId, dto);
+		service.execute();
+		return dto.getValue();
+	}
+	
+	@Override
+	public boolean boardIsFull(int boardId) throws BoardIdDoesNotExistsException {
+		BooleanDto dto = new BooleanDto();
+		IsBoardFullService service = new IsBoardFullService(boardId, dto);
 		service.execute();
 		return dto.getValue();
 	}
