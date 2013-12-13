@@ -288,9 +288,11 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	
 	@Override
 	public BoardDto getBoard(String player1User, String player2User) throws AgentUsernameDoesNotExistsException, BoardDoesNotExistsException {
-		GetBoardByUsersService service = new GetBoardByUsersService(player1User, player2User);
+		BoardDto dto = new BoardDto();
+		GetBoardByUsersService service = new GetBoardByUsersService(player1User, player2User, dto);
 		service.execute();
-		return service.getBoard();
+
+		return dto;
 	}
 	
 	@Override

@@ -15,9 +15,10 @@ public class GetBoardByUsersService extends SonetService{
 	private String player2User;
 	private BoardDto boardDto;
 	
-	public GetBoardByUsersService(String player1User, String player2User) {
+	public GetBoardByUsersService(String player1User, String player2User, BoardDto dto) {
 		this.player1User = player1User;	
 		this.player2User = player2User;
+		boardDto = dto;
 	}
 	
 	@Override
@@ -35,8 +36,11 @@ public class GetBoardByUsersService extends SonetService{
 		Board board = network.getBoardByUsers(player1, player2);
 		if(board == null)
 			throw new BoardDoesNotExistsException(player1User, player2User);
-		
-		boardDto = new BoardDto(board.getId(), board.getMatrixLine1(), board.getMatrixLine2(), board.getMatrixLine3());
+
+		boardDto.setBoardId(board.getId());
+//		boardDto.setBoardLine1(board.getMatrixLine1());
+//		boardDto.setBoardLine2(board.getMatrixLine2());
+//		boardDto.setBoardLine3(board.getMatrixLine3());
 	}
 	
 	public BoardDto getBoard(){

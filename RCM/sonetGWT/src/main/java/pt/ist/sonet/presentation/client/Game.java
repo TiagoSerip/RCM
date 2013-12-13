@@ -485,9 +485,12 @@ public class Game extends DecoratorPanel {
 					public void onSuccess(BoardDto dto) {
 						if(dto.getBoardId() > -1) {
 							boardId = dto.getBoardId();
+							System.out.println(boardId);
 							gameOverButton.setEnabled(true);
+							updateBoard();
+							//startTimer();
+
 						}
-						startTimer();
 
 					}
 				});
@@ -509,10 +512,12 @@ public class Game extends DecoratorPanel {
 					public void onSuccess(BooleanDto b) {
 							haveBoard = b.getValue().booleanValue();
 							if(haveBoard) {
+								System.out.println("have true");
 								getBoard();
-								updateBoard();
 							}
 							else {
+								System.out.println("have false");
+
 								newBoard();	
 							}
 					}
