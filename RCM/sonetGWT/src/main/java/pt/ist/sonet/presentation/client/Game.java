@@ -58,9 +58,7 @@ public class Game extends DecoratorPanel {
 	private int boardId = -1;
 	private boolean haveBoard = false;
 	private boolean boardIsFull = false;
-	String[] matrixLine1 = {null, null, null};
-	String[] matrixLine2 = {null, null, null};
-	String[] matrixLine3 = {null, null, null};
+	String[] vector = {null, null, null, null, null, null, null, null, null};
 
 	private final AbsolutePanel panel;
 	Button uptadeButton = new Button("Update");
@@ -226,10 +224,8 @@ public class Game extends DecoratorPanel {
 					boardId = -1;
 					haveBoard = false;
 					boardIsFull = false;
-					String[] cenas = {null, null, null};
-					matrixLine1 = cenas;
-					matrixLine2 = cenas;
-					matrixLine3 = cenas;
+					String[] cenas = {null, null, null, null, null, null, null, null, null};
+					vector = cenas;
 					hasBoard();
 					
 				}					
@@ -642,44 +638,42 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(BoardDto dto) {
-						matrixLine1 = dto.getMatrixLine1();
-						matrixLine2 = dto.getMatrixLine2();
-						matrixLine3 = dto.getMatrixLine3();
+						vector = dto.getVector();
 
-						if(matrixLine1[0] != null) {
-							button11.setText(matrixLine1[0]);
+						if(vector[0] != null) {
+							button11.setText(vector[0]);
 							button11.setEnabled(false);
 						}
-						if(matrixLine1[1] != null) {
-							button12.setText(matrixLine1[1]);
+						if(vector[1] != null) {
+							button12.setText(vector[1]);
 							button12.setEnabled(false);
 						}
-						if(matrixLine1[2] != null) {
-							button13.setText(matrixLine1[2]);
+						if(vector[2] != null) {
+							button13.setText(vector[2]);
 							button13.setEnabled(false);
 						}
-						if(matrixLine2[0] != null) {
-							button21.setText(matrixLine2[0]);
+						if(vector[3] != null) {
+							button21.setText(vector[3]);
 							button21.setEnabled(false);
 						}
-						if(matrixLine2[1] != null) {
-							button22.setText(matrixLine2[1]);
+						if(vector[4] != null) {
+							button22.setText(vector[4]);
 							button22.setEnabled(false);
 						}
-						if(matrixLine2[2] != null) {
-							button23.setText(matrixLine2[2]);
+						if(vector[5] != null) {
+							button23.setText(vector[5]);
 							button23.setEnabled(false);
 						}
-						if(matrixLine3[0] != null) {
-							button31.setText(matrixLine3[0]);
+						if(vector[6] != null) {
+							button31.setText(vector[6]);
 							button31.setEnabled(false);
 						}
-						if(matrixLine3[1] != null) {
-							button32.setText(matrixLine3[1]);
+						if(vector[7] != null) {
+							button32.setText(vector[7]);
 							button32.setEnabled(false);
 						}
-						if(matrixLine3[2] != null) {
-							button33.setText(matrixLine3[2]);
+						if(vector[8] != null) {
+							button33.setText(vector[8]);
 							button33.setEnabled(false);
 						}
 						
@@ -723,31 +717,31 @@ public class Game extends DecoratorPanel {
 		        updateBoard();
 		        getTurn();
 		        if(turn == username) {
-					if(matrixLine1[0] == null) {
+					if(vector[0] == null) {
 						button11.setEnabled(true);
 					}
-					if(matrixLine1[1] == null) {
+					if(vector[1] == null) {
 						button12.setEnabled(true);
 					}
-					if(matrixLine1[2] == null) {
+					if(vector[2] == null) {
 						button13.setEnabled(true);
 					}
-					if(matrixLine2[0] == null) {
+					if(vector[3] == null) {
 						button21.setEnabled(true);
 					}
-					if(matrixLine2[1] == null) {
+					if(vector[4] == null) {
 						button22.setEnabled(true);
 					}
-					if(matrixLine2[2] == null) {
+					if(vector[5] == null) {
 						button23.setEnabled(true);
 					}
-					if(matrixLine3[0] == null) {
+					if(vector[6] == null) {
 						button31.setEnabled(true);
 					}
-					if(matrixLine3[1] == null) {
+					if(vector[7] == null) {
 						button32.setEnabled(true);
 					}
-					if(matrixLine3[2] == null) {
+					if(vector[8] == null) {
 						button33.setEnabled(true);
 					}
 		        }

@@ -3,9 +3,7 @@ package pt.ist.sonet.domain;
 public class Board extends Board_Base {
     
 	public String[][] matrix;
-	public String[] matrixLine1;
-	public String[] matrixLine2;
-	public String[] matrixLine3;
+	public String[] vector;
 	
     public  Board() {}
     
@@ -59,25 +57,17 @@ public class Board extends Board_Base {
 		return this.matrix;
 	}
 	
-	public String[] getMatrixLine1() {
-		this.matrixLine1[0] = getPos00();
-		this.matrixLine1[1] = getPos01();
-		this.matrixLine1[2] = getPos02();
-		return this.matrixLine1;
-	}
-	
-	public String[] getMatrixLine2() {
-		this.matrixLine2[0] = getPos10();
-		this.matrixLine2[1] = getPos11();
-		this.matrixLine2[2] = getPos12();
-		return this.matrixLine2;
-	}
-	
-	public String[] getMatrixLine3() {
-		this.matrixLine3[0] = getPos20();
-		this.matrixLine3[1] = getPos21();
-		this.matrixLine3[2] = getPos22();
-		return this.matrixLine3;
+	public String[] getVector() {
+		this.vector[0] = getPos00();
+		this.vector[1] = getPos01();
+		this.vector[2] = getPos02();
+		this.vector[3] = getPos10();
+		this.vector[4] = getPos11();
+		this.vector[5] = getPos12();
+		this.vector[6] = getPos20();
+		this.vector[7] = getPos21();
+		this.vector[8] = getPos22();
+		return this.vector;
 	}
     
 }
