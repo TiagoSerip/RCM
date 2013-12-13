@@ -245,6 +245,7 @@ public class Game extends DecoratorPanel {
 		
 		button11.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				System.out.println("clicou no 11");
 				jogada = jogada00;
 				play();
 				button11.setText(username);
@@ -380,6 +381,7 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(Void v) {
+						System.out.println("Jogou:"+boardId+username);
 					}
 				});
 	}
@@ -460,6 +462,7 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(String t) {
+						System.out.println("Vez do: "+t);
 						turn = t;
 					}
 				});
@@ -484,7 +487,7 @@ public class Game extends DecoratorPanel {
 							System.out.println(boardId);
 							gameOverButton.setEnabled(true);
 							updateBoard();
-							//startTimer();
+							startTimer();
 
 						}
 
@@ -618,7 +621,7 @@ public class Game extends DecoratorPanel {
 						button33.setText("");
 						gameOverButton.setEnabled(true);
 						boardId = i.intValue();
-						
+						updateBoard();
 						startTimer();
 					}
 				});
@@ -640,6 +643,10 @@ public class Game extends DecoratorPanel {
 					public void onSuccess(StringListDto dto) {
 						//vector = dto.getVector();
 						vector=(String[])dto.getlisting().toArray();
+						if(vector[0]==null)
+							System.out.println("Ups");
+						else
+							System.out.println(vector[0]);
 						if(vector[0] != null) {
 							button11.setText(vector[0]);
 							button11.setEnabled(false);
@@ -759,6 +766,6 @@ public class Game extends DecoratorPanel {
 		     }
 		};
 		t.schedule(delay);
-	
+		t.run();
 	}
 }
