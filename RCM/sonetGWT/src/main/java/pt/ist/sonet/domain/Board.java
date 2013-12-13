@@ -1,13 +1,9 @@
 package pt.ist.sonet.domain;
 
-import java.util.ArrayList;
-
-import pt.ist.sonet.service.dto.StringListDto;
-
 public class Board extends Board_Base {
     
-	public String[][] matrix;
-	public String[] vector;
+//	public String[][] matrix;
+//	public String[] vector;
 	
     public  Board() {}
     
@@ -48,47 +44,48 @@ public class Board extends Board_Base {
 			setPos22(player);			
 	}
 	
-	public String[][] getMatrix() {
-		this.matrix[0][0] = getPos00();
-		this.matrix[0][1] = getPos01();
-		this.matrix[0][2] = getPos02();
-		this.matrix[1][0] = getPos10();
-		this.matrix[1][1] = getPos11();
-		this.matrix[1][2] = getPos12();
-		this.matrix[2][0] = getPos20();
-		this.matrix[2][1] = getPos21();
-		this.matrix[2][2] = getPos22();
-		return this.matrix;
-	}
+//	public String[][] getMatrix() {
+//		this.matrix[0][0] = getPos00();
+//		this.matrix[0][1] = getPos01();
+//		this.matrix[0][2] = getPos02();
+//		this.matrix[1][0] = getPos10();
+//		this.matrix[1][1] = getPos11();
+//		this.matrix[1][2] = getPos12();
+//		this.matrix[2][0] = getPos20();
+//		this.matrix[2][1] = getPos21();
+//		this.matrix[2][2] = getPos22();
+//		return this.matrix;
+//	}
 	
 	public String[] getVector() {
-		this.vector[0] = getPos00();
-		this.vector[1] = getPos01();
-		this.vector[2] = getPos02();
-		this.vector[3] = getPos10();
-		this.vector[4] = getPos11();
-		this.vector[5] = getPos12();
-		this.vector[6] = getPos20();
-		this.vector[7] = getPos21();
-		this.vector[8] = getPos22();
-		return this.vector;
+		String[] vector = {null, null, null, null, null, null, null, null, null};
+		vector[0] = getPos00();
+		vector[1] = getPos01();
+		vector[2] = getPos02();
+		vector[3] = getPos10();
+		vector[4] = getPos11();
+		vector[5] = getPos12();
+		vector[6] = getPos20();
+		vector[7] = getPos21();
+		vector[8] = getPos22();
+		return vector;
 	}
     
-	public StringListDto getArray(){
-		StringListDto dto = new StringListDto();
-		String[] v = new String[9];
-		v[0] = getPos00();
-		v[1] = getPos01();
-		v[2] = getPos02();
-		v[3] = getPos10();
-		v[4] = getPos11();
-		v[5] = getPos12();
-		v[6] = getPos20();
-		v[7] = getPos21();
-		v[8] = getPos22();
-		for(int i=0; i<8 ;i++)
-			dto.addTolisting(v[i]);
-			
-		return dto;
-	}
+//	public StringListDto getArray(){
+//		StringListDto dto = new StringListDto();
+//		String[] v = new String[9];
+//		v[0] = getPos00();
+//		v[1] = getPos01();
+//		v[2] = getPos02();
+//		v[3] = getPos10();
+//		v[4] = getPos11();
+//		v[5] = getPos12();
+//		v[6] = getPos20();
+//		v[7] = getPos21();
+//		v[8] = getPos22();
+//		for(int i=0; i<8 ;i++)
+//			dto.addTolisting(v[i]);
+//			
+//		return dto;
+//	}
 }

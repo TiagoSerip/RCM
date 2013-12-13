@@ -123,12 +123,12 @@ public class SoNet extends SoNet_Base implements Serializable {
 	}
 	
 	public Board play(Board board, Agent player, int[] jogada) throws InvalidPositionException {
-		int row = jogada[1];
-		int column = jogada[2];
+//		int row = jogada[1];
+//		int column = jogada[2];
 		
-		String[][] m = board.getMatrix();
-		if(m[row][column] != null)
-			throw new InvalidPositionException(row, column, m[row][column]);			
+//		String[] m = board.getVector();
+//		if(m[row][column] != null)
+//			throw new InvalidPositionException(row, column, m[row][column]);			
 			
 		board.setMatrixPosition(jogada, player.getUsername());
 		
@@ -174,19 +174,27 @@ public class SoNet extends SoNet_Base implements Serializable {
 	}
 	
 	public boolean boardIsFull(Board board) {
-		String[][] m = board.getMatrix();
-		for(int i=0; i < 3; i++) {
-			for(int j=0; j < 3; j++) {
-				if (m[i][j] == null) {
+		String[] m = board.getVector();
+		for(int i=0; i < 9; i++) {
+				if (m[i] == null) {
 					return false;
-				}
-			}
+				}			
 		}
 		return true;
 	}
 	
 	public boolean checkWinner(Board board) {
-		String[][] m = board.getMatrix();
+		String[] v = board.getVector();
+		String[][] m = {{null, null, null},{null, null, null},{null, null, null}};
+		m[0][0]=v[0];
+		m[0][1]=v[1];
+		m[0][2]=v[2];
+		m[1][0]=v[3];
+		m[1][1]=v[4];
+		m[1][2]=v[5];
+		m[2][0]=v[6];
+		m[2][1]=v[7];
+		m[2][2]=v[9];
 		
 		return	(m[0][0] != null && m[0][0]==m[0][1] && m[0][0]==m[0][2]) ||
 				(m[1][0] != null && m[1][0]==m[1][1] && m[1][0]==m[1][2]) ||
@@ -199,7 +207,17 @@ public class SoNet extends SoNet_Base implements Serializable {
 	}
 	
 	public String getWinner(Board board) {
-		String[][] m = board.getMatrix();
+		String[] v = board.getVector();
+		String[][] m = {{null, null, null},{null, null, null},{null, null, null}};
+		m[0][0]=v[0];
+		m[0][1]=v[1];
+		m[0][2]=v[2];
+		m[1][0]=v[3];
+		m[1][1]=v[4];
+		m[1][2]=v[5];
+		m[2][0]=v[6];
+		m[2][1]=v[7];
+		m[2][2]=v[9];
 		
 		if(m[0][0] != null && m[0][0]==m[0][1] && m[0][0]==m[0][2]){ 
 			return m[0][0];}
