@@ -464,6 +464,7 @@ public class Game extends DecoratorPanel {
 					public void onSuccess(String t) {
 						System.out.println("Vez do: "+t);
 						turn = t;
+						updateBoard(); //////////
 					}
 				});
 	}
@@ -575,32 +576,31 @@ public class Game extends DecoratorPanel {
 						dialogBox.center();
 						closeButton.setFocus(true);
 						selectButton.setEnabled(true);
-						button11.setEnabled(false);
-						button12.setEnabled(false);
-						button13.setEnabled(false);
-						button21.setEnabled(false);
-						button22.setEnabled(false);
-						button23.setEnabled(false);
-						button31.setEnabled(false);
-						button32.setEnabled(false);
-						button33.setEnabled(false);
-						button11.setText("");
-						button12.setText("");
-						button13.setText("");
-						button21.setText("");
-						button22.setText("");
-						button23.setText("");
-						button31.setText("");
-						button32.setText("");
-						button33.setText("");
-						gameOverButton.setEnabled(false);
+//						button11.setEnabled(false);
+//						button12.setEnabled(false);
+//						button13.setEnabled(false);
+//						button21.setEnabled(false);
+//						button22.setEnabled(false);
+//						button23.setEnabled(false);
+//						button31.setEnabled(false);
+//						button32.setEnabled(false);
+//						button33.setEnabled(false);
+//						button11.setText("");
+//						button12.setText("");
+//						button13.setText("");
+//						button21.setText("");
+//						button22.setText("");
+//						button23.setText("");
+//						button31.setText("");
+//						button32.setText("");
+//						button33.setText("");
+//						gameOverButton.setEnabled(false);
 						caught.printStackTrace();
 
 						
 					}
 
 					public void onSuccess(Integer i) {
-						selectButton.setEnabled(false); ///////////////
 						button11.setEnabled(true);
 						button12.setEnabled(true);
 						button13.setEnabled(true);
@@ -721,7 +721,7 @@ public class Game extends DecoratorPanel {
 		t = new Timer(){
 			@Override
 		     public void run() {
-		        updateBoard();
+		     //   updateBoard();
 		        getTurn();
 		        if(turn == username) {
 					if(vector[0] == null) {
