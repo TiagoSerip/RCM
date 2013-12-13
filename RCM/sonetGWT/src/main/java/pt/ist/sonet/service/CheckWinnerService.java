@@ -22,8 +22,10 @@ public class CheckWinnerService extends SonetService{
 		
 		SoNet network = FenixFramework.getRoot();
 		Board board = network.getBoardById(boardId);
-		if(board == null)
+		if(board == null) {
 			throw new BoardIdDoesNotExistsException(boardId);
+		}
+		
 		if(network.checkWinner(board))
 			dto.setValue(true);
 		else

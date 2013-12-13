@@ -58,7 +58,8 @@ public class Game extends DecoratorPanel {
 	private int boardId = -1;
 	private boolean haveBoard = false;
 	private boolean boardIsFull = false;
-	String[] vector = {null, null, null, null, null, null, null, null, null};
+	//String[] vector = {null, null, null, null, null, null, null, null, null};
+	private StringListDto dtoLocal = null;
 
 	private final AbsolutePanel panel;
 	Button uptadeButton = new Button("Update");
@@ -224,8 +225,7 @@ public class Game extends DecoratorPanel {
 					boardId = -1;
 					haveBoard = false;
 					boardIsFull = false;
-					String[] cenas = {null, null, null, null, null, null, null, null, null};
-					vector = cenas;
+					dtoLocal = null;					
 					hasBoard();
 					
 				}					
@@ -641,42 +641,43 @@ public class Game extends DecoratorPanel {
 					}
 
 					public void onSuccess(StringListDto dto) {
+						dtoLocal = dto;
 						//vector = dto.getVector();
 						//vector=(String[])dto.getlisting().toArray();
 						if(dto.getlisting().get(0) != null) {
 							button11.setText(dto.getlisting().get(0));
 							button11.setEnabled(false);
 						}
-						if(vector[1] != null) {
-							button12.setText(vector[1]);
+						if(dto.getlisting().get(1) != null) {
+							button12.setText(dto.getlisting().get(1));
 							button12.setEnabled(false);
 						}
-						if(vector[2] != null) {
-							button13.setText(vector[2]);
+						if(dto.getlisting().get(2) != null) {
+							button13.setText(dto.getlisting().get(2));
 							button13.setEnabled(false);
 						}
-						if(vector[3] != null) {
-							button21.setText(vector[3]);
+						if(dto.getlisting().get(3) != null) {
+							button21.setText(dto.getlisting().get(3));
 							button21.setEnabled(false);
 						}
-						if(vector[4] != null) {
-							button22.setText(vector[4]);
+						if(dto.getlisting().get(4) != null) {
+							button22.setText(dto.getlisting().get(4));
 							button22.setEnabled(false);
 						}
-						if(vector[5] != null) {
-							button23.setText(vector[5]);
+						if(dto.getlisting().get(5) != null) {
+							button23.setText(dto.getlisting().get(5));
 							button23.setEnabled(false);
 						}
-						if(vector[6] != null) {
-							button31.setText(vector[6]);
+						if(dto.getlisting().get(6) != null) {
+							button31.setText(dto.getlisting().get(6));
 							button31.setEnabled(false);
 						}
-						if(vector[7] != null) {
-							button32.setText(vector[7]);
+						if(dto.getlisting().get(7) != null) {
+							button32.setText(dto.getlisting().get(7));
 							button32.setEnabled(false);
 						}
-						if(vector[8] != null) {
-							button33.setText(vector[8]);
+						if(dto.getlisting().get(8) != null) {
+							button33.setText(dto.getlisting().get(8));
 							button33.setEnabled(false);
 						}
 						
@@ -720,31 +721,31 @@ public class Game extends DecoratorPanel {
 		     //   updateBoard();
 		        getTurn();
 		        if(turn == username) {
-					if(vector[0] == null) {
+					if(dtoLocal.getlisting().get(0) == null) {
 						button11.setEnabled(true);
 					}
-					if(vector[1] == null) {
+					if(dtoLocal.getlisting().get(0) == null) {
 						button12.setEnabled(true);
 					}
-					if(vector[2] == null) {
+					if(dtoLocal.getlisting().get(0) == null) {
 						button13.setEnabled(true);
 					}
-					if(vector[3] == null) {
+					if(dtoLocal.getlisting().get(0) == null) {
 						button21.setEnabled(true);
 					}
-					if(vector[4] == null) {
+					if(dtoLocal.getlisting().get(0) == null) {
 						button22.setEnabled(true);
 					}
-					if(vector[5] == null) {
+					if(dtoLocal.getlisting().get(0) == null) {
 						button23.setEnabled(true);
 					}
-					if(vector[6] == null) {
+					if(dtoLocal.getlisting().get(0) == null) {
 						button31.setEnabled(true);
 					}
-					if(vector[7] == null) {
+					if(dtoLocal.getlisting().get(0) == null) {
 						button32.setEnabled(true);
 					}
-					if(vector[8] == null) {
+					if(dtoLocal.getlisting().get(0) == null) {
 						button33.setEnabled(true);
 					}
 		        }
