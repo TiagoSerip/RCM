@@ -7,11 +7,13 @@ import pt.ist.sonet.exception.ApIdDoesNotExistsException;
 import pt.ist.sonet.exception.BoardIdDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
 import pt.ist.sonet.service.dto.BoardDto;
+import pt.ist.sonet.service.dto.StringListDto;
 
 public class GetUpdatedBoardService extends SonetService{
 	
 	private BoardDto boardDto;
 	private int boardId;
+	private StringListDto stringDto;
 	
 	public GetUpdatedBoardService(int boardId) {
 		this.boardId = boardId;	
@@ -24,12 +26,17 @@ public class GetUpdatedBoardService extends SonetService{
 		Board board = network.getBoardById(boardId);
 		if(board == null)
 			throw new BoardIdDoesNotExistsException(boardId);
-		
-		boardDto = new BoardDto(board.getId(), board.getVector());
+		//boardDto = new BoardDto(board.getId(), board.getVector());
+		stringDto = board.getArray();
+		System.out.println("Terminou servico");
 	}
 	
 	public BoardDto getUpdatedBoard(){
 		return boardDto;
+	}
+	
+	public StringListDto getBoard(){
+		return stringDto;
 	}
 
 }

@@ -49,7 +49,7 @@ public interface SoNetServlet extends RemoteService {
 	void updateAgentProfile(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
 	void changeAgentPassword(AgentDto dto) throws AgentUsernameDoesNotExistsException, ApIdDoesNotExistsException;
 	String getAgentIP();
-	BoardDto updateBoard(int boardId) throws BoardIdDoesNotExistsException;
+	StringListDto updateBoard(int boardId) throws BoardIdDoesNotExistsException;
 	String getWinner(int boardId) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	Integer loadRSSIMacOS();
 	BoardDto getBoard(String user1, String user2) throws AgentUsernameDoesNotExistsException, BoardDoesNotExistsException;

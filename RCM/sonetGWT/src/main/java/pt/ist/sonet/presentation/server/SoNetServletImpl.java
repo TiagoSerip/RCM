@@ -280,10 +280,13 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	}
 	
 	@Override
-	public BoardDto updateBoard(int boardId) throws BoardIdDoesNotExistsException {
+	public StringListDto updateBoard(int boardId) throws BoardIdDoesNotExistsException {
 		GetUpdatedBoardService service = new GetUpdatedBoardService(boardId);
 		service.execute();
-		return service.getUpdatedBoard();
+		//return service.getUpdatedBoard();
+		System.out.println("executou");
+		return service.getBoard();
+
 	}
 	
 	@Override

@@ -53,7 +53,7 @@ public interface SoNetServletAsync {
 	void getPIById(int id, AsyncCallback<PIDto> callback);
 	void getBoard(String user1, String user2, AsyncCallback<BoardDto> callback) throws AgentUsernameDoesNotExistsException, BoardDoesNotExistsException;
 	void removeBoard(int boardId, AsyncCallback<Void> callback) throws BoardIdDoesNotExistsException;
-	void updateBoard(int boardId, AsyncCallback<BoardDto> callback) throws BoardIdDoesNotExistsException;
+	void updateBoard(int boardId, AsyncCallback<StringListDto> callback);
 	void createBoard(String player1, String player2, AsyncCallback<Integer> callback) throws AgentUsernameDoesNotExistsException;
 	void play(int boardId, String player, int[] jogada, AsyncCallback<Void> callback) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	void createPI(int ap, String name, String location, String description, String link, AsyncCallback<Void> callback);

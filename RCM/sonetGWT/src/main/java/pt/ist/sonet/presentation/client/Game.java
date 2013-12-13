@@ -625,7 +625,7 @@ public class Game extends DecoratorPanel {
 	}
 	
 	void updateBoard(){
-		sonetServlet.updateBoard(boardId, new AsyncCallback<BoardDto>() {
+		sonetServlet.updateBoard(boardId, new AsyncCallback<StringListDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
 						dialogBox.setText("Loading error.upd");
@@ -637,9 +637,9 @@ public class Game extends DecoratorPanel {
 
 					}
 
-					public void onSuccess(BoardDto dto) {
-						vector = dto.getVector();
-
+					public void onSuccess(StringListDto dto) {
+						//vector = dto.getVector();
+						vector=(String[])dto.getlisting().toArray();
 						if(vector[0] != null) {
 							button11.setText(vector[0]);
 							button11.setEnabled(false);
