@@ -9,27 +9,13 @@ public class GetAllPIFromAPService extends SonetService {
 
 	private PIListDto listDto;
 	private int apID;
-	
-	/**
-	 * Construtor
-	 * 
-	 * @param String agentreq - username do agente que quer ver as publicacoes
-	 * @param String agentsend - username do agente detentor das publicacoes
-	 * @param ListingDto
-	 */
+
 	public GetAllPIFromAPService(int ap) {
 		this.listDto = new PIListDto();
 		this.apID = ap;
 	}
 	
-	/**
-	 * 
-	 * Faz o envio (dispatch) do servico 
-	 * 
-	 * @throws SoNetException
-	 * @throws AgentUsernameDoesNotExistsException
-	 * @throws YouArentAFriendException
-	 */
+
 	@Override
 	protected void dispatch() throws SoNetException{
 		
@@ -42,11 +28,7 @@ public class GetAllPIFromAPService extends SonetService {
 		}
 	}
 		
-	/**
-	 * Devolve todos os PI's existentes num determinado AP utilizando DTOs
-	 * 
-	 * @return ArrayList<String>
-	 */
+
 	public PIListDto getListing(){
 		return listDto;
 	}

@@ -8,33 +8,16 @@ import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.exception.PIIdDoesNotExistsException;
 import pt.ist.sonet.exception.SoNetException;
 
-/**
- * Classe PositiveVoteService que herda de SonetService. Este servico permite que um agente
- * vote na publicacao de um outro agente (desde que tenha permissao para isso)
- */
 public class VotePositivePIService extends SonetService {
 
 	private int piId;
 	private String agentUser;
-	
-	/**
-	 * Construtor
-	 * 
-	 * @param String user - username do agente que quer votar na publicacao
-	 * @param int pubId - identificador da publicacao
-	 */
+
 	public VotePositivePIService(String user, int pi) {
 		piId = pi;
 		agentUser = user;
 	}	
-	
-	/**
-	 * 
-	 * Faz o envio (dispatch) do servico 
-	 * 
-	 * @throws SoNetException
-	 * @throws AgentUsernameDoesNotExistsException
-	 */
+
 	@Override
 	protected void dispatch() throws SoNetException, AgentUsernameDoesNotExistsException {
 		

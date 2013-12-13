@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.Image;
 
 public class Game extends DecoratorPanel {
 
@@ -73,7 +74,6 @@ public class Game extends DecoratorPanel {
 	Button button31 = new Button(" ");
 	Button button32 = new Button(" ");
 	Button button33 = new Button(" ");
-	Button gameOverButton = new Button("Game Over");
 	//popups do jogo
 	final DialogBox popUp = new DialogBox();
 	final Button okButton = new Button("OK");
@@ -142,44 +142,40 @@ public class Game extends DecoratorPanel {
 		panel.add(uptadeButton, 117, 304);
 		
 		button11.setText("");
-		panel.add(button11, 335, 86);
+		panel.add(button11, 346, 69);
 		button11.setSize("81px", "56px");
 		
 		button21.setText("");
-		panel.add(button21, 335, 167);
+		panel.add(button21, 346, 141);
 		button21.setSize("81px", "56px");
 		
 		button31.setText("");
-		panel.add(button31, 335, 241);
+		panel.add(button31, 346, 214);
 		button31.setSize("81px", "56px");
 		
 		button12.setText("");
-		panel.add(button12, 436, 86);
+		panel.add(button12, 444, 69);
 		button12.setSize("81px", "56px");
 		
 		button22.setText("");
-		panel.add(button22, 436, 167);
+		panel.add(button22, 444, 141);
 		button22.setSize("81px", "56px");
 		
 		button32.setText("");
-		panel.add(button32, 436, 241);
+		panel.add(button32, 444, 214);
 		button32.setSize("81px", "56px");
 		
 		button13.setText("");
-		panel.add(button13, 541, 86);
+		panel.add(button13, 541, 69);
 		button13.setSize("81px", "56px");
 		
 		button23.setText("");
-		panel.add(button23, 541, 167);
+		panel.add(button23, 541, 141);
 		button23.setSize("81px", "56px");
 		
 		button33.setText("");
-		panel.add(button33, 541, 241);
+		panel.add(button33, 541, 214);
 		button33.setSize("81px", "56px");
-		
-		gameOverButton.setText("Game Over");
-		panel.add(gameOverButton, 479, 336);
-		gameOverButton.setSize("125px", "30px");
 		
 		panel.add(lblGame, 335, 35);
 		lblGame.setSize("287px", "18px");
@@ -193,7 +189,6 @@ public class Game extends DecoratorPanel {
 		button31.setText("");
 		button32.setText("");
 		button33.setText("");
-		gameOverButton.setEnabled(false);
 		button11.setEnabled(false);
 		button12.setEnabled(false);
 		button13.setEnabled(false);
@@ -203,6 +198,22 @@ public class Game extends DecoratorPanel {
 		button31.setEnabled(false);
 		button32.setEnabled(false);
 		button33.setEnabled(false);
+		
+		Image vert1 = new Image("line.png");
+		panel.add(vert1, 433, 69);
+		vert1.setSize("5px", "201px");
+		
+		Image horz1 = new Image("line.png");
+		panel.add(horz1, 346, 203);
+		horz1.setSize("276px", "5px");
+		
+		Image horz2 = new Image("line.png");
+		panel.add(horz2, 346, 131);
+		horz2.setSize("276px", "5px");
+		
+		Image vert2 = new Image("line.png");
+		panel.add(vert2, 530, 69);
+		vert2.setSize("5px", "201px");
 		
 		loadAllAgents();
 		
@@ -229,17 +240,6 @@ public class Game extends DecoratorPanel {
 					hasBoard();
 					
 				}					
-			}
-		});
-		
-		gameOverButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.setText("Game Over.");
-				serverResponseLabel.removeStyleName("serverResponseLabelError");
-				serverResponseLabel.setHTML("The game ended with a draw.");
-				dialogBox.center();
-				closeButton.setFocus(true);
-				removeBoard();				
 			}
 		});
 		
@@ -484,7 +484,6 @@ public class Game extends DecoratorPanel {
 					public void onSuccess(BoardDto dto) {
 						if(dto.getBoardId() > -1) {
 							boardId = dto.getBoardId();
-							gameOverButton.setEnabled(true);
 							updateBoard();
 							startTimer();
 						}
@@ -597,7 +596,6 @@ public class Game extends DecoratorPanel {
 						button31.setText("");
 						button32.setText("");
 						button33.setText("");
-						gameOverButton.setEnabled(false);
 						winner = null;
 						hasWinner = false;
 						boardId = -1;
@@ -646,7 +644,6 @@ public class Game extends DecoratorPanel {
 						button31.setText("");
 						button32.setText("");
 						button33.setText("");
-						gameOverButton.setEnabled(true);
 						boardId = i.intValue();
 						updateBoard();
 						startTimer();

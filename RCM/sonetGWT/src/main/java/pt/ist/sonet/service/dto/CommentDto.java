@@ -3,9 +3,7 @@ package pt.ist.sonet.service.dto;
 import java.io.Serializable;
 
 public class CommentDto implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	String user;
 	int apId;

@@ -9,9 +9,6 @@ import pt.ist.sonet.exception.SoNetException;
 import pt.ist.sonet.service.SonetService;
 import pt.ist.sonet.service.dto.StringListDto;
 
-/**
- * @author ES Grupo 8
- */
 public class AgentsByApService extends SonetService {
 	
 	private StringListDto dto;
@@ -21,13 +18,7 @@ public class AgentsByApService extends SonetService {
 		this.dto = dto;
 		this.id=ap;
 	}
-	
-	/**
-	 * 
-	 * Faz o envio (dispatch) do servico 
-	 * 
-	 * @throws SoNetException
-	 */
+
 	@Override
 	protected void dispatch() throws SoNetException {
 		

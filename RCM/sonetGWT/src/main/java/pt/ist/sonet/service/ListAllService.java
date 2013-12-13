@@ -8,9 +8,7 @@ import pt.ist.sonet.exception.SoNetException;
 import pt.ist.sonet.service.SonetService;
 import pt.ist.sonet.service.dto.ListingDto;
 
-/**
- * @author ES Grupo 8
- */
+
 public class ListAllService extends SonetService {
 	
 	private ListingDto dto;
@@ -18,13 +16,7 @@ public class ListAllService extends SonetService {
 	public ListAllService(ListingDto dto) { 
 		this.dto = dto;
 	}
-	
-	/**
-	 * 
-	 * Faz o envio (dispatch) do servico 
-	 * 
-	 * @throws SoNetException
-	 */
+
 	@Override
 	protected void dispatch() throws SoNetException {
 		

@@ -5,15 +5,8 @@ package pt.ist.sonet.service.dto;
 
 import java.io.Serializable;
 
-/**
- * @author ES Grupo 8
- *
- */
 public class ApDto implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String subnet;
@@ -41,16 +34,10 @@ public class ApDto implements Serializable{
 		return negative;
 	}
 
-	/**
-	 * @return the subnet
-	 */
 	public String getSubnet() {
 		return subnet;
 	}
 
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return id;
 	}

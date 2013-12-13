@@ -9,14 +9,6 @@ public class AP extends AP_Base {
 
 	protected  AP() {}
 
-	/**
-	 * Inicializa os dados da instancia criada.
-	 * @param id
-	 * @param label
-	 * @param pos
-	 * @param neg
-	 * @param creator
-	 */
 	protected void init(int id, String subnet, int rssi, int pos, int neg) {
 		setId(id);
 		setSubnet(subnet);
@@ -26,13 +18,6 @@ public class AP extends AP_Base {
 
 	}
 	
-	/**
-	 * Adiciona um voto positivo 'a publicaco em nome de um agente.
-	 * Caso o votante ja' tenha votado lanca excepcao.
-	 * 
-	 * @param voter
-	 * @throws AlreadyVotedException
-	 */
 	public void positiveVote(Agent voter) throws AlreadyVotedException {
 
 //		for(Agent agente : this.getAlreadyVotedSet()) {
@@ -45,12 +30,6 @@ public class AP extends AP_Base {
 //		this.addAlreadyVoted(voter);    	
 	}
 
-	/**
-	 * Adiciona um voto negativo em nome de um agente.
-	 * Caso o votante ja' tenha votado laca excepcao.
-	 * @param voter
-	 * @throws AlreadyVotedException
-	 */
 	public void negativeVote(Agent voter) throws AlreadyVotedException {
 //		for(Agent agente : this.getAlreadyVotedSet()) {
 //			if(agente.equals(voter))
@@ -62,10 +41,6 @@ public class AP extends AP_Base {
 //		this.addAlreadyVoted(voter);    	
 	}
 	
-	/**
-	 * Adiciona um comentario 'a BD.
-	 * @param comment
-	 */
 	public void commentAp(Comment comment) {
 		this.addComments(comment);
 	}

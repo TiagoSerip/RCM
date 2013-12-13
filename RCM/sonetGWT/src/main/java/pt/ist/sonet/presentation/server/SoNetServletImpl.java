@@ -111,12 +111,6 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 				.replaceAll(">", "&gt;");
 	}
 	
-	/**
-	 * Metodo que chama o servico utilizado para apresentar todos os agentes existentes na SoNet
-	 * e todas as suas publicacoes
-	 * 
-	 * @return ListingDto
-	 */
 	public ListingDto displaySonet() {
 		
 		ListingDto list = new ListingDto();
@@ -128,14 +122,6 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		
 	}
 	
-	/**
-	 * Metodo que chama o servico que permite ao utilizador fazer login na SoNet
-	 * 
-	 * @param String username
-	 * @param String password
-	 * @return Boolean
-	 * @throws AgentUsernameDoesNotExistsException
-	 */
 	public Boolean agentLogin(String username, String password) throws AgentUsernameDoesNotExistsException{
 		BooleanDto dto = new BooleanDto();
 		AgentLoginService service = new AgentLoginService(username, password, dto);
@@ -144,76 +130,7 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 
 		return dto.getValue();
 	}
-	
-//	/**
-//	 * Metodo que chama o servico que permite ao utilizador publicar uma nota
-//	 * 
-//	 * @param String username
-//	 * @param String label
-//	 * @param String text
-//	 */
-//	public void addNote(String username, String label, String text){
-//		AddNoteService service = new AddNoteService(username, label, text);
-//		service.execute();
-//	}
-//	
-//	/**
-//	 * Metodo que chama o servico que permite ao utilizador comentar uma publicacao
-//	 * 
-//	 * @param String username
-//	 * @param int pubId
-//	 * @param String text
-//	 */
-//	public void commentPublication(String username, int pubId, String text) throws OnVoteLimitException{
-//		CommentDto dto = new CommentDto(username, pubId, text);
-//		AddCommentService service = new AddCommentService(dto);
-//		service.execute();
-//	}
-//	
-//	/**
-//	 * Metodo que chama o servico utilizado para listar todos os amigos do agente associado a username
-//	 * 
-//	 * @param String username
-//	 * @return StringListDto
-//	 */
-//	public StringListDto getFriends(String username){
-//		StringListDto dto = new StringListDto();
-//		FriendsOfAgentService service = new FriendsOfAgentService(username, dto);
-//		service.execute();
-//		return dto;
-//	}
-//	
-//	/**
-//	 * Metodo que chama o servico utilizado para listar todos os pedidos pendentes do agente associado ao username
-//	 * 
-//	 * @param String username
-//	 * @return StringListDto
-//	 */
-//	public StringListDto listPendingRequests(String username){
-//		StringListDto dto = new StringListDto();
-//		SentFriendRequestsService service = new SentFriendRequestsService(username, dto);
-//		service.execute();
-//		return dto;
-//	}
-//	
-//	/**
-//	 * Metodo que chama o servico utilizado para fazer um pagamento (sob a forma de doacao)
-//	 * 
-//	 * @param String from
-//	 * @param String to
-//	 * @param int amount
-//	 * @param String description
-//	 * @throws PagAmigoTransferException
-//	 */
-//	public void makeDonation(String from, String to, int amount, String description) throws PagAmigoTransferException, AgentUsernameDoesNotExistsException, IndividualsCantAcceptDonationsException{
-//		new DonateService(paga, new PaymentDto(from, to, description, amount)).execute();		
-//	}
 
-	/**
-	 * Metodo que chama o servico utilizado para listar todos os agentes registados na SoNet
-	 * 
-	 * @return StringListDto
-	 */
 	@Override
 	public StringListDto getAgents(int ap) throws ApIdDoesNotExistsException{
 		StringListDto dto = new StringListDto();
@@ -243,14 +160,7 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 		SendPrivateMessageService service = new SendPrivateMessageService(message);
 		service.execute();
 	}
-	
-	/**
-	 * Metodo que chama o servico utilizado para listar os comentarios da publicacao com o identificador pubId
-	 * 
-	 * @param int pubId
-	 * @return StringListDto
-	 * @throws ApIdDoesNotExistsException
-	 */
+
 	public StringListDto getAPComments(int apId) throws ApIdDoesNotExistsException{
 		StringListDto dto = new StringListDto();
 		GetApCommentsService service = new GetApCommentsService(apId, dto);
@@ -344,43 +254,16 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 //		service.execute();
 	}
 	
-	/**
-	 * Metodo que chama o servico utilizado para votar positivamente numa publicacao
-	 * 
-	 * @param String user
-	 * @param int pubId
-	 * @throws AlreadyVotedException
-	 * @throws OnVoteLimitException
-	 * @throws AgentsCantVoteInTheirOwnPublicationsException
-	 */
 	public void positiveVote(String user, int apId) throws AlreadyVotedException{
 		PositiveVoteService service = new PositiveVoteService(user, apId);
 		service.execute();
 	}
-	
-	/**
-	 * Metodo que chama o servico utilizado para votar negativamente numa publicacao
-	 * 
-	 * @param String user
-	 * @param int pubId
-	 * @throws AlreadyVotedException
-	 * @throws OnVoteLimitException
-	 * @throws AgentsCantVoteInTheirOwnPublicationsException
-	 */
+
 	public void negativeVote(String user, int apId) throws AlreadyVotedException{
 		NegativeVoteService service = new NegativeVoteService(user, apId);
 		service.execute();
 	}
 
-	/**
-	 * Metodo que chama o servico que permite ao utilizador ver publicacao pubId
-	 * 
-	 * @param String asking
-	 * @param int pubId
-	 * @throws YouArentAFriendException
-	 * @throws ApIdDoesNotExistsException
-	 * @return PublicationViewDto 
-	 */
 	public ApDto viewAp(int ApId) throws ApIdDoesNotExistsException {
 		GetApByIdService service = new GetApByIdService(ApId);
 		service.execute();

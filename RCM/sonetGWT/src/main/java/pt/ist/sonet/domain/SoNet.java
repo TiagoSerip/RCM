@@ -7,13 +7,6 @@ import java.util.Set;
 
 import pt.ist.sonet.exception.*;
 
-/**
- * SoNet e uma rede social com agentes de diferentes tipos e que podem estabelecer
- * ligacoes entre si, criar pubicacoes e comenta-las. Existem restricoes de acesso
- * a determinadas informacoes por alguns agentes.
- * 
- * @author ES Grupo 8
- */
 public class SoNet extends SoNet_Base implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -22,10 +15,6 @@ public class SoNet extends SoNet_Base implements Serializable {
 		super();
 	}
 	
-	/**
-	 * gera id para point of intrest
-	 * @return
-	 */
 	public int generatePIId(){
 		int id = this.getPIId();
 		this.setPIId(id+1);
@@ -44,12 +33,6 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return id;
 	}
 	
-	/**
-	 * Obtem um agente individual pelo username
-	 * 
-	 * @param user
-	 * @return Individual ou null se nao existir
-	 */
 	public Agent getAgentByUsername(String user) {
 		for(Agent a : getAgentSet()) {
 			if(a.getUsername().equalsIgnoreCase(user)) {
@@ -59,12 +42,6 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return null;
 	}
 	
-	/**
-	 * Obtem um agente organizacional pelo nome
-	 * 
-	 * @param name
-	 * @return Organizational ou null se nao existir
-	 */
 	public Agent getAgentByName(String name) {
 		for(Agent a : getAgentSet()) {
 			if(a.getName().equalsIgnoreCase(name)) {
@@ -74,32 +51,11 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return null;
 	}
 
-	/**
-	 * Verifica se existe um agent com um dado username
-	 * 
-	 * @param name
-	 * @return boolean com o resultado
-	 */
 	public boolean hasAgentByUsername(String user) {
 		return getAgentByUsername(user) != null;
 	}
 
 
-	/**
-	 * Cria um novo agente individual na rede.
-	 * Verifica a validade dos dados de utilizador de acordo com
-	 * as regras de negocio estabelecidas. Lanca excepcoes caso
-	 * existam dados invalidos.
-	 * 
-	 * @param username
-	 * @param name
-	 * @param email
-	 * @param password
-	 * @param city
-	 * @param country
-	 * @return Individual instacia de agente Individual criada.
-	 * @throws UsernameAlreadyExistsException
-	 */
 	public Agent createAgent (String user, String pass, String name, int ap, int rssi, String ip)
 					throws UsernameAlreadyExistsException, ApIdDoesNotExistsException{
 		
@@ -199,7 +155,6 @@ public class SoNet extends SoNet_Base implements Serializable {
 	
 	public boolean checkWinner(Board board) {
 		String[] v = board.getVector();
-		//String[][] m = {{null, null, null},{null, null, null},{null, null, null}};
 		String[][] m = new String[3][3];
 		m[0][0]=v[0];
 		m[0][1]=v[1];
@@ -261,13 +216,6 @@ public class SoNet extends SoNet_Base implements Serializable {
 		super.addAgent(someone);
 	}
 	
-	/**
-	 * Remove um agente da base de dados da SoNet.
-	 * Lanca excepcao em caso de username inexistente.
-	 * 
-	 * @param username
-	 * @throws AgentUsernameDoesNotExistsException
-	 */
 	public void removeAgent(String username)
 			throws AgentUsernameDoesNotExistsException {
 		Agent toRemove = getAgentByUsername(username);
@@ -279,13 +227,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 			super.removeAgent(a);
 		}
 	}
-	
-	/**
-	 * Obtem um agente individual pelo username
-	 * 
-	 * @param user
-	 * @return Individual ou null se nao existir
-	 */
+
 	public AP getApBySubnet(String subnet) {
 		for(AP a : getApSet()) {
 			if(a.getSubnet().equalsIgnoreCase(subnet)) {
@@ -346,33 +288,11 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return pi;		
 	}
 
-	
-	/**
-	 * Verifica se existe um agent com um dado username
-	 * 
-	 * @param name
-	 * @return boolean com o resultado
-	 */
 	public boolean hasApById(int id) {
 		return getApById(id) != null;
 	}
 
 
-	/**
-	 * Cria um novo agente individual na rede.
-	 * Verifica a validade dos dados de utilizador de acordo com
-	 * as regras de negocio estabelecidas. Lanca excepcoes caso
-	 * existam dados invalidos.
-	 * 
-	 * @param username
-	 * @param name
-	 * @param email
-	 * @param password
-	 * @param city
-	 * @param country
-	 * @return Individual instacia de agente Individual criada.
-	 * @throws UsernameAlreadyExistsException
-	 */
 	public AP createAP (int id, String subnet, int rssi)
 					throws ApIdAlreadyExistsException {
 		
@@ -388,14 +308,7 @@ public class SoNet extends SoNet_Base implements Serializable {
 	public void addAp(AP ap) {
 		super.addAp(ap);
 	}
-	
-	/**
-	 * Remove um agente da base de dados da SoNet.
-	 * Lanca excepcao em caso de username inexistente.
-	 * 
-	 * @param username
-	 * @throws AgentUsernameDoesNotExistsException
-	 */
+
 	public void removeAP(int id)
 			throws AgentUsernameDoesNotExistsException {
 		AP toRemove = this.getApById(id);
@@ -404,16 +317,6 @@ public class SoNet extends SoNet_Base implements Serializable {
 		super.removeAp(toRemove);
 	}
 	
-
-	/**
-	 * Obtem da BD a publicacao com o id indicado.
-	 * 
-	 * Lanca excepcao em caso de id inexistente.
-	 * 
-	 * @param id
-	 * @return Publication instacia com o id indicado
-	 * @throws ApIdDoesNotExistsException
-	 */
 	public AP getApById(int id){
 		for (AP ap : getApSet()) {
 			if (ap.getId() == id) {
@@ -424,13 +327,6 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return null;
 	}
 	
-	/**
-	 * Devolve a publicacao mais recente do agente username
-	 * 
-	 * @param String username
-	 * @return Publication
-	 * @throws AgentUsernameDoesNotExistsException
-	 */
 	public Comment getApLatestComment(int id) throws AgentUsernameDoesNotExistsException {
 		AP ap = this.getApById(id);
 		if (ap == null) {
@@ -444,14 +340,6 @@ public class SoNet extends SoNet_Base implements Serializable {
 
 	}
 
-	/**
-	 * Obtem o Set de publicacoes de um determinado agente.
-	 * Retorna null em caso de o agente nao ter publicacoes.
-	 * Lanca excepcao em caso de username inexistente.
-	 * @param username
-	 * @return Set<Publication> Set com as publicacoes do agente.
-	 * @throws AgentUsernameDoesNotExistsException
-	 */
 	public Set<Comment> getApComments(int id)
 			throws AgentUsernameDoesNotExistsException {
 		AP ap = this.getApById(id);
@@ -460,67 +348,29 @@ public class SoNet extends SoNet_Base implements Serializable {
 		return ap.getCommentsSet();
 	}
 
-	/**
-	 * Adiciona, se possivel, um voto positivo a uma publicacao
-	 * 
-	 * @param Agent voter - agente que vota na publicacao
-	 * @param Publication pub - publicacao na qual se vai votar
-	 */
 	public void posVote(Agent voter, AP ap) {
 		ap.positiveVote(voter);
 	}
 
-	/**
-	 * Adiciona, se possivel, um voto negativo a uma publicacao
-	 * 
-	 * @param Agent voter - agente que vota na publicacao
-	 * @param Publication pub - publicacao na qual se vai votar
-	 */
 	public void negVote(Agent voter, AP ap) {
 		ap.negativeVote(voter);
 	}
 	
-	/**
-	 * Adiciona, se possivel, um voto positivo a uma publicacao
-	 * 
-	 * @param Agent voter - agente que vota na publicacao
-	 * @param Publication pub - publicacao na qual se vai votar
-	 */
 	public void posVotePI(Agent voter, PI pi) {
 		pi.positiveVote(voter);
 	}
 
-	/**
-	 * Adiciona, se possivel, um voto negativo a uma publicacao
-	 * 
-	 * @param Agent voter - agente que vota na publicacao
-	 * @param Publication pub - publicacao na qual se vai votar
-	 */
 	public void negVotePI(Agent voter, PI pi) {
 		pi.negativeVote(voter);
 	}
 
-	/**
-	 * Comenta, se possivel, uma publicacao
-	 * 
-	 * @param Agent comentador
-	 * @param Publication publicacao
-	 * @param String comentario
-	 */	
 	public void commentAp(Agent agent, AP ap, String comment) {
 		Comment comentario = new Comment();
 		comentario.init(agent, ap, comment);
 		ap.commentAp(comentario);	
 		agent.commentAP(comentario);
 	}
-	
-	/**
-	 * Enviar uma private message
-	 * 
-	 * @param Agent sender
-	 * @param Agent receiver
-	 * @param String mensagem
-	 */	
+
 	public void talkTo(Agent sender, Agent receiver, String text) {
 		Message msg = new Message();
 		int id = generateMessageId();

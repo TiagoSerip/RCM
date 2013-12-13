@@ -20,12 +20,6 @@ import pt.ist.sonet.exception.AgentUsernameDoesNotExistsException;
 import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.dto.BooleanDto;
 
-/**
- * SoNet Application. Esta class implementa a rede social
- * SoNet e executa os casos de teste fornecidos no enunciado.
- * @author ES Grupo 8
- *
- */
 public class SoNetApp {
 
 	
@@ -33,11 +27,7 @@ public class SoNetApp {
 	static String password;
 	static SoNet rede;
 	static String SERVERIP = "127.0.0.1";
-	
-	/**
-	 * Executa a SoNet e efectua os testes pedidos no enunciado.
-	 * @param args
-	 */
+
 	public static void main(String[] args) {
 		System.out.println("Starting...");
 		FenixFramework.initialize(new Config() {{

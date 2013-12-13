@@ -7,18 +7,8 @@ import pt.ist.sonet.domain.SoNet;
 import pt.ist.sonet.service.ListAllService;
 import pt.ist.sonet.service.dto.ListingDto;
 
-/**
- * PresentationServer. Esta class implementa a rede social SoNet
- * via servicos e executa os casos de teste fornecidos no enunciado.
- * @author ES Grupo 8
- *
- */
 public class PresentationServer {
 
-	/**
-	 * Executa a SoNet e efectua os testes pedidos no enunciado.
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		FenixFramework.initialize(new Config() {{
 			dbAlias = "//localhost:3306/sonetdb"; 
@@ -38,22 +28,13 @@ public class PresentationServer {
 
 	}
 
-	/**
-	 * Inicializa a SoNet.
-	 * 
-	 * @return SoNet
-	 */
 	@Atomic
 	public static SoNet startSoNet(){
 		SoNet rede = FenixFramework.getRoot();
 		return rede;
 	}
 
-	/**
-	 * Lista todos os agentes da SoNet, suas publicacoes e comentarios.
-	 * 
-	 * @param rede
-	 */
+
 	public static void listAgents(SoNet rede){
 		ListingDto dto = new ListingDto();
 		new ListAllService(dto).execute();

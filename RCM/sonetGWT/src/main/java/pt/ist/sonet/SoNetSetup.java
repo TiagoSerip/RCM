@@ -17,20 +17,11 @@ import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.CommentDto;
 import pt.ist.sonet.service.dto.PIDto;
 
-/**
- * Popula a SoNet
- * @author ES Grupo 8
- *
- */
 public class SoNetSetup {
 
 	static int rssi[]={-55, -55, -60, -50, -55, -60, -60, -65};
 	
-	
-	/**
-	 * Executa a SoNet e efectua os testes pedidos no enunciado.
-	 * @param args
-	 */
+
 	public static void main(String[] args) {
 		FenixFramework.initialize(new Config() {{
 			dbAlias = "//localhost:3306/sonetdb"; 

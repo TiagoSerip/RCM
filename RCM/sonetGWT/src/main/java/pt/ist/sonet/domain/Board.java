@@ -4,8 +4,6 @@ import pt.ist.sonet.service.dto.StringListDto;
 
 public class Board extends Board_Base {
     
-//	public String[][] matrix;
-//	public String[] vector;
 	
     public  Board() {}
     
@@ -46,21 +44,7 @@ public class Board extends Board_Base {
 			setPos22(player);			
 	}
 	
-//	public String[][] getMatrix() {
-//		this.matrix[0][0] = getPos00();
-//		this.matrix[0][1] = getPos01();
-//		this.matrix[0][2] = getPos02();
-//		this.matrix[1][0] = getPos10();
-//		this.matrix[1][1] = getPos11();
-//		this.matrix[1][2] = getPos12();
-//		this.matrix[2][0] = getPos20();
-//		this.matrix[2][1] = getPos21();
-//		this.matrix[2][2] = getPos22();
-//		return this.matrix;
-//	}
-	
 	public String[] getVector() {
-		//String[] vector = {null, null, null, null, null, null, null, null, null};
 		String[] vector = new String[9];
 
 		vector[0] = getPos00();

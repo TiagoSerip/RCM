@@ -5,15 +5,8 @@ package pt.ist.sonet.service.dto;
 
 import java.io.Serializable;
 
-/**
- * @author ES Grupo 8
- *
- */
 public class AgentDto implements Serializable{
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String name;
@@ -22,14 +15,7 @@ public class AgentDto implements Serializable{
 	private int rssi;
 	private String ip;
 	
-	/**
-	 * @param username
-	 * @param name
-	 * @param email
-	 * @param pass
-	 * @param city
-	 * @param nation
-	 */
+
 	public AgentDto(String username, String pass, String name, int ap, int rssi, String ip) {
 
 		this.username = username;
@@ -42,37 +28,23 @@ public class AgentDto implements Serializable{
 	
 	public AgentDto(){};
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * @param name the name to set
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * @return the pass
-	 */
 	public String getPass() {
 		return pass;
 	}
 
-	/**
-	 * @param pass the pass to set
-	 */
+
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
 
-	/**
-	 * @return the username
-	 */
 	public String getUsername() {
 		return username;
 	}

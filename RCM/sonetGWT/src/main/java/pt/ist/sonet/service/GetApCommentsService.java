@@ -10,33 +10,17 @@ import pt.ist.sonet.exception.SoNetException;
 import pt.ist.sonet.service.SonetService;
 import pt.ist.sonet.service.dto.StringListDto;
 
-/**
- * Classe GetAllPublicationsService que herda de SonetService. Este servico permite que um agente visualize,
- * caso seja possivel, as publicacoes de outro agente 
- */
 public class GetApCommentsService extends SonetService{
 
 	private int apId;
 	private StringListDto dto;
 	
-	/**
-	 * Construtor
-	 * 
-	 * @param String agentreq - username do agente que quer ver as publicacoes
-	 * @param String agentsend - username do agente detentor das publicacoes
-	 * @param ListingDto
-	 */
+
 	public GetApCommentsService(int apId, StringListDto dto){
 		this.dto = dto;
 		this.apId = apId;
 	}
-	
-	/**
-	 * 
-	 * Faz o envio (dispatch) do servico 
-	 * 
-	 * @throws SoNetException
-	 */
+
 	@Override
 	protected void dispatch() throws SoNetException, ApIdDoesNotExistsException {
 		SoNet sonet = FenixFramework.getRoot();
