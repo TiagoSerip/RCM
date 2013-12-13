@@ -642,13 +642,9 @@ public class Game extends DecoratorPanel {
 
 					public void onSuccess(StringListDto dto) {
 						//vector = dto.getVector();
-						vector=(String[])dto.getlisting().toArray();
-						if(vector[0]==null)
-							System.out.println("Ups");
-						else
-							System.out.println(vector[0]);
-						if(vector[0] != null) {
-							button11.setText(vector[0]);
+						//vector=(String[])dto.getlisting().toArray();
+						if(dto.getlisting().get(0) != null) {
+							button11.setText(dto.getlisting().get(0));
 							button11.setEnabled(false);
 						}
 						if(vector[1] != null) {
