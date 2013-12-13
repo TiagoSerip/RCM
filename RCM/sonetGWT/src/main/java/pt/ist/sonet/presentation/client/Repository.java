@@ -1,28 +1,18 @@
 package pt.ist.sonet.presentation.client;
 
 
-import pt.ist.sonet.presentation.server.FileUploadServlet;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Frame;
 
 
 /**
@@ -30,8 +20,7 @@ import com.google.gwt.user.client.ui.Frame;
  */
 public class Repository extends DecoratorPanel {
 		
-	private static final String UPLOAD_ACTION_URL = GWT.getModuleBaseURL()
-            + "upload";
+
 /**
 * The message displayed to the user when the server cannot be reached or
 * returns an error.
@@ -51,8 +40,6 @@ private static String INUSE;
 * Create a remote service proxy to talk to the server-side Greeting
 * service.
 */
- //private final FileUploadServlet servlet = GWT.create(FileUploadServlet.class);
-
 	
 	private String user = null; //active user
 	private int ap = -1; //user's AP
@@ -117,7 +104,7 @@ private static String INUSE;
                 viewPanel.add(lblUploadFileTo, 10, 10);
                 lblUploadFileTo.setSize("309px", "21px");
                 
-                Frame frame_1 = new Frame("./upload.html");
+                Frame frame_1 = new Frame("/jupload/index.html");
                 viewPanel.add(frame_1, 10, 61);
                 frame_1.setSize("745px", "372px");
                 
@@ -144,7 +131,7 @@ private static String INUSE;
 		Button btnRefresh = new Button("Refresh");
 		btnRefresh.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				frame.setUrl(INUSE);
+				frame.setUrl("http://"+INUSE+"/rcm");
 			}
 		});
 		addPanel.add(btnRefresh, 697, 25);
