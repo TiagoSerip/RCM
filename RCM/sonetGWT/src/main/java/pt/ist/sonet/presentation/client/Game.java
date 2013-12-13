@@ -724,28 +724,28 @@ public class Game extends DecoratorPanel {
 					if(dtoLocal.getlisting().get(0) == null) {
 						button11.setEnabled(true);
 					}
-					if(dtoLocal.getlisting().get(0) == null) {
+					if(dtoLocal.getlisting().get(1) == null) {
 						button12.setEnabled(true);
 					}
-					if(dtoLocal.getlisting().get(0) == null) {
+					if(dtoLocal.getlisting().get(2) == null) {
 						button13.setEnabled(true);
 					}
-					if(dtoLocal.getlisting().get(0) == null) {
+					if(dtoLocal.getlisting().get(3) == null) {
 						button21.setEnabled(true);
 					}
-					if(dtoLocal.getlisting().get(0) == null) {
+					if(dtoLocal.getlisting().get(4) == null) {
 						button22.setEnabled(true);
 					}
-					if(dtoLocal.getlisting().get(0) == null) {
+					if(dtoLocal.getlisting().get(5) == null) {
 						button23.setEnabled(true);
 					}
-					if(dtoLocal.getlisting().get(0) == null) {
+					if(dtoLocal.getlisting().get(6) == null) {
 						button31.setEnabled(true);
 					}
-					if(dtoLocal.getlisting().get(0) == null) {
+					if(dtoLocal.getlisting().get(7) == null) {
 						button32.setEnabled(true);
 					}
-					if(dtoLocal.getlisting().get(0) == null) {
+					if(dtoLocal.getlisting().get(8) == null) {
 						button33.setEnabled(true);
 					}
 		        }
