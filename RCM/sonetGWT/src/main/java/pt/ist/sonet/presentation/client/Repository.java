@@ -131,7 +131,7 @@ private static String INUSE;
 		Button btnRefresh = new Button("Refresh");
 		btnRefresh.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				frame.setUrl("http://"+INUSE+"/rcm");
+//				frame.setUrl("http://"+INUSE+"/rcm");
 			}
 		});
 		addPanel.add(btnRefresh, 697, 25);

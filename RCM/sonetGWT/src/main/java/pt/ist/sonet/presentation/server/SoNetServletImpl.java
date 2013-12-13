@@ -19,6 +19,7 @@ import pt.ist.sonet.service.AddCommentService;
 import pt.ist.sonet.service.AgentLoginService;
 import pt.ist.sonet.service.AgentsByApService;
 import pt.ist.sonet.service.ChangeAgentPasswordService;
+import pt.ist.sonet.service.CheckHasBoardService;
 import pt.ist.sonet.service.CheckWinnerService;
 import pt.ist.sonet.service.CreateBoardService;
 import pt.ist.sonet.service.GetAgentByUsernameService;
@@ -305,6 +306,14 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	public boolean checkWinner(int boardId) throws AgentUsernameDoesNotExistsException {
 		BooleanDto dto = new BooleanDto();
 		CheckWinnerService service = new CheckWinnerService(boardId, dto);
+		service.execute();
+		return dto.getValue();
+	}
+	
+	@Override
+	public boolean checkHasBoard(String player1User, String player2User) throws AgentUsernameDoesNotExistsException {
+		BooleanDto dto = new BooleanDto();
+		CheckHasBoardService service = new CheckHasBoardService(player1User, player2User);
 		service.execute();
 		return dto.getValue();
 	}

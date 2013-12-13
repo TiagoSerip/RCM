@@ -1,11 +1,5 @@
 package pt.ist.sonet.presentation.client;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import org.apache.ojb.jdo.jdoql.ThisExpression;
-
-import pt.ist.sonet.domain.Agent;
 import pt.ist.sonet.service.dto.BoardDto;
 import pt.ist.sonet.service.dto.StringListDto;
 import com.google.gwt.user.client.Timer;
@@ -23,7 +17,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.Image;
 
 public class Game extends DecoratorPanel {
 
@@ -232,8 +225,9 @@ public class Game extends DecoratorPanel {
 					boardIsFull = false;
 					String[][] cenas = {{null, null, null},{null, null, null},{null, null, null}};
 					matrix = cenas;
-					getBoard();
+					hasBoard();
 					if(haveBoard) {
+						getBoard();
 						updateBoard();
 					}
 					else {
@@ -530,10 +524,28 @@ public class Game extends DecoratorPanel {
 						if(dto.getBoardId() > -1) {
 							boardId = dto.getBoardId();
 							gameOverButton.setEnabled(true);
-							haveBoard = true;
 						}
 
 					}
+				});
+	}
+	
+	void hasBoard(){
+		sonetServlet.checkHasBoard(username, selected, new AsyncCallback<Boolean>() {
+					public void onFailure(Throwable caught) {
+						// Show the the error to the user
+						dialogBox.setText("Loading error.");
+						serverResponseLabel.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+
+					public void onSuccess(Boolean b) {
+							haveBoard = b;
+					}
+
+					
 				});
 	}
 	
