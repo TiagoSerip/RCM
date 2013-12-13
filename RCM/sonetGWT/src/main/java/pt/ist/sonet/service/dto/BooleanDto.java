@@ -34,8 +34,8 @@ public class BooleanDto implements Serializable{
 	/**
 	 * @param value the value of the boolean
 	 */
-	public void setValue(Boolean value) {
-		this.value = value;
+	public void setValue(boolean value) {
+		this.value = new Boolean(value);
 	}
 
 

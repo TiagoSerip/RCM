@@ -12,6 +12,7 @@ import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.BoardDto;
+import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.PIDto;
 import pt.ist.sonet.service.dto.PIListDto;
@@ -37,7 +38,7 @@ public interface SoNetServlet extends RemoteService {
 	void negativeVote(String user, int pubId) throws AlreadyVotedException;
 	StringListDto getAllOtherAgents(String user) throws AgentUsernameDoesNotExistsException;
 	ApListDto getApList();
-	boolean checkHasBoard(String player1User, String player2User) throws AgentUsernameDoesNotExistsException;
+	BooleanDto checkHasBoard(String player1User, String player2User) throws AgentUsernameDoesNotExistsException;
 	boolean boardIsFull(int boardId) throws BoardIdDoesNotExistsException;
 	String getTurn(int boardId) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	void play(int boardId, String player, int[] jogada) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;

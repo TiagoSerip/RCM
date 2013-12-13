@@ -15,14 +15,15 @@ public class CheckHasBoardService extends SonetService{
 	private String player2User;
 	private BooleanDto dto;
 	
-	public CheckHasBoardService(String player1User, String player2User) {
+	public CheckHasBoardService(String player1User, String player2User, BooleanDto dto) {
 		this.player1User = player1User;	
 		this.player2User = player2User;
+		this.dto=dto;
 	}
 	
 	@Override
 	protected void dispatch() throws SoNetException, AgentUsernameDoesNotExistsException, BoardDoesNotExistsException {
-		
+
 		SoNet network = FenixFramework.getRoot();
 		
 		Agent player1 = network.getAgentByUsername(player1User);
@@ -40,5 +41,5 @@ public class CheckHasBoardService extends SonetService{
 		
 	//	boardDto = new BoardDto(board.getId(), board.getMatrix());
 	}
-
+	
 }

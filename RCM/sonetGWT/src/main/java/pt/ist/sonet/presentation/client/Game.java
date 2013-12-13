@@ -1,6 +1,7 @@
 package pt.ist.sonet.presentation.client;
 
 import pt.ist.sonet.service.dto.BoardDto;
+import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.StringListDto;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -226,61 +227,7 @@ public class Game extends DecoratorPanel {
 					String[][] cenas = {{null, null, null},{null, null, null},{null, null, null}};
 					matrix = cenas;
 					hasBoard();
-					if(haveBoard) {
-						getBoard();
-						updateBoard();
-					}
-					else {
-						newBoard();	
-					}
-					t = new Timer(){
-						@Override
-					     public void run() {
-					        updateBoard();
-					        getTurn();
-					        if(turn == username) {
-								if(matrix[0][0] == null) {
-									button11.setEnabled(true);
-								}
-								if(matrix[0][1] == null) {
-									button12.setEnabled(true);
-								}
-								if(matrix[0][2] == null) {
-									button13.setEnabled(true);
-								}
-								if(matrix[1][0] == null) {
-									button21.setEnabled(true);
-								}
-								if(matrix[1][1] == null) {
-									button22.setEnabled(true);
-								}
-								if(matrix[1][2] == null) {
-									button23.setEnabled(true);
-								}
-								if(matrix[2][0] == null) {
-									button31.setEnabled(true);
-								}
-								if(matrix[2][1] == null) {
-									button32.setEnabled(true);
-								}
-								if(matrix[2][2] == null) {
-									button33.setEnabled(true);
-								}
-					        }
-					        else {
-								button11.setEnabled(false);
-								button12.setEnabled(false);
-								button13.setEnabled(false);
-								button21.setEnabled(false);
-								button22.setEnabled(false);
-								button23.setEnabled(false);
-								button31.setEnabled(false);
-								button32.setEnabled(false);
-								button33.setEnabled(false);
-					        }
-					     }
-					};
-					t.schedule(delay);
+					
 				}					
 			}
 		});
@@ -424,11 +371,12 @@ public class Game extends DecoratorPanel {
 		sonetServlet.play(boardId, username, jogada, new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading error.");
+						dialogBox.setText("Loading error.play");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
+						caught.printStackTrace();
 					}
 
 					public void onSuccess(Void v) {
@@ -441,11 +389,13 @@ public class Game extends DecoratorPanel {
 		sonetServlet.checkWinner(boardId, new AsyncCallback<Boolean>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading error.");
+						dialogBox.setText("Loading error.chkw");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
+						caught.printStackTrace();
+
 					}
 
 					public void onSuccess(Boolean b) {
@@ -458,11 +408,13 @@ public class Game extends DecoratorPanel {
 		sonetServlet.boardIsFull(boardId, new AsyncCallback<Boolean>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading error.");
+						dialogBox.setText("Loading error.full");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
+						caught.printStackTrace();
+
 					}
 
 					public void onSuccess(Boolean b) {
@@ -476,11 +428,13 @@ public class Game extends DecoratorPanel {
 		sonetServlet.getWinner(boardId, new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading error.");
+						dialogBox.setText("Loading error.win");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
+						caught.printStackTrace();
+
 					}
 
 					public void onSuccess(String w) {
@@ -496,11 +450,13 @@ public class Game extends DecoratorPanel {
 		sonetServlet.getTurn(boardId, new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading error.");
+						dialogBox.setText("Loading error.trn");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
+						caught.printStackTrace();
+
 					}
 
 					public void onSuccess(String t) {
@@ -513,11 +469,13 @@ public class Game extends DecoratorPanel {
 		sonetServlet.getBoard(username, selected, new AsyncCallback<BoardDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading error.");
+						dialogBox.setText("Loading error.get");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
+						caught.printStackTrace();
+
 					}
 
 					public void onSuccess(BoardDto dto) {
@@ -525,24 +483,34 @@ public class Game extends DecoratorPanel {
 							boardId = dto.getBoardId();
 							gameOverButton.setEnabled(true);
 						}
+						startTimer();
 
 					}
 				});
 	}
 	
 	void hasBoard(){
-		sonetServlet.checkHasBoard(username, selected, new AsyncCallback<Boolean>() {
+		sonetServlet.checkHasBoard(username, selected, new AsyncCallback<BooleanDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading error.");
+						dialogBox.setText("Loading error.has");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
+						caught.printStackTrace();
+
 					}
 
-					public void onSuccess(Boolean b) {
-							haveBoard = b;
+					public void onSuccess(BooleanDto b) {
+							haveBoard = b.getValue().booleanValue();
+							if(haveBoard) {
+								getBoard();
+								updateBoard();
+							}
+							else {
+								newBoard();	
+							}
 					}
 
 					
@@ -553,11 +521,13 @@ public class Game extends DecoratorPanel {
 		sonetServlet.removeBoard(boardId, new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading error.");
+						dialogBox.setText("Loading error.rmv");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
+						caught.printStackTrace();
+
 					}
 
 					public void onSuccess(Void v) {
@@ -591,7 +561,7 @@ public class Game extends DecoratorPanel {
 		sonetServlet.createBoard(username, selected, new AsyncCallback<Integer>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading error.");
+						dialogBox.setText("Loading error.new");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
@@ -616,6 +586,8 @@ public class Game extends DecoratorPanel {
 						button32.setText("");
 						button33.setText("");
 						gameOverButton.setEnabled(false);
+						caught.printStackTrace();
+
 						
 					}
 
@@ -641,6 +613,8 @@ public class Game extends DecoratorPanel {
 						button33.setText("");
 						gameOverButton.setEnabled(true);
 						boardId = i.intValue();
+						
+						startTimer();
 					}
 				});
 	}
@@ -649,11 +623,13 @@ public class Game extends DecoratorPanel {
 		sonetServlet.updateBoard(boardId, new AsyncCallback<BoardDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading error.");
+						dialogBox.setText("Loading error.upd");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
+						caught.printStackTrace();
+
 					}
 
 					public void onSuccess(BoardDto dto) {
@@ -707,11 +683,13 @@ public class Game extends DecoratorPanel {
 		sonetServlet.getAllOtherAgents(username, new AsyncCallback<StringListDto>() {
 					public void onFailure(Throwable caught) {
 						// Show the the error to the user
-						dialogBox.setText("Loading Error.");
+						dialogBox.setText("Loading Error.age");
 						serverResponseLabel.addStyleName("serverResponseLabelError");
 						serverResponseLabel.setHTML(SERVER_ERROR);
 						dialogBox.center();
 						closeButton.setFocus(true);
+						caught.printStackTrace();
+
 					}
 
 					public void onSuccess(StringListDto dto) {
@@ -724,5 +702,57 @@ public class Game extends DecoratorPanel {
 						}
 					}
 				});
+	}
+	
+	private void startTimer(){
+		t = new Timer(){
+			@Override
+		     public void run() {
+		        updateBoard();
+		        getTurn();
+		        if(turn == username) {
+					if(matrix[0][0] == null) {
+						button11.setEnabled(true);
+					}
+					if(matrix[0][1] == null) {
+						button12.setEnabled(true);
+					}
+					if(matrix[0][2] == null) {
+						button13.setEnabled(true);
+					}
+					if(matrix[1][0] == null) {
+						button21.setEnabled(true);
+					}
+					if(matrix[1][1] == null) {
+						button22.setEnabled(true);
+					}
+					if(matrix[1][2] == null) {
+						button23.setEnabled(true);
+					}
+					if(matrix[2][0] == null) {
+						button31.setEnabled(true);
+					}
+					if(matrix[2][1] == null) {
+						button32.setEnabled(true);
+					}
+					if(matrix[2][2] == null) {
+						button33.setEnabled(true);
+					}
+		        }
+		        else {
+					button11.setEnabled(false);
+					button12.setEnabled(false);
+					button13.setEnabled(false);
+					button21.setEnabled(false);
+					button22.setEnabled(false);
+					button23.setEnabled(false);
+					button31.setEnabled(false);
+					button32.setEnabled(false);
+					button33.setEnabled(false);
+		        }
+		     }
+		};
+		t.schedule(delay);
+	
 	}
 }

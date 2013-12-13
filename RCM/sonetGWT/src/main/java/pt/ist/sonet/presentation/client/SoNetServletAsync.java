@@ -10,6 +10,7 @@ import pt.ist.sonet.service.dto.AgentDto;
 import pt.ist.sonet.service.dto.ApDto;
 import pt.ist.sonet.service.dto.ApListDto;
 import pt.ist.sonet.service.dto.BoardDto;
+import pt.ist.sonet.service.dto.BooleanDto;
 import pt.ist.sonet.service.dto.ListingDto;
 import pt.ist.sonet.service.dto.PIDto;
 import pt.ist.sonet.service.dto.PIListDto;
@@ -33,7 +34,8 @@ public interface SoNetServletAsync {
 	void viewAp(int pubId, AsyncCallback<ApDto> asyncCallback)throws ApIdDoesNotExistsException;
 	void init(String serverType, AsyncCallback<String> callback);
 	void getAgent(String user, AsyncCallback<AgentDto> callback);
-	void checkHasBoard(String player1User, String player2User, AsyncCallback<Boolean> callback) throws AgentUsernameDoesNotExistsException;
+	void checkHasBoard(String player1User, String player2User,
+			AsyncCallback<BooleanDto> callback);
 	void getTurn(int boardId, AsyncCallback<String> callback) throws AgentUsernameDoesNotExistsException, BoardIdDoesNotExistsException;
 	void getAllOtherAgents(String user, AsyncCallback<StringListDto> callback) throws AgentUsernameDoesNotExistsException;
 	void updateAgentProfile(AgentDto dto, AsyncCallback<Void> callback);

@@ -311,11 +311,11 @@ public class SoNetServletImpl extends RemoteServiceServlet implements SoNetServl
 	}
 	
 	@Override
-	public boolean checkHasBoard(String player1User, String player2User) throws AgentUsernameDoesNotExistsException {
+	public BooleanDto checkHasBoard(String player1User, String player2User) throws AgentUsernameDoesNotExistsException {
 		BooleanDto dto = new BooleanDto();
-		CheckHasBoardService service = new CheckHasBoardService(player1User, player2User);
+		CheckHasBoardService service = new CheckHasBoardService(player1User, player2User, dto);
 		service.execute();
-		return dto.getValue();
+		return dto;
 	}
 	
 	@Override
