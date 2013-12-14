@@ -96,9 +96,9 @@ public class Core implements EntryPoint {
 	private String ip = null;
 	
 	private static final String HOMEIP = "192.168.1.105";
-	private static final String TAGUSIP = "192.168.103.1";	
+	private static final String TAGUSIP = "192.168.102.1";	
 	private static final String GUEST = "192.168.103.1";
-	private static final String INUSE = HOMEIP; //Set the Server IP in use.
+	private static final String INUSE = TAGUSIP; //Set the Server IP in use.
 	
 	private static final String LOGIN = "LOGIN";
 	private static final String PROFILE= "MY PROFILE";

@@ -26,7 +26,7 @@ public class SoNetApp {
 	static String username;
 	static String password;
 	static SoNet rede;
-	static String SERVERIP = "127.0.0.1";
+	static String SERVERIP = "192.168.102.1";
 
 	public static void main(String[] args) {
 		System.out.println("Starting...");
@@ -58,7 +58,7 @@ public class SoNetApp {
 		
 		System.out.println(System.getProperty("os.name"));
 		if(System.getProperty("os.name").contains("Mac OS X")){
-			int delay = 15*1000; //milliseconds
+			int delay = 30*1000; //milliseconds
 			  ActionListener taskPerformer = new ActionListener() {
 			      public void actionPerformed(ActionEvent evt) {
 			          macOSListner();
@@ -72,7 +72,7 @@ public class SoNetApp {
 			
 		}
 		if(System.getProperty("os.name").contains("Linux")){
-			int delay = 15*1000; //milliseconds
+			int delay = 30*1000; //milliseconds
 			  ActionListener taskPerformer = new ActionListener() {
 			      public void actionPerformed(ActionEvent evt) {
 			          linuxListner();
@@ -250,6 +250,7 @@ public class SoNetApp {
 			System.out.println("RSSI: "+rssi);
 		}catch(Exception  e){
 			System.out.println("Failed to push your RSSI to server. Please check your connection.");
+			init();			
 			rede=startSoNet();
 
 		}
@@ -269,6 +270,7 @@ public class SoNetApp {
 			System.out.println("RSSI: "+rssi);
 		}catch(Exception  e){
 			System.out.println("Failed to push your RSSI to server. Please check your connection.");
+			init();
 			rede=startSoNet();
 		}
 	}
@@ -280,6 +282,16 @@ public class SoNetApp {
 			} catch (Exception e) {
 				System.out.println("Failed to open the app web page.");
 			}
+	}
+
+	public static void init(){
+		FenixFramework.initialize(new Config() {{
+			dbAlias = "//"+SERVERIP+":3306/sonetdb"; 
+			dbUsername = "sonet";
+			dbPassword = "s0n3t";
+			domainModelPath="src/main/dml/sonet.dml";
+			rootClass=SoNet.class;
+		}});
 	}
 
 }
